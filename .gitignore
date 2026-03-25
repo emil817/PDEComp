@@ -1,3 +1,6 @@
 deepymodcheckpoint.pt
 deepymodmodel.pt
 events*
+
+__pycache__
+results

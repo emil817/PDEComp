@@ -1,6 +1,6 @@
 # Use a more specific version tag for reproducibility
 # FROM python:3.9-slim@sha256:<specific-sha256-hash>
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 
 WORKDIR /app
@@ -13,11 +13,12 @@ RUN apt-get update && \
 # Upgrade pip and install dependencies in one RUN
 COPY pysindy/requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir git+https://github.com/dynamicslab/pysindy.git
+    pip install --no-cache-dir -r requirements.txt
+#    pip install --no-cache-dir git+https://github.com/dynamicslab/pysindy.git
 
 # Copy only what's needed (consider .dockerignore)
 COPY pysindy/run.py .
+COPY pysindy/config.py .
 COPY data /app/data
 
 # Create results directory at runtime rather than build time

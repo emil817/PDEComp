@@ -8,31 +8,31 @@ import json
 import time
 from datetime import datetime
 
-from dataloader import load_data
+from data.dataloader import load_data
 from config import epde_params
 
 DATA_DIR = Path("data")
 RESULTS_DIR = Path("results/epde")
 DATASETS = [
-    # "ode_data.npy",
-    # "vdp_data.npy",
+    "ode_data.npy",
+    "vdp_data.npy",
 
     "lorenz_data.npy",
-    # "lotka_data.npy",
+    "lotka_data.npy",
 
-    # "burgers_data.mat",
-    # "ac_data.npy",
-    # "kdv_data.mat",
-    # "kdv_periodic_data.npy",
-    # "wave_data.csv",
-    # "pde_divide_data.npy",
-    # "pde_compound_data.npy",
-    # "ns_data.mat",
-    # "ks_data.mat",
-    #
-    # "burgers_sln_100_data.csv",
-    #
-    # "ODE_simple_discovery"
+    "burgers_data.mat",
+    "ac_data.npy",
+    "kdv_data.mat",
+    "kdv_periodic_data.npy",
+    "wave_data.csv",
+    "pde_divide_data.npy",
+    "pde_compound_data.npy",
+    "ns_data.mat",
+    "ks_data.mat",
+    
+    "burgers_sln_100_data.csv",
+    
+    "ODE_simple_discovery"
 ]
 
 

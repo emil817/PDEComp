@@ -7,7 +7,7 @@ import sys
 sys.path.append(str(Path().absolute()))
 
 from data.dataloader import load_data
-from config import sindy_params
+from data.config import sindy_params
 
 DATA_DIR = Path("data")
 RESULTS_DIR = Path("results/pysindy")
@@ -133,6 +133,19 @@ def build_crop_slices(shape, crop):
     return tuple(slice(crop, dim - crop) for dim in shape)
 
 
+def crop_and_flatten(values, crop_slices):
+    values = np.asarray(values, dtype=float)
+    return values[crop_slices].ravel()
+
+
+def build_feature_matrix(feature_specs, crop_slices):
+    feature_names = [name for name, _ in feature_specs]
+    features = np.column_stack([
+        crop_and_flatten(values, crop_slices) for _, values in feature_specs
+    ])
+    return features, feature_names
+
+
 def print_sparse_equation(target_name, feature_names, coefficients, precision=4):
     active_terms = []
     for coef, feature in zip(np.ravel(coefficients), feature_names):
@@ -150,6 +163,9 @@ def fit_manual_system(feature_matrix, target_vector, feature_names, target_name,
     optimizer.fit(feature_matrix, target_vector)
 
     coefficients = np.asarray(optimizer.coef_)
+    coefficient_tol = opt_config.get("coefficient_tol", 0.0)
+    if coefficient_tol > 0:
+        coefficients[np.abs(coefficients) < coefficient_tol] = 0.0
     if coefficients.ndim == 1:
         coefficients = coefficients[np.newaxis, :]
 
@@ -178,10 +194,17 @@ def run_manual_dataset(data, x, y, z, t, filename, params):
         u_tt = finite_difference(u, dt, axis=0, order=2)
         s = build_crop_slices(u.shape, crop)[0]
 
-        features = np.column_stack([u[s], t[s], (u_t * np.sin(2 * t))[s]])
-        feature_names = ["u", "t", "u_t sin(2 t)"]
+        feature_specs = [
+            ("u", u),
+            ("t", t),
+            ("u_t sin(2 t)", u_t * np.sin(2 * t)),
+            ("u^2", u ** 2),
+            ("u^3", u ** 3),
+            ("t^2", t ** 2),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, s)
 
-        return fit_manual_system(features, u_tt[s], feature_names, "u_tt", filename, params["optimizer"])
+        return fit_manual_system(features, crop_and_flatten(u_tt, s), feature_names, "u_tt", filename, params["optimizer"])
 
     if filename == "vdp_data.npy":
         u = np.asarray(data, dtype=float).reshape(-1)
@@ -190,17 +213,30 @@ def run_manual_dataset(data, x, y, z, t, filename, params):
         u_tt = finite_difference(u, dt, axis=0, order=2)
         s = build_crop_slices(u.shape, crop)[0]
     
-        features = np.column_stack([u[s], u_t[s], ((u ** 2) * u_t)[s]])
-        feature_names = ["u", "u_t", "u^2 u_t"]
+        feature_specs = [
+            ("u", u),
+            ("u_t", u_t),
+            ("u^2 u_t", (u ** 2) * u_t),
+            ("u^2", u ** 2),
+            ("u u_t", u * u_t),
+            ("u_t^2", u_t ** 2),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, s)
 
-        return fit_manual_system(features, u_tt[s], feature_names, "u_tt", filename, params["optimizer"])
+        return fit_manual_system(features, crop_and_flatten(u_tt, s), feature_names, "u_tt", filename, params["optimizer"])
 
     if filename == "ODE_simple_discovery":
         u = np.asarray(data[0], dtype=float).reshape(-1)
         dt = t[1] - t[0]
         u_t = finite_difference(u, dt, axis=0, order=1)
-        features = np.column_stack([np.sin(t), np.cos(t)])
-        feature_names = ["sin(t)", "cos(t)"]
+        feature_specs = [
+            ("1", np.ones_like(t)),
+            ("sin(t)", np.sin(t)),
+            ("cos(t)", np.cos(t)),
+            ("sin(2 t)", np.sin(2 * t)),
+            ("cos(2 t)", np.cos(2 * t)),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, slice(None))
 
         return fit_manual_system(features, u_t, feature_names, "u_t", filename, params["optimizer"])
 
@@ -228,40 +264,57 @@ def run_manual_dataset(data, x, y, z, t, filename, params):
 
         optimizer = build_optimizer(params["optimizer"])
 
-        u_features = np.column_stack([
-            (u[crop_slices] * u_x[crop_slices]).ravel(),
-            (v[crop_slices] * u_y[crop_slices]).ravel(),
-            p_x[crop_slices].ravel(),
-            (u_xx[crop_slices] + u_yy[crop_slices]).ravel(),
-            u[crop_slices].ravel(),
-            np.ones(u[crop_slices].size),
-        ])
-        u_feature_names = ["u u_x", "v u_y", "p_x", "(u_xx + u_yy)", "u", "1"]
-        optimizer.fit(u_features, u_t[crop_slices].ravel())
+        u_feature_specs = [
+            ("u u_x", u * u_x),
+            ("v u_y", v * u_y),
+            ("p_x", p_x),
+            ("(u_xx + u_yy)", u_xx + u_yy),
+            ("u", u),
+            ("v", v),
+            ("p", p),
+            ("u_x", u_x),
+            ("u_y", u_y),
+            ("u v", u * v),
+            ("u^2", u ** 2),
+            ("1", np.ones_like(u)),
+        ]
+        u_features, u_feature_names = build_feature_matrix(u_feature_specs, crop_slices)
+        optimizer.fit(u_features, crop_and_flatten(u_t, crop_slices))
         u_coefficients = np.asarray(optimizer.coef_).reshape(-1)
         print_sparse_equation("u_t", u_feature_names, u_coefficients)
 
         optimizer = build_optimizer(params["optimizer"])
-        v_features = np.column_stack([
-            (u[crop_slices] * v_x[crop_slices]).ravel(),
-            (v[crop_slices] * v_y[crop_slices]).ravel(),
-            p_y[crop_slices].ravel(),
-            (v_xx[crop_slices] + v_yy[crop_slices]).ravel(),
-            v[crop_slices].ravel(),
-            np.ones(v[crop_slices].size),
-        ])
-        v_feature_names = ["u v_x", "v v_y", "p_y", "(v_xx + v_yy)", "v", "1"]
-        optimizer.fit(v_features, v_t[crop_slices].ravel())
+        v_feature_specs = [
+            ("u v_x", u * v_x),
+            ("v v_y", v * v_y),
+            ("p_y", p_y),
+            ("(v_xx + v_yy)", v_xx + v_yy),
+            ("u", u),
+            ("v", v),
+            ("p", p),
+            ("v_x", v_x),
+            ("v_y", v_y),
+            ("u v", u * v),
+            ("v^2", v ** 2),
+            ("1", np.ones_like(v)),
+        ]
+        v_features, v_feature_names = build_feature_matrix(v_feature_specs, crop_slices)
+        optimizer.fit(v_features, crop_and_flatten(v_t, crop_slices))
         v_coefficients = np.asarray(optimizer.coef_).reshape(-1)
         print_sparse_equation("v_t", v_feature_names, v_coefficients)
 
         optimizer = build_optimizer(params["optimizer"])
-        continuity_features = np.column_stack([
-            v_y[crop_slices].ravel(),
-            np.ones(u[crop_slices].size),
-        ])
-        continuity_feature_names = ["v_y", "1"]
-        optimizer.fit(continuity_features, u_x[crop_slices].ravel())
+        continuity_feature_specs = [
+            ("v_y", v_y),
+            ("u", u),
+            ("v", v),
+            ("p", p),
+            ("u_y", u_y),
+            ("v_x", v_x),
+            ("1", np.ones_like(u)),
+        ]
+        continuity_features, continuity_feature_names = build_feature_matrix(continuity_feature_specs, crop_slices)
+        optimizer.fit(continuity_features, crop_and_flatten(u_x, crop_slices))
         continuity_coefficients = np.asarray(optimizer.coef_).reshape(-1)
         print_sparse_equation("u_x", continuity_feature_names, continuity_coefficients)
 
@@ -287,14 +340,21 @@ def run_manual_dataset(data, x, y, z, t, filename, params):
 
     if filename == "wave_data.csv":
         u_tt = finite_difference(u, dt, axis=0, order=2)
+        u_t = finite_difference(u, dt, axis=0, order=1)
+        u_x = finite_difference(u, dx, axis=1, order=1)
         u_xx = finite_difference(u, dx, axis=1, order=2)
-        features = np.column_stack([
-            u_xx[crop_slices].ravel(),
-            u[crop_slices].ravel(),
-            np.ones(u[crop_slices].size),
-        ])
-        feature_names = ["u_xx", "u", "1"]
-        target = u_tt[crop_slices].ravel()
+        feature_specs = [
+            ("1", np.ones_like(u)),
+            ("u", u),
+            ("u^2", u ** 2),
+            ("u_t", u_t),
+            ("u_x", u_x),
+            ("u_xx", u_xx),
+            ("u u_x", u * u_x),
+            ("u u_xx", u * u_xx),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, crop_slices)
+        target = crop_and_flatten(u_tt, crop_slices)
 
         return fit_manual_system(features, target, feature_names, "u_tt", filename, params["optimizer"])
 
@@ -303,46 +363,67 @@ def run_manual_dataset(data, x, y, z, t, filename, params):
         u_x = finite_difference(u, dx, axis=1, order=1)
         u_xx = finite_difference(u, dx, axis=1, order=2)
         x_grid = np.broadcast_to(x, u.shape)
-        features = np.column_stack([
-            u_xx[crop_slices].ravel(),
-            (u_x[crop_slices] / x_grid[crop_slices]).ravel(),
-            u_x[crop_slices].ravel(),
-            u[crop_slices].ravel(),
-            np.ones(u[crop_slices].size),
-        ])
-        feature_names = ["u_xx", "(1/x) u_x", "u_x", "u", "1"]
-        target = u_t[crop_slices].ravel()
+        feature_specs = [
+            ("1", np.ones_like(u)),
+            ("u", u),
+            ("u^2", u ** 2),
+            ("u_x", u_x),
+            ("u_xx", u_xx),
+            ("(1/x) u", u / x_grid),
+            ("(1/x) u_x", u_x / x_grid),
+            ("x u_x", x_grid * u_x),
+            ("x u_xx", x_grid * u_xx),
+            ("u u_x", u * u_x),
+            ("u u_xx", u * u_xx),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, crop_slices)
+        target = crop_and_flatten(u_t, crop_slices)
 
         return fit_manual_system(features, target, feature_names, "u_t", filename, params["optimizer"])
 
     if filename == "pde_compound_data.npy":
         u_t = finite_difference(u, dt, axis=0, order=1)
         u_x = finite_difference(u, dx, axis=1, order=1)
+        u_xx = finite_difference(u, dx, axis=1, order=2)
         nonlinear_derivative = finite_difference(u * u_x, dx, axis=1, order=1)
-        features = np.column_stack([
-            nonlinear_derivative[crop_slices].ravel(),
-            np.ones(u[crop_slices].size),
-        ])
-        feature_names = ["d_x(u u_x)", "1"]
-        target = u_t[crop_slices].ravel()
+        feature_specs = [
+            ("1", np.ones_like(u)),
+            ("u", u),
+            ("u^2", u ** 2),
+            ("u_x", u_x),
+            ("u_xx", u_xx),
+            ("u u_x", u * u_x),
+            ("u u_xx", u * u_xx),
+            ("d_x(u u_x)", nonlinear_derivative),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, crop_slices)
+        target = crop_and_flatten(u_t, crop_slices)
 
         return fit_manual_system(features, target, feature_names, "u_t", filename, params["optimizer"])
 
     if filename == "kdv_periodic_data.npy":
         u_t = finite_difference(u, dt, axis=0, order=1)
         u_x = finite_difference(u, dx, axis=1, order=1)
+        u_xx = finite_difference(u, dx, axis=1, order=2)
         u_xxx = finite_difference(u, dx, axis=1, order=3)
         x_grid = np.broadcast_to(x, u.shape)
         t_grid = np.broadcast_to(t[:, np.newaxis], u.shape)
-        features = np.column_stack([
-            (u[crop_slices] * u_x[crop_slices]).ravel(),
-            u_xxx[crop_slices].ravel(),
-            (np.sin(x_grid[crop_slices]) * np.cos(t_grid[crop_slices])).ravel(),
-            np.ones(u[crop_slices].size),
-            u[crop_slices].ravel(),
-        ])
-        feature_names = ["u u_x", "u_xxx", "sin(x) cos(t)", "1", "u"]
-        target = u_t[crop_slices].ravel()
+        feature_specs = [
+            ("1", np.ones_like(u)),
+            ("u", u),
+            ("u^2", u ** 2),
+            ("u_x", u_x),
+            ("u_xx", u_xx),
+            ("u_xxx", u_xxx),
+            ("u u_x", u * u_x),
+            ("u^2 u_x", (u ** 2) * u_x),
+            ("sin(x)", np.sin(x_grid)),
+            ("cos(t)", np.cos(t_grid)),
+            ("sin(x) cos(t)", np.sin(x_grid) * np.cos(t_grid)),
+            ("cos(x) sin(t)", np.cos(x_grid) * np.sin(t_grid)),
+        ]
+        features, feature_names = build_feature_matrix(feature_specs, crop_slices)
+        target = crop_and_flatten(u_t, crop_slices)
 
         return fit_manual_system(features, target, feature_names, "u_t", filename, params["optimizer"])
 

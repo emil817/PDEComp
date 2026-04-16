@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 
 from data.dataloader import load_data
-from config import epde_params
+from data.config import epde_params
 
 DATA_DIR = Path("data")
 RESULTS_DIR = Path("results/epde")

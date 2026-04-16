@@ -342,6 +342,7 @@ sindy_params = {
 
     'ode_data.npy': {
         'manual_mode': True,
+        'crop': 10,
         'library': {'type': 'polynomial', 'degree': 3, 'include_bias': True},
         'optimizer': {'type': 'STLSQ', 'threshold': 1e-6, 'alpha': 1e-10, 'normalize_columns': True, 'coefficient_tol': 0.01}
     },

@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_BOUNDARY_FILES = {
     "pysindy": ROOT / "results" / "pysindy_noisy" / "noise_manual_3_5_summary.csv",
     "deepmod": ROOT / "results" / "deepmod" / "noise_boundaries_3_5.csv",
+    "vwsr": ROOT / "results" / "vwsr" / "noise_boundaries_3_5.csv",
 }
 
 
@@ -207,7 +208,7 @@ def default_output(framework):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl"])
+    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"])
     parser.add_argument("--runs", type=int, default=noise_test.DEFAULT_RUNS)
     parser.add_argument("--boundaries-csv", default="")
     parser.add_argument("--output", default="")

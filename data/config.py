@@ -540,6 +540,54 @@ edl_params = {
 EDL_DATASETS = list(edl_params.keys())
 
 
+VWSR_DEFAULTS = {
+    'optimizer': {
+        'max_iter': 1000,
+        'tol': 1e-4,
+        'k_max': 3,
+        'freq_coef': 0.0,
+        'mode_decouple': True,
+        'anchor_on_residual': False,
+        'coefficient_tol': 0.0,
+    },
+}
+
+
+# VWSR uses the same fixed libraries and derivatives as PySINDy. Only the
+# variance model and final numerical tolerance are configured per dataset.
+vwsr_params = {
+    dataset: {} for dataset in sindy_params
+}
+vwsr_params.update({
+    'kdv_data.mat': {
+        'optimizer': {
+            'modes': 5,
+            'mode_decouple': False,
+            'anchor_on_residual': True,
+            'coefficient_tol': 0.1,
+        },
+    },
+    'burgers_sln_100_data.csv': {
+        'optimizer': {'modes': 2, 'mode_decouple': False},
+    },
+    'ks_data.mat': {
+        'optimizer': {'modes': 2, 'coefficient_tol': 0.02},
+    },
+    'lorenz_data.npy': {
+        'optimizer': {'modes': 2, 'mode_decouple': False},
+    },
+    'lotka_data.npy': {
+        'optimizer': {'modes': 2, 'freq_coef': 1.0, 'mode_decouple': False},
+    },
+    'ODE_simple_discovery': {
+        'optimizer': {'modes': 2, 'mode_decouple': False},
+    },
+})
+
+
+VWSR_DATASETS = list(vwsr_params.keys())
+
+
 discover_params = {
     'ode_data.npy': {
         'base_config': 'config_pde_Burgers.json',

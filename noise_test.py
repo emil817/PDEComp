@@ -101,6 +101,8 @@ def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=Non
         return module.run_discover(data, x, y, z, t, dataset)
     if framework == "edl":
         return module.run_edl(data, x, y, z, t, dataset)
+    if framework == "vwsr":
+        return module.run_vwsr(data, x, y, z, t, dataset)
     raise ValueError(f"Unknown framework: {framework}")
 
 
@@ -297,7 +299,7 @@ def default_output(framework):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Universal noisy-run benchmark for PDE discovery frameworks.")
-    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl"])
+    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"])
     parser.add_argument("--datasets", nargs="*", default=None)
     parser.add_argument("--levels", nargs="*", type=float, default=None)
     parser.add_argument("--runs", type=int, default=DEFAULT_RUNS)

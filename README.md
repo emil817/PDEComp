@@ -2,7 +2,7 @@
 
 DEComp is a benchmark for comparing equation discovery frameworks on the
 same synthetic ODE/PDE datasets. The current working comparison focuses on
-EPDE, PySINDy, DeepMoD, DISCOVER and EDL.
+EPDE, VWSR, PySINDy, DeepMoD, DISCOVER and EDL.
 
 ## What Is Compared
 
@@ -37,6 +37,11 @@ coefficients.
   stored directly in `data/config.py`; the wrapper prepares benchmark data,
   coordinate tensors, derivatives, and custom token families so EPDE searches
   in the comparable term space.
+- **VWSR** is evaluated separately from EPDE's evolutionary search. The
+  `vwsr/run.py` wrapper imports only EPDE's variance-weighted sparse-regression
+  estimator and applies it directly to the shared fixed feature matrices and
+  precomputed derivatives. Its per-term penalties are derived from spatial or
+  temporal variation of locally varying coefficient estimates.
 - **DISCOVER** is connected as a separate submodule and container because it
   uses a TensorFlow 1.x stack. The benchmark uses its external fixed-library
   mode: shared features are passed as fixed `theta_*` tokens, and DISCOVER
@@ -64,6 +69,7 @@ terms, and relative coefficient error.
 ```powershell
 python noise_test.py pysindy --datasets ode_data.npy --levels 0.5 0.75 1.0
 python noise_test.py deepmod --datasets ac_data.npy --levels 10 15 20
+python noise_test.py vwsr --datasets kdv_data.mat --levels 0.001 0.005 0.01
 ```
 
 Noise is Gaussian and proportional to the data standard deviation:
@@ -81,11 +87,13 @@ noise boundaries:
 ```powershell
 python noise_boundary_metrics.py pysindy --boundaries-csv results\pysindy_noisy\noise_manual_3_5_summary.csv
 python noise_boundary_metrics.py deepmod --boundaries-csv results\deepmod\noise_manual_3_5_summary_noise_tuned.csv
+python noise_boundary_metrics.py vwsr
 ```
 
 It reports HD across all noisy runs and RE only for structurally correct runs.
 
-`deepmod/run.py`, `epde/run.py`, `discover/run.py`, and `edl/run.py` are benchmark wrappers.
+`deepmod/run.py`, `epde/run.py`, `vwsr/run.py`, `discover/run.py`, and
+`edl/run.py` are benchmark wrappers.
 Their framework sources are checked out as git submodules in
 `deepmod/deepymod/`, `epde/EPDE/`, `discover/discover/`, and `edl/EDL/`.
 DISCOVER supports the configured scalar ODE and 1D PDE datasets through an
@@ -110,6 +118,7 @@ Each framework has its own Docker image and Python environment:
 pysindy   -> PySINDy dependencies
 deepmod   -> DeePyMoD dependencies
 epde      -> EPDE dependencies
+vwsr      -> EPDE's standalone VWSR sparse optimizer
 discover  -> DISCOVER with TensorFlow 1.x
 edl       -> EDL sparse-regression backend
 ```
@@ -126,6 +135,7 @@ Run the default clean metrics for one framework:
 docker compose run --rm pysindy
 docker compose run --rm deepmod
 docker compose run --rm epde
+docker compose run --rm vwsr
 docker compose run --rm discover
 docker compose run --rm edl
 ```
@@ -136,6 +146,7 @@ Any benchmark script can be run in the matching framework container:
 docker compose run --rm pysindy python noise_test.py pysindy --datasets ode_data.npy --levels 0.5 1.0
 docker compose run --rm deepmod python noise_test.py deepmod --datasets ac_data.npy --levels 10 15 20
 docker compose run --rm epde python clean_run_metrics.py epde --datasets wave_data.csv
+docker compose run --rm vwsr python clean_run_metrics.py vwsr --datasets kdv_data.mat
 docker compose run --rm discover python noise_boundary_metrics.py discover --boundaries-csv results/discover/noise_boundaries_3_5.csv
 docker compose run --rm edl python clean_run_metrics.py edl --datasets burgers_data.mat
 ```

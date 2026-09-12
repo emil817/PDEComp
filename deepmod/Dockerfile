@@ -12,14 +12,16 @@ RUN apt-get update \
 
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
+        --index-url https://download.pytorch.org/whl/cpu \
+        torch==2.4.0 \
+    && pip install --no-cache-dir \
         "natsort>=8.4.0" \
         numpy==1.26.4 \
         pandas==1.5.3 \
-        pysindy==2.1.0 \
+        pysindy==1.7.5 \
         scikit-learn==1.6.1 \
         scipy==1.15.2 \
-        "tensorboard>=2.16.0" \
-        torch==2.4.0
+        "tensorboard>=2.16.0"
 
 COPY . .
 

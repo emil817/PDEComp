@@ -2,6 +2,7 @@ import argparse
 import contextlib
 import csv
 import io
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -9,6 +10,9 @@ import numpy as np
 from clean_run_metrics import (
     COEFFICIENT_TOLERANCE,
     DEFAULT_DATASETS,
+    best_true_coefficient_match,
+    coefficient_by_feature,
+    epde_structural_metrics,
     framework_feature_normalizer,
     load_framework_module,
     normalize_result,
@@ -16,6 +20,13 @@ from clean_run_metrics import (
     select_best_epde_candidate,
 )
 from utils.dataloader import load_data
+from utils.protocols import (
+    FIXED_PROTOCOL,
+    NATIVE_PROTOCOL,
+    PROTOCOLS,
+    ProtocolSkippedError,
+    ProtocolUnavailableError,
+)
 
 
 ROOT = Path(__file__).resolve().parent
@@ -76,10 +87,19 @@ def result_target(result, target_index, dataset=None, framework="pysindy"):
 
 
 def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=None):
+    protocol = getattr(args, "protocol", FIXED_PROTOCOL)
+    native_options = {
+        "device": getattr(args, "device", "cpu"),
+        "allow_external_llm": getattr(args, "allow_external_llm", False),
+    }
+    if getattr(args, "native_max_iterations", None) is not None:
+        native_options["max_iterations"] = args.native_max_iterations
+    if getattr(args, "native_max_samples", None) is not None:
+        native_options["max_samples"] = args.native_max_samples
     if framework == "pysindy":
-        return module.run_sindy(data, x, y, z, t, dataset)
+        return module.run_sindy(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "deepmod":
-        return module.run_deepmod(data, x, y, z, t, dataset)
+        return module.run_deepmod(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "epde":
         device = getattr(args, "device", "cpu")
         solution_index = getattr(args, "solution_index", 0)
@@ -96,13 +116,15 @@ def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=Non
             only_print=False,
             visualize=False,
             return_all=return_all,
+            protocol=protocol,
+            native_options=native_options,
         )
     if framework == "discover":
-        return module.run_discover(data, x, y, z, t, dataset)
+        return module.run_discover(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "edl":
-        return module.run_edl(data, x, y, z, t, dataset)
+        return module.run_edl(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "vwsr":
-        return module.run_vwsr(data, x, y, z, t, dataset)
+        return module.run_vwsr(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     raise ValueError(f"Unknown framework: {framework}")
 
 
@@ -123,7 +145,47 @@ def run_dataset_at_noise(dataset, noise_level, seed, framework="pysindy", module
 
 def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args):
     rows = []
-    clean_result = run_dataset_at_noise(dataset, 0, base_seed, framework=framework, module=module, args=args)
+    try:
+        clean_result = run_dataset_at_noise(
+            dataset, 0, base_seed, framework=framework, module=module, args=args
+        )
+    except (ProtocolSkippedError, ProtocolUnavailableError) as error:
+        status = "skipped" if isinstance(error, ProtocolSkippedError) else "unsupported"
+        return [{
+            "framework": framework,
+            "protocol": args.protocol,
+            "status": status,
+            "success_reference": args.success_reference,
+            "dataset": dataset,
+            "noise_level": "",
+            "target": "",
+            "runs": runs,
+            "success_count": 0,
+            "has_success": False,
+            "in_target_band": False,
+            "clean_terms_count": "",
+            "successful_runs": "",
+            "successful_seeds": "",
+            "error": str(error),
+        }]
+    except Exception as error:
+        return [{
+            "framework": framework,
+            "protocol": args.protocol,
+            "status": "error",
+            "success_reference": args.success_reference,
+            "dataset": dataset,
+            "noise_level": "",
+            "target": "",
+            "runs": runs,
+            "success_count": 0,
+            "has_success": False,
+            "in_target_band": False,
+            "clean_terms_count": "",
+            "successful_runs": "",
+            "successful_seeds": "",
+            "error": str(error),
+        }]
     clean_targets = [
         result_target(clean_result, target_index, dataset=dataset, framework=framework)
         for target_index, _ in enumerate(clean_result["targets"])
@@ -151,7 +213,8 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
 
             for run_index in range(runs):
                 seed = noise_seed(run_index, base_seed)
-                result = clean_result if noise_level == 0 else run_dataset_at_noise(
+                reuse_clean = noise_level == 0 and args.protocol == FIXED_PROTOCOL
+                result = clean_result if reuse_clean else run_dataset_at_noise(
                     dataset,
                     noise_level,
                     seed,
@@ -168,8 +231,35 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
                 for target_index, target_name in enumerate(clean_targets):
                     target_success = False
                     if target_index < len(result_targets) and result_targets[target_index] == target_name:
-                        noisy_terms = active_terms(result, target_index, dataset=dataset, framework=framework)
-                        target_success = noisy_terms == target_stats[target_name]["clean_terms"]
+                        if args.success_reference == "clean":
+                            noisy_terms = active_terms(result, target_index, dataset=dataset, framework=framework)
+                            target_success = noisy_terms == target_stats[target_name]["clean_terms"]
+                        elif framework == "epde":
+                            equation_texts = result.get("equation_texts") or []
+                            structure = (
+                                epde_structural_metrics(
+                                    dataset,
+                                    [equation_texts[target_index]],
+                                    single_equation=True,
+                                )
+                                if target_index < len(equation_texts)
+                                else None
+                            )
+                            target_success = structure is not None and structure["success"]
+                        else:
+                            fitted = coefficient_by_feature(
+                                result,
+                                target_index,
+                                dataset=dataset,
+                                feature_normalizer=framework_feature_normalizer(framework),
+                            )
+                            truth_match = best_true_coefficient_match(
+                                dataset,
+                                target_name,
+                                fitted,
+                                tolerance=COEFFICIENT_TOLERANCE,
+                            )
+                            target_success = truth_match is not None and truth_match["hamming"] == 0
 
                     if target_success:
                         target_stats[target_name]["success_count"] += 1
@@ -177,6 +267,18 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
                         target_stats[target_name]["successful_seeds"].append(seed)
                     else:
                         system_success = False
+
+                if (
+                    framework == "epde"
+                    and args.success_reference == "truth"
+                    and is_system
+                ):
+                    structure = epde_structural_metrics(
+                        dataset,
+                        result.get("equation_texts") or [],
+                        single_equation=False,
+                    )
+                    system_success = structure is not None and structure["success"]
 
                 if system_success:
                     system_success_count += 1
@@ -187,6 +289,9 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
                 success_count = stats["success_count"]
                 rows.append({
                     "framework": framework,
+                    "protocol": args.protocol,
+                    "status": "ok",
+                    "success_reference": args.success_reference,
                     "dataset": dataset,
                     "noise_level": noise_level,
                     "target": target_name,
@@ -203,6 +308,9 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
             if is_system:
                 rows.append({
                     "framework": framework,
+                    "protocol": args.protocol,
+                    "status": "ok",
+                    "success_reference": args.success_reference,
                     "dataset": dataset,
                     "noise_level": noise_level,
                     "target": "__system__",
@@ -218,6 +326,9 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
         except Exception as error:
             rows.append({
                 "framework": framework,
+                "protocol": args.protocol,
+                "status": "error",
+                "success_reference": args.success_reference,
                 "dataset": dataset,
                 "noise_level": noise_level,
                 "target": "",
@@ -237,6 +348,9 @@ def write_rows(rows, output_file):
     output_file.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "framework",
+        "protocol",
+        "status",
+        "success_reference",
         "dataset",
         "noise_level",
         "target",
@@ -262,6 +376,10 @@ def print_target_band_levels(rows, success_min=DEFAULT_SUCCESS_MIN, success_max=
 
     print(f"\nNoise levels with {success_min}-{success_max} successful runs:")
     for (framework, dataset, target), target_rows in grouped.items():
+        if not target:
+            row = target_rows[0]
+            print(f"  {framework} / {dataset}: {row.get('status', 'error')} ({row.get('error', '')})")
+            continue
         has_system_row = any(
             row["framework"] == framework
             and row["dataset"] == dataset
@@ -289,7 +407,9 @@ def default_levels(framework):
     return EPDE_DEFAULT_LEVELS if framework == "epde" else DEFAULT_LEVELS
 
 
-def default_output(framework):
+def default_output(framework, protocol=FIXED_PROTOCOL):
+    if protocol == NATIVE_PROTOCOL:
+        return ROOT / "results" / framework / "native" / "noise_success_summary.csv"
     if framework == "pysindy":
         return ROOT / "results" / "pysindy_noisy" / "noise_success_summary.csv"
     if framework == "epde":
@@ -300,6 +420,8 @@ def default_output(framework):
 def parse_args():
     parser = argparse.ArgumentParser(description="Universal noisy-run benchmark for PDE discovery frameworks.")
     parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"])
+    parser.add_argument("--protocol", choices=PROTOCOLS, default=FIXED_PROTOCOL)
+    parser.add_argument("--success-reference", choices=["truth", "clean"], default="truth")
     parser.add_argument("--datasets", nargs="*", default=None)
     parser.add_argument("--levels", nargs="*", type=float, default=None)
     parser.add_argument("--runs", type=int, default=DEFAULT_RUNS)
@@ -309,6 +431,9 @@ def parse_args():
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--solution-index", type=int, default=0)
     parser.add_argument("--epde-best-pareto", action="store_true")
+    parser.add_argument("--native-max-iterations", type=int, default=None)
+    parser.add_argument("--native-max-samples", type=int, default=None)
+    parser.add_argument("--allow-external-llm", action="store_true")
     return parser.parse_args()
 
 
@@ -317,7 +442,7 @@ def main():
     module = load_framework_module(args.framework)
     datasets = args.datasets or getattr(module, "DATASETS", DEFAULT_DATASETS)
     levels = args.levels if args.levels is not None else default_levels(args.framework)
-    output_file = Path(args.output) if args.output else default_output(args.framework)
+    output_file = Path(args.output) if args.output else default_output(args.framework, args.protocol)
     all_rows = []
 
     if not datasets:
@@ -340,7 +465,8 @@ def main():
     write_rows(all_rows, output_file)
     print_target_band_levels(all_rows, args.success_min, args.success_max)
     print(f"\nSaved sweep summary to {output_file}")
+    return 1 if any(row.get("status") == "error" for row in all_rows) else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

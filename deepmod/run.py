@@ -22,6 +22,7 @@ from utils.sindy_library import (
     default_variable_names,
     normalize_data_arrays,
 )
+from utils.protocols import FIXED_PROTOCOL, NATIVE_PROTOCOL, validate_protocol
 
 
 RESULTS_DIR = Path("results/deepmod")
@@ -121,12 +122,18 @@ def fit_deepmod_sparse_system(features, target_values, feature_names, target_nam
     }
 
 
-def run_deepmod(data, x, y, z, t, filename):
+def run_deepmod(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_options=None):
     """Run the DeepMoD benchmark wrapper on precomputed NumPy derivatives.
 
     DeepMoD is compared here through the shared benchmark derivative data and
     candidate libraries.
     """
+
+    validate_protocol(protocol)
+    if protocol == NATIVE_PROTOCOL:
+        from deepmod.native import run_native_deepmod
+
+        return run_native_deepmod(data, x, y, z, t, filename, options=native_options)
 
     params = build_run_params(filename)
     sindy_config = params["sindy_config"]
@@ -178,6 +185,7 @@ def run_deepmod(data, x, y, z, t, filename):
         "features": feature_names_by_target,
         "library_sizes": library_sizes,
         "library_size": sum(library_sizes.values()),
+        "protocol": protocol,
     }
 
 

@@ -1,3 +1,7 @@
 numpy==1.26.4
 pandas==1.5.3
 scipy==1.15.2
+matplotlib==3.8.2
+openai==0.27.2
+scikit-learn==1.6.1
+sympy==1.12

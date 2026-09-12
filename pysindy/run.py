@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
+import re
 import sys
 
 import numpy as np
@@ -8,10 +9,16 @@ import pysindy as ps
 
 sys.path.append(str(Path().absolute()))
 
-from data.config import sindy_params
+from data.config import NATIVE_PYSINDY_DEFAULTS, sindy_params
 from utils import sindy_library
 from utils.dataloader import load_data
-from utils.derivatives import compute_derivative_bundle
+from utils.derivatives import (
+    compute_derivative_bundle,
+    derivative_multiindices,
+    get_data_axes,
+    normalize_max_orders,
+)
+from utils.protocols import FIXED_PROTOCOL, NATIVE_PROTOCOL, validate_protocol
 
 
 RESULTS_DIR = Path("results/pysindy")
@@ -115,24 +122,100 @@ def fit_sparse_system(feature_matrix, target_vector, feature_names, target_name,
     }
 
 
-def run_sindy(data, x, y, z, t, filename):
-    """Run PySINDy sparse discovery for one configured dataset."""
+def pysindy_derivative_bundle(data, x, y, z, t, variable_names, max_orders, diff_config):
+    """Calculate all requested derivatives with PySINDy's differentiator."""
 
+    data_arrays = sindy_library.normalize_data_arrays(data)
+    axes = get_data_axes(data_arrays[0], x, y, z, t)
+    axis_names = [axis_name for axis_name, _, _ in axes]
+    max_orders = normalize_max_orders(max_orders, len(axes))
+    periodic = bool(diff_config.get("periodic", False))
+    accuracy_order = int(diff_config.get("order", 2))
+
+    variables = {}
+    for variable_name, values in zip(variable_names, data_arrays):
+        derivatives = {}
+        for orders in derivative_multiindices(max_orders, include_identity=True):
+            derivative = np.asarray(values, dtype=float)
+            for derivative_order, (axis_name, axis, grid) in zip(orders, axes):
+                if derivative_order == 0:
+                    continue
+                differentiator = ps.FiniteDifference(
+                    order=accuracy_order,
+                    d=derivative_order,
+                    axis=axis,
+                    periodic=periodic and axis_name != "t",
+                )
+                derivative = np.asarray(differentiator(derivative, grid), dtype=float)
+            derivatives[orders] = derivative
+        variables[variable_name] = {"values": values, "derivatives": derivatives}
+
+    return {
+        "axes": axes,
+        "axis_names": axis_names,
+        "max_orders": max_orders,
+        "variables": variables,
+    }
+
+
+def remove_target_axis_derivatives(features, feature_names, target):
+    """Keep only derivatives below the target order along its own axis."""
+
+    axis = target.get("axis")
+    order = int(target.get("order", 1))
+    if not axis:
+        return features, feature_names
+    forbidden = re.compile(rf"_{re.escape(axis)}{{{order},}}(?![A-Za-z])")
+    keep = np.asarray([not forbidden.search(name) for name in feature_names])
+    return features[:, keep], [name for name, include in zip(feature_names, keep) if include]
+
+
+def run_sindy(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_options=None):
+    """Run PySINDy under the fixed-library or near-native protocol."""
+
+    validate_protocol(protocol)
     params = sindy_params[filename]
     
     data_arrays = sindy_library.normalize_data_arrays(data)
     lib_config = params.get("library", {})
     variable_names = lib_config.get("variable_names", sindy_library.default_variable_names(data_arrays))
     targets = params.get("targets", sindy_library.default_targets(variable_names))
-    derivatives = compute_derivative_bundle(
-        data_arrays if len(data_arrays) > 1 else data_arrays[0],
-        x=x,
-        y=y,
-        z=z,
-        t=t,
-        variable_names=variable_names,
-        max_orders=sindy_library.configured_max_deriv_order(data_arrays[0].shape, params),
-    )
+    max_orders = sindy_library.configured_max_deriv_order(data_arrays[0].shape, params)
+    if protocol == NATIVE_PROTOCOL:
+        native_config = {
+            **NATIVE_PYSINDY_DEFAULTS,
+            **(native_options or {}),
+        }
+        diff_config = {
+            **NATIVE_PYSINDY_DEFAULTS.get("differentiation", {}),
+            **native_config.get("differentiation", {}),
+            **lib_config.get("diff_kwargs", {}),
+        }
+        derivatives = pysindy_derivative_bundle(
+            data_arrays if len(data_arrays) > 1 else data_arrays[0],
+            x,
+            y,
+            z,
+            t,
+            variable_names,
+            max_orders,
+            diff_config,
+        )
+        optimizer_config = {
+            **NATIVE_PYSINDY_DEFAULTS["optimizer"],
+            **native_config.get("optimizer", {}),
+        }
+    else:
+        derivatives = compute_derivative_bundle(
+            data_arrays if len(data_arrays) > 1 else data_arrays[0],
+            x=x,
+            y=y,
+            z=z,
+            t=t,
+            variable_names=variable_names,
+            max_orders=max_orders,
+        )
+        optimizer_config = params["optimizer"]
     crop_slices = sindy_library.build_crop_slices(data_arrays[0].shape, params.get("crop", 0))
 
     results = []
@@ -147,13 +230,17 @@ def run_sindy(data, x, y, z, t, filename):
             x,
             t,
         )
+        if protocol == NATIVE_PROTOCOL:
+            features, feature_names = remove_target_axis_derivatives(
+                features, feature_names, target
+            )
         result = fit_sparse_system(
             features,
             target_values,
             feature_names,
             target_name,
             filename,
-            params["optimizer"],
+            optimizer_config,
         )
         results.append(result)
         feature_names_by_target.append(feature_names)
@@ -163,6 +250,7 @@ def run_sindy(data, x, y, z, t, filename):
         "targets": [result["target"] for result in results],
         "coefficients": [result["coefficients"][0] for result in results],
         "features": feature_names_by_target,
+        "protocol": protocol,
     }
 
 

@@ -1,5 +1,6 @@
 import argparse
 import csv
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -10,10 +11,18 @@ from clean_run_metrics import (
     COEFFICIENT_TOLERANCE,
     best_true_coefficient_match,
     coefficient_by_feature,
+    epde_structural_metrics,
     framework_feature_normalizer,
     load_framework_module,
     normalize_result,
     normalize_target,
+)
+from utils.protocols import (
+    FIXED_PROTOCOL,
+    NATIVE_PROTOCOL,
+    PROTOCOLS,
+    ProtocolSkippedError,
+    ProtocolUnavailableError,
 )
 
 
@@ -53,6 +62,31 @@ def target_metrics(framework, dataset, result, target_index):
 
 def selected_metrics(framework, dataset, target_name, result):
     result = normalize_result(result)
+    if framework == "epde":
+        equation_texts = result.get("equation_texts") or []
+        if target_name in {"system", "__system__"}:
+            structure = epde_structural_metrics(
+                dataset, equation_texts, single_equation=False
+            )
+        else:
+            normalized_targets = [
+                normalize_target(framework, target, dataset)
+                for target in result["targets"]
+            ]
+            target_index = normalized_targets.index(target_name)
+            structure = epde_structural_metrics(
+                dataset,
+                [equation_texts[target_index]] if target_index < len(equation_texts) else [],
+                single_equation=True,
+            )
+        if structure is None:
+            raise KeyError(f"No EPDE truth equations configured for {dataset}")
+        return {
+            "target": target_name,
+            "hd": structure["hamming"],
+            "re": structure["coefficient_error"],
+        }
+
     target_rows = [
         target_metrics(framework, dataset, result, target_index)
         for target_index, _ in enumerate(result["targets"])
@@ -83,6 +117,10 @@ def runner_args(args):
         device=args.device,
         solution_index=args.solution_index,
         epde_best_pareto=args.epde_best_pareto,
+        protocol=args.protocol,
+        native_max_iterations=args.native_max_iterations,
+        native_max_samples=args.native_max_samples,
+        allow_external_llm=args.allow_external_llm,
     )
 
 
@@ -91,6 +129,8 @@ def measure_boundary(framework, module, dataset, target_name, noise_level, runs,
     correct_re_values = []
     correct_count = 0
     error_count = 0
+    status = "ok"
+    error_message = ""
 
     for run_index in range(runs):
         seed = noise_test.noise_seed(run_index, base_seed)
@@ -107,16 +147,25 @@ def measure_boundary(framework, module, dataset, target_name, noise_level, runs,
             hd_values.append(metrics["hd"])
             if metrics["hd"] == 0:
                 correct_count += 1
-                correct_re_values.append(metrics["re"])
-        except Exception:
+                if metrics["re"] != "":
+                    correct_re_values.append(metrics["re"])
+        except (ProtocolSkippedError, ProtocolUnavailableError) as error:
+            status = "skipped" if isinstance(error, ProtocolSkippedError) else "unsupported"
+            error_message = str(error)
+            error_count = runs
+            break
+        except Exception as error:
             error_count += 1
             hd_values.append(np.nan)
+            error_message = str(error)
 
     valid_hd = [value for value in hd_values if not np.isnan(value)]
     hd_summary = summarize(valid_hd)
     re_summary = summarize(correct_re_values)
     return {
         "framework": framework,
+        "protocol": args.protocol,
+        "status": status if status != "ok" or valid_hd else "error",
         "dataset": dataset,
         "target": "system" if target_name == "__system__" else target_name,
         "noise_level": noise_level,
@@ -129,6 +178,7 @@ def measure_boundary(framework, module, dataset, target_name, noise_level, runs,
         "hd_std": hd_summary["std"],
         "re_mean": re_summary["mean"],
         "re_std": re_summary["std"],
+        "error": error_message,
     }
 
 
@@ -161,6 +211,8 @@ def write_rows(rows, output_file):
     output_file.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "framework",
+        "protocol",
+        "status",
         "dataset",
         "target",
         "noise_level",
@@ -173,6 +225,7 @@ def write_rows(rows, output_file):
         "hd_std",
         "re_mean",
         "re_std",
+        "error",
     ]
     with open(output_file, "w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
@@ -183,6 +236,12 @@ def write_rows(rows, output_file):
 def print_rows(rows):
     print("\nNoise boundary HD/RE statistics:")
     for row in rows:
+        if row["hd_mean"] == "":
+            print(
+                f"  {row['framework']} / {row['dataset']} / {row['target']}: "
+                f"{row['status']} ({row['error']})"
+            )
+            continue
         re_text = (
             f"RE={row['re_mean']:.4g} +/- {row['re_std']:.4g}"
             if row["re_mean"] != "" else "RE=n/a"
@@ -202,27 +261,35 @@ def default_boundaries_csv(framework):
     return DEFAULT_BOUNDARY_FILES[framework]
 
 
-def default_output(framework):
+def default_output(framework, protocol=FIXED_PROTOCOL):
+    if protocol == NATIVE_PROTOCOL:
+        return ROOT / "results" / framework / "native" / "noise_boundary_metrics.csv"
     return ROOT / "results" / framework / "noise_boundary_metrics.csv"
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"])
+    parser.add_argument("--protocol", choices=PROTOCOLS, default=FIXED_PROTOCOL)
     parser.add_argument("--runs", type=int, default=noise_test.DEFAULT_RUNS)
     parser.add_argument("--boundaries-csv", default="")
     parser.add_argument("--output", default="")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--solution-index", type=int, default=0)
     parser.add_argument("--epde-best-pareto", action="store_true")
+    parser.add_argument("--native-max-iterations", type=int, default=None)
+    parser.add_argument("--native-max-samples", type=int, default=None)
+    parser.add_argument("--allow-external-llm", action="store_true")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
     module = load_framework_module(args.framework)
+    if args.protocol == NATIVE_PROTOCOL and not args.boundaries_csv:
+        raise ValueError("Native boundary metrics require --boundaries-csv from a native noise sweep")
     boundaries_csv = Path(args.boundaries_csv) if args.boundaries_csv else default_boundaries_csv(args.framework)
-    output_file = Path(args.output) if args.output else default_output(args.framework)
+    output_file = Path(args.output) if args.output else default_output(args.framework, args.protocol)
     rows = []
 
     for dataset, target_name, noise_level in load_boundaries(boundaries_csv):
@@ -243,7 +310,8 @@ def main():
     write_rows(rows, output_file)
     print_rows(rows)
     print(f"\nSaved metrics to {output_file}")
+    return 1 if any(row.get("status") == "error" for row in rows) else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

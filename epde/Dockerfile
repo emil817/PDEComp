@@ -12,6 +12,9 @@ RUN apt-get update \
 
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir \
+        --index-url https://download.pytorch.org/whl/cpu \
+        torch==2.4.0 \
+    && pip install --no-cache-dir \
         auto_mix_prep==0.2.0 \
         matplotlib==3.10.1 \
         numpy==1.26.4 \
@@ -20,8 +23,7 @@ RUN pip install --no-cache-dir --upgrade pip \
         "PyYAML>=6.0.1" \
         scikit-learn==1.6.1 \
         scipy==1.15.2 \
-        seaborn==0.13.2 \
-        torch==2.4.0
+        seaborn==0.13.2
 
 COPY . .
 

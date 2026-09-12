@@ -15,6 +15,7 @@ EDL_SOURCE_ROOT = EDL_ROOT / "EDL"
 RESULTS_DIR = Path("results/edl")
 
 sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(EDL_SOURCE_ROOT))
 sys.path.insert(0, str(EDL_SOURCE_ROOT / "evaluation"))
 
 from PDE_find import STRidge, TrainSTRidge
@@ -30,6 +31,7 @@ from utils.sindy_library import (
     default_variable_names,
     normalize_data_arrays,
 )
+from utils.protocols import FIXED_PROTOCOL, NATIVE_PROTOCOL, validate_protocol
 
 
 DATASETS = EDL_DATASETS
@@ -105,7 +107,7 @@ def fit_edl_sparse_system(features, target_values, feature_names, target_name, o
     }
 
 
-def run_edl(data, x, y, z, t, filename):
+def run_edl(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_options=None):
     """Run EDL's sparse regression backend on the shared benchmark library.
 
     The original EDL pipeline uses an LLM to generate candidate equations and
@@ -113,6 +115,12 @@ def run_edl(data, x, y, z, t, filename):
     wrapper compares the EDL STRidge backend on the same fixed feature matrices
     and target derivatives used by the other framework wrappers.
     """
+
+    validate_protocol(protocol)
+    if protocol == NATIVE_PROTOCOL:
+        from edl.native import run_native_edl
+
+        return run_native_edl(data, x, y, z, t, filename, options=native_options)
 
     params = build_run_params(filename)
     sindy_config = params["sindy_config"]
@@ -164,6 +172,7 @@ def run_edl(data, x, y, z, t, filename):
         "features": feature_names_by_target,
         "library_sizes": library_sizes,
         "library_size": sum(library_sizes.values()),
+        "protocol": protocol,
     }
 
 

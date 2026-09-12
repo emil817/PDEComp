@@ -12,6 +12,13 @@ import numpy as np
 
 from data.config import TRUE_COEFFICIENTS, TRUE_COEFFICIENT_ALTERNATIVES
 from utils.dataloader import load_data
+from utils.protocols import (
+    FIXED_PROTOCOL,
+    NATIVE_PROTOCOL,
+    PROTOCOLS,
+    ProtocolSkippedError,
+    ProtocolUnavailableError,
+)
 
 
 ROOT = Path(__file__).resolve().parent
@@ -351,10 +358,19 @@ def normalize_target(framework, target, dataset):
 
 def run_framework(framework, module, dataset, args, quiet=True):
     data, x, y, z, t = load_data(dataset)
+    protocol = getattr(args, "protocol", FIXED_PROTOCOL)
+    native_options = {
+        "device": args.device,
+        "allow_external_llm": getattr(args, "allow_external_llm", False),
+    }
+    if getattr(args, "native_max_iterations", None) is not None:
+        native_options["max_iterations"] = args.native_max_iterations
+    if getattr(args, "native_max_samples", None) is not None:
+        native_options["max_samples"] = args.native_max_samples
     if framework == "pysindy":
-        return module.run_sindy(data, x, y, z, t, dataset)
+        return module.run_sindy(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "deepmod":
-        return module.run_deepmod(data, x, y, z, t, dataset)
+        return module.run_deepmod(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "epde":
         return module.run_epde(
             data,
@@ -367,13 +383,18 @@ def run_framework(framework, module, dataset, args, quiet=True):
             solution_index=args.solution_index,
             only_print=not quiet,
             return_all=args.epde_best_pareto,
+            protocol=protocol,
+            native_options=native_options,
         )
     if framework == "discover":
-        return module.run_discover(data, x, y, z, t, dataset, only_print=not quiet)
+        return module.run_discover(
+            data, x, y, z, t, dataset, only_print=not quiet,
+            protocol=protocol, native_options=native_options,
+        )
     if framework == "edl":
-        return module.run_edl(data, x, y, z, t, dataset)
+        return module.run_edl(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "vwsr":
-        return module.run_vwsr(data, x, y, z, t, dataset)
+        return module.run_vwsr(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     raise ValueError(f"Unknown framework: {framework}")
 
 
@@ -415,6 +436,8 @@ def summarize_target(framework, dataset, result, target_index, runtime_seconds):
     raw_target = result["targets"][target_index]
     target = normalize_target(framework, raw_target, dataset)
     features = result["features"][target_index]
+    reported_library_sizes = result.get("library_sizes", {})
+    library_size = reported_library_sizes.get(raw_target, len(features))
     feature_normalizer = framework_feature_normalizer(framework)
     fitted_coefficients = coefficient_by_feature(
         result,
@@ -461,11 +484,13 @@ def summarize_target(framework, dataset, result, target_index, runtime_seconds):
 
     return {
         "framework": framework,
+        "protocol": result.get("protocol", FIXED_PROTOCOL),
+        "status": "ok",
         "dataset": dataset,
         "target": target,
         "raw_target": raw_target,
         "runtime_seconds": runtime_seconds,
-        "library_size": len(features),
+        "library_size": library_size,
         "truth_defined": truth_defined,
         "true_terms_count": len(expected),
         "active_terms_count": len(active),
@@ -511,13 +536,21 @@ def summarize_system(framework, dataset, target_rows, runtime_seconds, result=No
             if structure_success:
                 missing_parts = []
                 extra_parts = []
+    library_sizes = [row["library_size"] for row in target_rows]
+    system_library_size = (
+        sum(library_sizes)
+        if all(isinstance(size, (int, float, np.integer, np.floating)) for size in library_sizes)
+        else ""
+    )
     return {
         "framework": framework,
+        "protocol": target_rows[0].get("protocol", FIXED_PROTOCOL),
+        "status": "ok",
         "dataset": dataset,
         "target": "__system__",
         "raw_target": "__system__",
         "runtime_seconds": runtime_seconds,
-        "library_size": sum(row["library_size"] for row in target_rows),
+        "library_size": system_library_size,
         "truth_defined": truth_defined,
         "true_terms_count": sum(row["true_terms_count"] for row in target_rows),
         "active_terms_count": sum(row["active_terms_count"] for row in target_rows),
@@ -556,9 +589,11 @@ def summarize_dataset(framework, module, dataset, args, quiet=True):
     return rows
 
 
-def error_row(framework, dataset, error):
+def error_row(framework, dataset, error, protocol=FIXED_PROTOCOL, status="error"):
     return {
         "framework": framework,
+        "protocol": protocol,
+        "status": status,
         "dataset": dataset,
         "target": "",
         "raw_target": "",
@@ -586,6 +621,8 @@ def write_rows(rows, output_file):
     output_file.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "framework",
+        "protocol",
+        "status",
         "dataset",
         "target",
         "raw_target",
@@ -613,37 +650,50 @@ def write_rows(rows, output_file):
         writer.writerows(rows)
 
 
-def default_output(framework):
+def default_output(framework, protocol=FIXED_PROTOCOL):
     if framework == "all":
-        return ROOT / "results" / "clean_run_metrics.csv"
+        name = "clean_run_metrics.csv" if protocol == FIXED_PROTOCOL else "native_clean_run_metrics.csv"
+        return ROOT / "results" / name
+    if protocol == NATIVE_PROTOCOL:
+        return ROOT / "results" / framework / "native" / "clean_run_metrics.csv"
     return ROOT / "results" / framework / "clean_run_metrics.csv"
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr", "all"])
+    parser.add_argument("--protocol", choices=PROTOCOLS, default=FIXED_PROTOCOL)
     parser.add_argument("--datasets", nargs="*", default=None)
     parser.add_argument("--output", default=None)
     parser.add_argument("--show-equations", action="store_true")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--solution-index", type=int, default=0)
     parser.add_argument("--epde-best-pareto", action="store_true")
+    parser.add_argument("--native-max-iterations", type=int, default=None)
+    parser.add_argument("--native-max-samples", type=int, default=None)
+    parser.add_argument("--allow-external-llm", action="store_true")
     return parser.parse_args()
 
 
 def selected_frameworks(framework):
     if framework == "all":
-        return ["pysindy", "deepmod", "epde", "edl", "vwsr"]
+        return ["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"]
     return [framework]
 
 
 def main():
     args = parse_args()
-    output_file = Path(args.output) if args.output else default_output(args.framework)
+    output_file = Path(args.output) if args.output else default_output(args.framework, args.protocol)
     all_rows = []
 
     for framework in selected_frameworks(args.framework):
-        module = load_framework_module(framework)
+        try:
+            module = load_framework_module(framework)
+        except Exception as error:
+            datasets = args.datasets or DEFAULT_DATASETS
+            all_rows.extend(error_row(framework, dataset, error, args.protocol) for dataset in datasets)
+            print(f"\n=== Unable to load {framework}: {error} ===")
+            continue
         datasets = args.datasets or getattr(module, "DATASETS", DEFAULT_DATASETS)
         for dataset in datasets:
             print(f"\n=== Measuring {framework} / {dataset} ===")
@@ -662,13 +712,20 @@ def main():
                         f"library={row['library_size']}, "
                         f"rel_error_sum={row['relative_error_sum']}"
                     )
+            except ProtocolSkippedError as error:
+                all_rows.append(error_row(framework, dataset, error, args.protocol, status="skipped"))
+                print(f"  skipped: {error}")
+            except ProtocolUnavailableError as error:
+                all_rows.append(error_row(framework, dataset, error, args.protocol, status="unsupported"))
+                print(f"  unsupported: {error}")
             except Exception as error:
-                all_rows.append(error_row(framework, dataset, error))
+                all_rows.append(error_row(framework, dataset, error, args.protocol))
                 print(f"  error: {error}")
 
     write_rows(all_rows, output_file)
     print(f"\nSaved clean-run metrics to {output_file}")
+    return 1 if any(row.get("status") == "error" for row in all_rows) else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

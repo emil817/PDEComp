@@ -424,6 +424,73 @@ DEEPMOD_DEFAULTS = {
 }
 
 
+# Minimal, framework-level settings used by the near-native benchmark protocol.
+# Unlike the fixed protocol settings below, these are deliberately not tuned per
+# dataset. Dataset metadata (target and maximum derivative order) still comes
+# from ``sindy_params`` so that the benchmark asks every method the same problem.
+NATIVE_PYSINDY_DEFAULTS = {
+    'optimizer': {
+        'type': 'STLSQ',
+        'threshold': 0.1,
+        'alpha': 0.05,
+        'normalize_columns': True,
+        'coefficient_tol': 1e-8,
+    },
+    'differentiation': {'order': 2},
+}
+
+
+NATIVE_DEEPMOD_DEFAULTS = {
+    'hidden_layers': [40, 40, 40, 40],
+    'learning_rate': 2e-3,
+    'max_iterations': 5000,
+    'write_iterations': 100,
+    'train_fraction': 0.8,
+    'max_samples': 10000,
+    'poly_order': 3,
+    'diff_order': 4,
+    'threshold': 0.1,
+    'coefficient_tol': 1e-8,
+    'seed': 0,
+}
+
+
+NATIVE_EPDE_DEFAULTS = {
+    'population_size': 16,
+    'training_epochs': 5,
+    'boundary': 'auto_10pct',
+    'default_preprocessor_type': 'FD',
+    'equation_terms_max_number': 6,
+    'equation_factors_max_number': 2,
+    'eq_sparsity_interval': (1e-8, 1.0),
+    'data_fun_pow': 3,
+    'deriv_fun_pow': 1,
+    'multiobjective_mode': True,
+    'use_pic': True,
+}
+
+
+NATIVE_DISCOVER_DEFAULTS = {
+    'n_samples': 5000,
+    'batch_size': 250,
+    'epsilon': 0.05,
+    'max_length': 15,
+    'max_add_count': 8,
+    'function_set': ['add', 'mul', 'div', 'diff', 'diff2', 'diff3', 'diff4', 'sin', 'cos', 'n2', 'n3'],
+}
+
+
+NATIVE_EDL_DEFAULTS = {
+    'llm_name': 'gpt-3.5-turbo',
+    'samples_per_iteration': 4,
+    'initial_samples': 20,
+    'max_epochs': 50,
+    'max_terms': 6,
+    'temperature': 1.0,
+    'operators': '{+, -, *, /, ^2, sin, cos}',
+}
+
+
 deepmod_params = {
     'ode_data.npy': {
         'direct_optimizer': {'type': 'pdefind', 'pdefind_lam': 1e-6, 'pdefind_dtol': 1e-4, 'coefficient_tol': 0.5},
@@ -787,6 +854,14 @@ TRUE_COEFFICIENTS = {
 }
 
 TRUE_COEFFICIENT_ALTERNATIVES = {
+    "pde_compound_data.npy": {
+        "u_t": [
+            {
+                "u_x^2": 1.0,
+                "u u_xx": 1.0,
+            },
+        ],
+    },
     "ODE_simple_discovery": {
         "u_t": [
             {

@@ -1,10 +1,17 @@
 .git
+**/.git
 .idea
 .vscode
 __pycache__
+**/__pycache__
 *.pyc
 .pytest_cache
 results
 deepmod_runs
 tmp_burgers
 stuff
+epde/EPDE/examples
+epde/EPDE/tests
+epde/EPDE/projects/*
+!epde/EPDE/projects/thesis
+!epde/EPDE/projects/thesis/**

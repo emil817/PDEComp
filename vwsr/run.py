@@ -27,6 +27,7 @@ from utils.sindy_library import (
     default_variable_names,
     normalize_data_arrays,
 )
+from utils.protocols import FIXED_PROTOCOL, NATIVE_PROTOCOL, ProtocolUnavailableError, validate_protocol
 
 
 RESULTS_DIR = PROJECT_ROOT / "results" / "vwsr"
@@ -165,8 +166,15 @@ def fit_vwsr_sparse_system(
     }
 
 
-def run_vwsr(data, x, y, z, t, filename):
+def run_vwsr(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_options=None):
     """Run EPDE's VWSR optimizer on the shared fixed candidate library."""
+
+    validate_protocol(protocol)
+    if protocol == NATIVE_PROTOCOL:
+        raise ProtocolUnavailableError(
+            "VWSR is a sparse-regression estimator, not a complete discovery framework; "
+            "it has no native data preprocessing or library construction pipeline"
+        )
 
     params = build_run_params(filename)
     sindy_config = params["sindy_config"]
@@ -221,6 +229,7 @@ def run_vwsr(data, x, y, z, t, filename):
         "features": feature_names_by_target,
         "library_sizes": library_sizes,
         "library_size": sum(library_sizes.values()),
+        "protocol": protocol,
     }
 
 

@@ -10,48 +10,72 @@ The benchmark uses the datasets and true coefficients from
 `data/config.py`. Each framework is evaluated on the same loaded data from
 `utils/dataloader.py`.
 
-For a fair comparison, frameworks are configured to use:
+DEComp provides two complementary comparison protocols:
 
-- the same polynomial terms;
-- the same derivative orders;
-- the same custom tokens for 1D and 2D PDEs;
-- the same special library shape for systems such as Navier-Stokes.
+- **`fixed`** (default) supplies the same NumPy derivatives and the same finite
+  candidate library to every compatible optimizer. It isolates sparse term
+  selection and coefficient estimation.
+- **`native`** keeps the datasets and metrics common, but lets each complete
+  framework use its own preprocessing, differentiation, library representation,
+  and search procedure. Only broad complexity limits are aligned, without
+  dataset-specific optimizer tuning.
+
+The protocols answer different questions: `fixed` compares optimizers under
+controlled inputs, while `native` compares practical framework pipelines.
+
+| Framework | `native` coverage |
+|---|---|
+| PySINDy | all configured datasets |
+| DeepMoD | scalar 1D PDE, first-order time target |
+| EPDE | all configured datasets |
+| DISCOVER | scalar ODE and scalar 1D PDE |
+| EDL | scalar ODE and scalar 1D PDE; external LLM opt-in |
+| VWSR | not applicable: sparse estimator only |
 
 ## Framework Integration
 
-The benchmark keeps data loading, derivative calculation, library construction,
-and metric calculation outside individual framework wrappers. This keeps the
-comparison focused on how each framework selects equation terms and estimates
-coefficients.
+The benchmark always keeps data loading and metric calculation common. In the
+`fixed` protocol it also centralizes derivatives and library construction; in
+`native`, those stages belong to each framework's own pipeline.
 
-- **PySINDy** is used as the direct sparse-regression baseline. The wrapper
+- **PySINDy** is used as the direct sparse-regression baseline. In `fixed`, the wrapper
   builds the shared candidate library from `utils/sindy_library.py`, computes
   derivatives with `utils/derivatives.py`, and applies the optimizer configured
-  in `data/config.py`.
+  in `data/config.py`. In `native`, derivatives come from PySINDy's
+  `FiniteDifference` and one framework-level STLSQ configuration is used.
 - **DeepMoD** is run through its sparse estimators on the same precomputed
   NumPy feature matrices and target derivatives. The wrapper uses DeePyMoD's
   optimizer classes, then maps selected terms back to the shared benchmark
-  feature names for metrics.
+  feature names for metrics. Its `native` path trains the original neural
+  approximation, differentiates it with autograd, builds `Library1D`, and uses
+  DeePyMoD's constraint and sparsity scheduler. The stock path currently covers
+  scalar 1D PDEs whose target is the first time derivative.
 - **EPDE** is run through its evolutionary search pipeline. Its source is
   checked out as the `epde/EPDE` submodule. Dataset-specific EPDE settings are
   stored directly in `data/config.py`; the wrapper prepares benchmark data,
   coordinate tensors, derivatives, and custom token families so EPDE searches
-  in the comparable term space.
+  in the comparable term space. In `native`, EPDE receives raw data, computes
+  derivatives with its own preprocessor, and searches standard EPDE tokens.
 - **VWSR** is evaluated separately from EPDE's evolutionary search. The
   `vwsr/run.py` wrapper imports only EPDE's variance-weighted sparse-regression
   estimator and applies it directly to the shared fixed feature matrices and
   precomputed derivatives. Its per-term penalties are derived from spatial or
-  temporal variation of locally varying coefficient estimates.
+  temporal variation of locally varying coefficient estimates. VWSR has no
+  `native` protocol because it is an estimator, not a complete data-to-equation
+  framework; this is reported as `unsupported`.
 - **DISCOVER** is connected as a separate submodule and container because it
   uses a TensorFlow 1.x stack. The benchmark uses its external fixed-library
   mode: shared features are passed as fixed `theta_*` tokens, and DISCOVER
-  searches symbolic combinations of those tokens. In the current wrapper it is
-  used for scalar ODE and scalar 1D PDE datasets, not for systems.
+  searches symbolic combinations of those tokens. In `native`, DISCOVER uses
+  its own finite differences and standard symbolic grammar on raw scalar ODE or
+  1D PDE data. Systems are not supported.
 - **EDL** is connected as the `edl/EDL` submodule. The original EDL method uses
   an LLM to propose equation candidates and then scores/fits them on data. For
-  reproducible benchmark runs without API keys, `edl/run.py` uses EDL's STRidge
+  reproducible `fixed` runs without API keys, `edl/run.py` uses EDL's STRidge
   sparse-regression backend on the same fixed feature matrices and target
-  derivatives built by the shared `utils/` layer.
+  derivatives built by the shared `utils/` layer. The `native` wrapper prepares
+  EDL's original LLM loop, but it reports `skipped` unless external calls are
+  explicitly enabled and an API key is present.
 
 ## Main Scripts
 
@@ -59,6 +83,8 @@ coefficients.
 
 ```powershell
 python clean_run_metrics.py pysindy
+python clean_run_metrics.py pysindy --protocol native --datasets burgers_data.mat
+python clean_run_metrics.py deepmod --protocol native --datasets burgers_data.mat
 ```
 
 The output CSV contains runtime, library size, discovered active terms, expected
@@ -70,6 +96,7 @@ terms, and relative coefficient error.
 python noise_test.py pysindy --datasets ode_data.npy --levels 0.5 0.75 1.0
 python noise_test.py deepmod --datasets ac_data.npy --levels 10 15 20
 python noise_test.py vwsr --datasets kdv_data.mat --levels 0.001 0.005 0.01
+python noise_test.py discover --protocol native --datasets kdv_data.mat --levels 0.01 0.05 --runs 5
 ```
 
 Noise is Gaussian and proportional to the data standard deviation:
@@ -78,8 +105,9 @@ Noise is Gaussian and proportional to the data standard deviation:
 u_noisy = u + noise_level * 0.01 * std(u) * np.random.normal()
 ```
 
-For systems, the summary row `__system__` is counted as correct only when all
-component equations have the same structure as the clean run.
+By default, a run is successful only when it matches an accepted ground-truth
+structure. `--success-reference clean` retains the older repeatability test.
+For systems, `__system__` is correct only when every component is correct.
 
 `noise_boundary_metrics.py` measures structural and coefficient errors at fixed
 noise boundaries:
@@ -91,6 +119,25 @@ python noise_boundary_metrics.py vwsr
 ```
 
 It reports HD across all noisy runs and RE only for structurally correct runs.
+For native results, pass a boundary file obtained from a native sweep and add
+`--protocol native`.
+
+`run_benchmark.py` runs a protocol across the isolated framework containers:
+
+```powershell
+python run_benchmark.py clean --protocol native
+python run_benchmark.py noise --protocol native --datasets burgers_data.mat --levels 0 0.1 0.5 --runs 5
+```
+
+EDL's external LLM is not contacted unless `--allow-external-llm` is present.
+The EDL container then reads `EDL_API_KEY` or `OPENAI_API_KEY` from the
+environment.
+
+`--native-max-iterations` is useful for smoke tests. It limits neural-network
+iterations in DeepMoD, evolutionary epochs in EPDE, generated samples in
+DISCOVER, and LLM refinement epochs in EDL. It is a runtime cap, not a shared
+algorithmic hyperparameter. DISCOVER requires at least one complete policy
+batch, so its native value must be at least `250` with the default settings.
 
 `deepmod/run.py`, `epde/run.py`, `vwsr/run.py`, `discover/run.py`, and
 `edl/run.py` are benchmark wrappers.
@@ -105,10 +152,10 @@ tokens. For ODE datasets, the wrapper passes a dummy spatial coordinate only to
 fit DISCOVER's PDE-task interface; the actual ODE library and target are still
 computed from the benchmark data.
 
-EDL supports the configured benchmark datasets through its STRidge backend. The
-wrapper does not call the LLM prompting loop during automatic metrics, because
-that would require external model credentials and would make repeated noisy
-runs non-deterministic.
+In `fixed`, EDL supports the configured benchmark datasets through its STRidge
+backend. Native EDL metrics use the LLM wrapper described above and remain
+disabled unless explicitly requested because they require credentials and incur
+external, non-deterministic calls.
 
 ## Docker
 
@@ -149,12 +196,16 @@ docker compose run --rm epde python clean_run_metrics.py epde --datasets wave_da
 docker compose run --rm vwsr python clean_run_metrics.py vwsr --datasets kdv_data.mat
 docker compose run --rm discover python noise_boundary_metrics.py discover --boundaries-csv results/discover/noise_boundaries_3_5.csv
 docker compose run --rm edl python clean_run_metrics.py edl --datasets burgers_data.mat
+docker compose run --rm deepmod python clean_run_metrics.py deepmod --protocol native --datasets burgers_data.mat
 ```
 
 All framework containers mount `data/` as read-only and write outputs to the
 shared `results/` directory. DISCOVER stays separate because it depends on the
 old TensorFlow 1.x stack, which conflicts with the modern environments used by
 the other frameworks.
+
+The supplied DeepMoD and EPDE images use the official CPU build of PyTorch.
+GPU runs require a CUDA-enabled image and a matching Compose device override.
 
 ## Metrics
 
@@ -165,16 +216,22 @@ Clean runs report:
 - `relative_error_sum`: sum of relative coefficient errors for expected terms;
 - `missing_terms` and `extra_terms`: structural differences against ground truth.
 
+Every CSV also includes `protocol` and `status`. Status is `ok`, `unsupported`,
+`skipped`, or `error`, so an unavailable native capability or disabled external
+service cannot be mistaken for failed equation recovery.
+Metric commands return a non-zero exit code when at least one row has
+`status=error`; expected `unsupported` and `skipped` rows do not fail the run.
+For symbolic grammars without a finite enumerated candidate matrix,
+`library_size` is left empty in the `native` protocol.
+
 Some datasets can define equivalent coefficient forms in
 `TRUE_COEFFICIENT_ALTERNATIVES`. Metrics choose the structurally closest
 accepted form, then the one with the smallest coefficient error. This accepted
-form logic is used by both `clean_run_metrics.py` and
-`noise_boundary_metrics.py`; `noise_test.py` still searches for repeatability of
-the clean-run structure.
+form logic is used by clean, noise sweep, and boundary metrics.
 
 Noisy runs report:
 
-- `success_count`: how many of `runs` recovered the clean-run structure;
+- `success_count`: how many of `runs` recovered an accepted true structure;
 
 Boundary noise metrics from `noise_boundary_metrics.py` report:
 

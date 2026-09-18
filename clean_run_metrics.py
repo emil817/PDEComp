@@ -18,7 +18,9 @@ from utils.protocols import (
     PROTOCOLS,
     ProtocolSkippedError,
     ProtocolUnavailableError,
+    benchmark_exit_code,
 )
+from utils.randomness import seed_everything
 
 
 ROOT = Path(__file__).resolve().parent
@@ -301,6 +303,10 @@ def active_features(coefficient_map, tolerance=COEFFICIENT_TOLERANCE):
 def relative_error_sum(fitted_coefficients, true_coefficients):
     total = 0.0
     for feature, true_value in true_coefficients.items():
+        if abs(true_value) <= np.finfo(float).eps:
+            raise ValueError(
+                f"Ground-truth coefficient for active term {feature!r} must be non-zero"
+            )
         fitted_value = fitted_coefficients.get(feature, 0.0)
         total += abs(fitted_value - true_value) / abs(true_value)
     return total
@@ -362,6 +368,7 @@ def run_framework(framework, module, dataset, args, quiet=True):
     native_options = {
         "device": args.device,
         "allow_external_llm": getattr(args, "allow_external_llm", False),
+        "seed": getattr(args, "algorithm_seed", 0),
     }
     if getattr(args, "native_max_iterations", None) is not None:
         native_options["max_iterations"] = args.native_max_iterations
@@ -382,7 +389,7 @@ def run_framework(framework, module, dataset, args, quiet=True):
             device=args.device,
             solution_index=args.solution_index,
             only_print=not quiet,
-            return_all=args.epde_best_pareto,
+            return_all=getattr(args, "epde_pareto_oracle", False),
             protocol=protocol,
             native_options=native_options,
         )
@@ -398,7 +405,9 @@ def run_framework(framework, module, dataset, args, quiet=True):
     raise ValueError(f"Unknown framework: {framework}")
 
 
-def select_best_epde_candidate(dataset, result):
+def select_epde_pareto_oracle(dataset, result):
+    """Select against ground truth for diagnostic upper-bound experiments only."""
+
     candidates = result.get("candidates")
     if not candidates:
         return result
@@ -428,6 +437,7 @@ def select_best_epde_candidate(dataset, result):
         "selected_candidate_index": best_score[-1],
         "best_structure_hamming": best_structure.get("hamming", ""),
         "best_structure_success": best_structure.get("success", ""),
+        "selection_policy": "ground_truth_pareto_oracle",
     }
 
 
@@ -504,6 +514,7 @@ def summarize_target(framework, dataset, result, target_index, runtime_seconds):
         "coefficient_error": coefficient_error,
         "candidate_count": result.get("candidate_count", ""),
         "selected_candidate_index": result.get("selected_candidate_index", ""),
+        "selection_policy": result.get("selection_policy", ""),
         "model": result.get("model", ""),
     }
 
@@ -564,6 +575,7 @@ def summarize_system(framework, dataset, target_rows, runtime_seconds, result=No
         "coefficient_error": coefficient_error,
         "candidate_count": result.get("candidate_count", "") if result else "",
         "selected_candidate_index": result.get("selected_candidate_index", "") if result else "",
+        "selection_policy": result.get("selection_policy", "") if result else "",
         "model": "",
     }
 
@@ -578,7 +590,13 @@ def summarize_dataset(framework, module, dataset, args, quiet=True):
     runtime_seconds = time.perf_counter() - start
 
     if framework == "epde":
-        result = select_best_epde_candidate(dataset, result)
+        if getattr(args, "epde_pareto_oracle", False):
+            result = select_epde_pareto_oracle(dataset, result)
+        else:
+            result = {
+                **result,
+                "selection_policy": f"framework_solution_index:{args.solution_index}",
+            }
     result = normalize_result(result)
     rows = [
         summarize_target(framework, dataset, result, target_index, runtime_seconds)
@@ -612,6 +630,7 @@ def error_row(framework, dataset, error, protocol=FIXED_PROTOCOL, status="error"
         "coefficient_error": "",
         "candidate_count": "",
         "selected_candidate_index": "",
+        "selection_policy": "",
         "model": "",
         "error": str(error),
     }
@@ -641,6 +660,7 @@ def write_rows(rows, output_file):
         "coefficient_error",
         "candidate_count",
         "selected_candidate_index",
+        "selection_policy",
         "model",
         "error",
     ]
@@ -668,10 +688,20 @@ def parse_args():
     parser.add_argument("--show-equations", action="store_true")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--solution-index", type=int, default=0)
-    parser.add_argument("--epde-best-pareto", action="store_true")
+    parser.add_argument(
+        "--epde-pareto-oracle",
+        action="store_true",
+        help="Diagnostic upper bound: choose an EPDE Pareto candidate using ground truth; not valid for primary comparisons.",
+    )
     parser.add_argument("--native-max-iterations", type=int, default=None)
     parser.add_argument("--native-max-samples", type=int, default=None)
     parser.add_argument("--allow-external-llm", action="store_true")
+    parser.add_argument("--algorithm-seed", type=int, default=0)
+    parser.add_argument(
+        "--allow-empty",
+        action="store_true",
+        help="Return success even when every selected run is skipped or unsupported.",
+    )
     return parser.parse_args()
 
 
@@ -698,6 +728,7 @@ def main():
         for dataset in datasets:
             print(f"\n=== Measuring {framework} / {dataset} ===")
             try:
+                seed_everything(args.algorithm_seed)
                 rows = summarize_dataset(
                     framework,
                     module,
@@ -724,7 +755,7 @@ def main():
 
     write_rows(all_rows, output_file)
     print(f"\nSaved clean-run metrics to {output_file}")
-    return 1 if any(row.get("status") == "error" for row in all_rows) else 0
+    return benchmark_exit_code(all_rows, allow_empty=args.allow_empty)
 
 
 if __name__ == "__main__":

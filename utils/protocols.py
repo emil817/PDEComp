@@ -17,3 +17,13 @@ def validate_protocol(protocol):
     if protocol not in PROTOCOLS:
         raise ValueError(f"Unknown benchmark protocol {protocol!r}; expected one of {PROTOCOLS}")
     return protocol
+
+
+def benchmark_exit_code(rows, allow_empty=False):
+    """Return failure for errors or for a run that produced no measurements."""
+
+    if any(row.get("status") == "error" for row in rows):
+        return 1
+    if not allow_empty and not any(row.get("status") == "ok" for row in rows):
+        return 2
+    return 0

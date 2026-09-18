@@ -424,11 +424,13 @@ DEEPMOD_DEFAULTS = {
 }
 
 
-# Minimal, framework-level settings used by the near-native benchmark protocol.
+# Minimal, framework-level settings used by the native benchmark protocol.
 # Unlike the fixed protocol settings below, these are deliberately not tuned per
 # dataset. Dataset metadata (target and maximum derivative order) still comes
 # from ``sindy_params`` so that the benchmark asks every method the same problem.
 NATIVE_PYSINDY_DEFAULTS = {
+    'polynomial_degree': 3,
+    'fourier_frequencies': 2,
     'optimizer': {
         'type': 'STLSQ',
         'threshold': 0.1,
@@ -471,6 +473,7 @@ NATIVE_EPDE_DEFAULTS = {
 
 
 NATIVE_DISCOVER_DEFAULTS = {
+    'base_config': 'config_pde_Burgers.json',
     'n_samples': 5000,
     'batch_size': 250,
     'epsilon': 0.05,

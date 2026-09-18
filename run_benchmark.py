@@ -24,6 +24,8 @@ def parse_args():
     parser.add_argument("--native-max-iterations", type=int, default=None)
     parser.add_argument("--native-max-samples", type=int, default=None)
     parser.add_argument("--allow-external-llm", action="store_true")
+    parser.add_argument("--algorithm-seed", type=int, default=0)
+    parser.add_argument("--allow-empty", action="store_true")
     return parser.parse_args()
 
 
@@ -42,6 +44,8 @@ def framework_command(framework, args):
         args.protocol,
         "--device",
         args.device,
+        "--algorithm-seed",
+        str(getattr(args, "algorithm_seed", 0)),
     ]
     if args.datasets:
         command.extend(["--datasets", *args.datasets])
@@ -55,6 +59,8 @@ def framework_command(framework, args):
         command.extend(["--native-max-samples", str(args.native_max_samples)])
     if args.allow_external_llm:
         command.append("--allow-external-llm")
+    if getattr(args, "allow_empty", False):
+        command.append("--allow-empty")
     return command
 
 

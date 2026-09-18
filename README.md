@@ -20,6 +20,12 @@ DEComp provides two complementary comparison protocols:
   and search procedure. Only broad complexity limits are aligned, without
   dataset-specific optimizer tuning.
 
+The native adapter contract supplies raw observations, coordinates, dependent
+variable names, the requested target derivative, and a broad maximum derivative
+order. It does not supply the fixed feature matrix, fixed derivatives, or
+dataset-specific optimizer settings. Framework limitations are reported as
+`unsupported` instead of being emulated with the fixed pipeline.
+
 The protocols answer different questions: `fixed` compares optimizers under
 controlled inputs, while `native` compares practical framework pipelines.
 
@@ -42,7 +48,10 @@ The benchmark always keeps data loading and metric calculation common. In the
   builds the shared candidate library from `utils/sindy_library.py`, computes
   derivatives with `utils/derivatives.py`, and applies the optimizer configured
   in `data/config.py`. In `native`, derivatives come from PySINDy's
-  `FiniteDifference` and one framework-level STLSQ configuration is used.
+  `FiniteDifference`, candidate terms come from PySINDy's `PolynomialLibrary`,
+  `FourierLibrary`, and `PDELibrary`, and one framework-level STLSQ
+  configuration is used. Dataset-specific fixed-mode crop, differentiation,
+  library-token, and optimizer settings are not reused.
 - **DeepMoD** is run through its sparse estimators on the same precomputed
   NumPy feature matrices and target derivatives. The wrapper uses DeePyMoD's
   optimizer classes, then maps selected terms back to the shared benchmark
@@ -75,7 +84,9 @@ The benchmark always keeps data loading and metric calculation common. In the
   sparse-regression backend on the same fixed feature matrices and target
   derivatives built by the shared `utils/` layer. The `native` wrapper prepares
   EDL's original LLM loop, but it reports `skipped` unless external calls are
-  explicitly enabled and an API key is present.
+  explicitly enabled and an API key is present. The adapter serializes EDL's
+  module-level evaluator hook, so native EDL searches within one process run
+  sequentially.
 
 ## Main Scripts
 
@@ -125,13 +136,27 @@ For native results, pass a boundary file obtained from a native sweep and add
 `run_benchmark.py` runs a protocol across the isolated framework containers:
 
 ```powershell
-python run_benchmark.py clean --protocol native
-python run_benchmark.py noise --protocol native --datasets burgers_data.mat --levels 0 0.1 0.5 --runs 5
+python run_benchmark.py clean --protocol native --frameworks pysindy deepmod epde discover
+python run_benchmark.py noise --protocol native --frameworks pysindy deepmod epde discover --datasets burgers_data.mat --levels 0 0.1 0.5 --runs 5
 ```
+
+The unrestricted all-framework native command returns non-zero for EDL without
+API opt-in and for VWSR, which has no complete native pipeline. Pass
+`--allow-empty` only when those capability statuses are expected.
 
 EDL's external LLM is not contacted unless `--allow-external-llm` is present.
 The EDL container then reads `EDL_API_KEY` or `OPENAI_API_KEY` from the
 environment.
+
+Noise generation and framework stochasticity use separate seeds. Noise
+realizations vary with the run index, while `--algorithm-seed` (default `0`) is
+held fixed so optimizer randomness is not mixed into the noise axis.
+
+EPDE normally returns the configured `--solution-index`, selected without
+ground-truth access. `--epde-pareto-oracle` is an explicitly diagnostic upper
+bound that chooses among Pareto candidates using the known equation; its CSV
+rows are marked `selection_policy=ground_truth_pareto_oracle` and must not be
+used as primary framework results.
 
 `--native-max-iterations` is useful for smoke tests. It limits neural-network
 iterations in DeepMoD, evolutionary epochs in EPDE, generated samples in
@@ -220,7 +245,10 @@ Every CSV also includes `protocol` and `status`. Status is `ok`, `unsupported`,
 `skipped`, or `error`, so an unavailable native capability or disabled external
 service cannot be mistaken for failed equation recovery.
 Metric commands return a non-zero exit code when at least one row has
-`status=error`; expected `unsupported` and `skipped` rows do not fail the run.
+`status=error`. They also return code `2` when no row has `status=ok`, preventing
+an entirely skipped or unsupported invocation from being reported as a
+successful measurement. `--allow-empty` opts into the older behavior when a
+capability-only probe is intended.
 For symbolic grammars without a finite enumerated candidate matrix,
 `library_size` is left empty in the `native` protocol.
 

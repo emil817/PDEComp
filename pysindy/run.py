@@ -14,9 +14,7 @@ from utils import sindy_library
 from utils.dataloader import load_data
 from utils.derivatives import (
     compute_derivative_bundle,
-    derivative_multiindices,
     get_data_axes,
-    normalize_max_orders,
 )
 from utils.protocols import FIXED_PROTOCOL, NATIVE_PROTOCOL, validate_protocol
 
@@ -122,56 +120,168 @@ def fit_sparse_system(feature_matrix, target_vector, feature_names, target_name,
     }
 
 
-def pysindy_derivative_bundle(data, x, y, z, t, variable_names, max_orders, diff_config):
-    """Calculate all requested derivatives with PySINDy's differentiator."""
+def pysindy_derivative(values, axes, axis_name, derivative_order, diff_config):
+    """Differentiate one field with PySINDy's public differentiation API."""
 
-    data_arrays = sindy_library.normalize_data_arrays(data)
-    axes = get_data_axes(data_arrays[0], x, y, z, t)
-    axis_names = [axis_name for axis_name, _, _ in axes]
-    max_orders = normalize_max_orders(max_orders, len(axes))
-    periodic = bool(diff_config.get("periodic", False))
-    accuracy_order = int(diff_config.get("order", 2))
+    axis_by_name = {name: (axis, grid) for name, axis, grid in axes}
+    if axis_name not in axis_by_name:
+        raise ValueError(f"Axis {axis_name!r} is unavailable")
+    axis, grid = axis_by_name[axis_name]
+    differentiator = ps.FiniteDifference(
+        order=int(diff_config.get("order", 2)),
+        d=int(derivative_order),
+        axis=axis,
+        periodic=bool(diff_config.get("periodic", False)) and axis_name != "t",
+    )
+    return np.asarray(differentiator(np.asarray(values, dtype=float), grid), dtype=float)
 
-    variables = {}
-    for variable_name, values in zip(variable_names, data_arrays):
-        derivatives = {}
-        for orders in derivative_multiindices(max_orders, include_identity=True):
-            derivative = np.asarray(values, dtype=float)
-            for derivative_order, (axis_name, axis, grid) in zip(orders, axes):
-                if derivative_order == 0:
-                    continue
-                differentiator = ps.FiniteDifference(
-                    order=accuracy_order,
-                    d=derivative_order,
-                    axis=axis,
-                    periodic=periodic and axis_name != "t",
-                )
-                derivative = np.asarray(differentiator(derivative, grid), dtype=float)
-            derivatives[orders] = derivative
-        variables[variable_name] = {"values": values, "derivatives": derivatives}
 
-    return {
-        "axes": axes,
-        "axis_names": axis_names,
-        "max_orders": max_orders,
-        "variables": variables,
+def native_spatial_grid(axes):
+    """Return a PySINDy spatial grid in the same axis order as native data."""
+
+    spatial_axes = [(name, grid) for name, _, grid in axes if name != "t"]
+    if not spatial_axes:
+        return None, []
+    names = [name for name, _ in spatial_axes]
+    grids = [np.asarray(grid, dtype=float) for _, grid in spatial_axes]
+    if len(grids) == 1:
+        return grids[0], names
+    mesh = np.meshgrid(*grids, indexing="ij")
+    return np.stack(mesh, axis=-1), names
+
+
+def native_state(data_arrays, variable_names, axes, target, diff_config, include_time):
+    """Build raw framework input, adding only metadata-required state variables."""
+
+    time_axis = next(axis for name, axis, _ in axes if name == "t")
+    channels = [np.asarray(values, dtype=float) for values in data_arrays]
+    names = list(variable_names)
+
+    target_order = int(target.get("order", 1))
+    target_axis = target.get("axis", "t")
+    if target_axis == "t" and target_order > 1:
+        variable_index = variable_names.index(target["variable"])
+        values = data_arrays[variable_index]
+        for order in range(1, target_order):
+            channels.append(pysindy_derivative(values, axes, "t", order, diff_config))
+            names.append(f"{target['variable']}_{'t' * order}")
+
+    if include_time:
+        time_grid = next(grid for name, _, grid in axes if name == "t")
+        shape = [1] * data_arrays[0].ndim
+        shape[time_axis] = len(time_grid)
+        time_values = np.broadcast_to(
+            np.asarray(time_grid, dtype=float).reshape(shape),
+            data_arrays[0].shape,
+        )
+        channels.append(time_values)
+        names.append("t")
+
+    moved = [np.moveaxis(values, time_axis, -1) for values in channels]
+    return np.stack(moved, axis=-1), names
+
+
+def native_ode_library(config):
+    """Construct a generic PySINDy ODE library, including Fourier interactions."""
+
+    polynomial = ps.PolynomialLibrary(
+        degree=int(config.get("polynomial_degree", 3)), include_bias=True
+    )
+    fourier = ps.FourierLibrary(
+        n_frequencies=int(config.get("fourier_frequencies", 2))
+    )
+    return ps.GeneralizedLibrary(
+        [polynomial, fourier],
+        tensor_array=[[1, 1]],
+    )
+
+
+def native_pde_library(spatial_grid, spatial_order, config):
+    """Construct PySINDy's standard strong-form PDE library."""
+
+    function_library = ps.PolynomialLibrary(
+        degree=int(config.get("polynomial_degree", 3)), include_bias=False
+    )
+    return ps.PDELibrary(
+        function_library=function_library,
+        derivative_order=int(spatial_order),
+        spatial_grid=spatial_grid,
+        include_bias=True,
+        include_interaction=True,
+        differentiation_method=ps.FiniteDifference,
+        diff_kwargs={"order": int(config.get("differentiation", {}).get("order", 2))},
+    )
+
+
+def canonical_native_feature_name(name, spatial_axes):
+    """Translate PySINDy's coordinate-number suffixes to benchmark axis names."""
+
+    result = str(name)
+    axis_by_digit = {
+        str(index): axis_name for index, axis_name in enumerate(spatial_axes, start=1)
     }
 
+    def derivative_suffix(match):
+        digits = match.group(1)
+        if not all(digit in axis_by_digit for digit in digits):
+            return match.group(0)
+        return "_" + "".join(axis_by_digit[digit] for digit in digits)
 
-def remove_target_axis_derivatives(features, feature_names, target):
-    """Keep only derivatives below the target order along its own axis."""
+    result = re.sub(r"_([1-9]+)", derivative_suffix, result)
+    result = result.replace("sin(1 ", "sin(").replace("cos(1 ", "cos(")
+    return result
 
-    axis = target.get("axis")
-    order = int(target.get("order", 1))
-    if not axis:
-        return features, feature_names
-    forbidden = re.compile(rf"_{re.escape(axis)}{{{order},}}(?![A-Za-z])")
-    keep = np.asarray([not forbidden.search(name) for name in feature_names])
-    return features[:, keep], [name for name, include in zip(feature_names, keep) if include]
+
+def build_native_problem(
+    data_arrays, variable_names, target, x, y, z, t, max_orders, config
+):
+    """Build one target problem entirely with PySINDy differentiation/libraries."""
+
+    axes = get_data_axes(data_arrays[0], x, y, z, t)
+    diff_config = config.get("differentiation", {})
+    target_values = pysindy_derivative(
+        data_arrays[variable_names.index(target["variable"])],
+        axes,
+        target.get("axis", "t"),
+        target.get("order", 1),
+        diff_config,
+    )
+
+    spatial_grid, spatial_axes = native_spatial_grid(axes)
+    if spatial_grid is None:
+        state, state_names = native_state(
+            data_arrays, variable_names, axes, target, diff_config, include_time=True
+        )
+        library = native_ode_library(config)
+    else:
+        state, state_names = native_state(
+            data_arrays, variable_names, axes, target, diff_config, include_time=False
+        )
+        spatial_orders = [
+            order for (axis_name, _, _), order in zip(axes, max_orders) if axis_name != "t"
+        ]
+        library = native_pde_library(spatial_grid, max(spatial_orders), config)
+
+    transformed = np.asarray(library.fit_transform(state), dtype=float)
+    features = transformed.reshape(-1, transformed.shape[-1])
+    target_vector = np.moveaxis(
+        target_values, next(axis for name, axis, _ in axes if name == "t"), -1
+    ).reshape(-1)
+    feature_names = [
+        canonical_native_feature_name(name, spatial_axes)
+        for name in library.get_feature_names(state_names)
+    ]
+    finite = np.isfinite(target_vector) & np.all(np.isfinite(features), axis=1)
+    return (
+        target.get("name", f"{target['variable']}_t"),
+        features[finite],
+        feature_names,
+        target_vector[finite],
+    )
 
 
 def run_sindy(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_options=None):
-    """Run PySINDy under the fixed-library or near-native protocol."""
+    """Run PySINDy under the fixed-library or framework-native protocol."""
 
     validate_protocol(protocol)
     params = sindy_params[filename]
@@ -186,21 +296,6 @@ def run_sindy(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_option
             **NATIVE_PYSINDY_DEFAULTS,
             **(native_options or {}),
         }
-        diff_config = {
-            **NATIVE_PYSINDY_DEFAULTS.get("differentiation", {}),
-            **native_config.get("differentiation", {}),
-            **lib_config.get("diff_kwargs", {}),
-        }
-        derivatives = pysindy_derivative_bundle(
-            data_arrays if len(data_arrays) > 1 else data_arrays[0],
-            x,
-            y,
-            z,
-            t,
-            variable_names,
-            max_orders,
-            diff_config,
-        )
         optimizer_config = {
             **NATIVE_PYSINDY_DEFAULTS["optimizer"],
             **native_config.get("optimizer", {}),
@@ -216,23 +311,34 @@ def run_sindy(data, x, y, z, t, filename, protocol=FIXED_PROTOCOL, native_option
             max_orders=max_orders,
         )
         optimizer_config = params["optimizer"]
-    crop_slices = sindy_library.build_crop_slices(data_arrays[0].shape, params.get("crop", 0))
+        crop_slices = sindy_library.build_crop_slices(
+            data_arrays[0].shape, params.get("crop", 0)
+        )
 
     results = []
     feature_names_by_target = []
     for target in targets:
-        target_name, features, feature_names, target_values = sindy_library.build_target_problem(
-            target,
-            params,
-            derivatives,
-            crop_slices,
-            data_arrays[0].shape,
-            x,
-            t,
-        )
         if protocol == NATIVE_PROTOCOL:
-            features, feature_names = remove_target_axis_derivatives(
-                features, feature_names, target
+            target_name, features, feature_names, target_values = build_native_problem(
+                data_arrays,
+                variable_names,
+                target,
+                x,
+                y,
+                z,
+                t,
+                max_orders,
+                native_config,
+            )
+        else:
+            target_name, features, feature_names, target_values = sindy_library.build_target_problem(
+                target,
+                params,
+                derivatives,
+                crop_slices,
+                data_arrays[0].shape,
+                x,
+                t,
             )
         result = fit_sparse_system(
             features,

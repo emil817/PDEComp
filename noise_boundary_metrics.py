@@ -23,6 +23,7 @@ from utils.protocols import (
     PROTOCOLS,
     ProtocolSkippedError,
     ProtocolUnavailableError,
+    benchmark_exit_code,
 )
 
 
@@ -116,11 +117,12 @@ def runner_args(args):
     return SimpleNamespace(
         device=args.device,
         solution_index=args.solution_index,
-        epde_best_pareto=args.epde_best_pareto,
+        epde_pareto_oracle=args.epde_pareto_oracle,
         protocol=args.protocol,
         native_max_iterations=args.native_max_iterations,
         native_max_samples=args.native_max_samples,
         allow_external_llm=args.allow_external_llm,
+        algorithm_seed=args.algorithm_seed,
     )
 
 
@@ -166,6 +168,15 @@ def measure_boundary(framework, module, dataset, target_name, noise_level, runs,
         "framework": framework,
         "protocol": args.protocol,
         "status": status if status != "ok" or valid_hd else "error",
+        "selection_policy": (
+            "ground_truth_pareto_oracle"
+            if framework == "epde" and args.epde_pareto_oracle
+            else (
+                f"framework_solution_index:{args.solution_index}"
+                if framework == "epde"
+                else ""
+            )
+        ),
         "dataset": dataset,
         "target": "system" if target_name == "__system__" else target_name,
         "noise_level": noise_level,
@@ -213,6 +224,7 @@ def write_rows(rows, output_file):
         "framework",
         "protocol",
         "status",
+        "selection_policy",
         "dataset",
         "target",
         "noise_level",
@@ -276,10 +288,20 @@ def parse_args():
     parser.add_argument("--output", default="")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--solution-index", type=int, default=0)
-    parser.add_argument("--epde-best-pareto", action="store_true")
+    parser.add_argument(
+        "--epde-pareto-oracle",
+        action="store_true",
+        help="Diagnostic upper bound only; selects an EPDE Pareto candidate using ground truth.",
+    )
     parser.add_argument("--native-max-iterations", type=int, default=None)
     parser.add_argument("--native-max-samples", type=int, default=None)
     parser.add_argument("--allow-external-llm", action="store_true")
+    parser.add_argument("--algorithm-seed", type=int, default=0)
+    parser.add_argument(
+        "--allow-empty",
+        action="store_true",
+        help="Return success even when every selected run is skipped or unsupported.",
+    )
     return parser.parse_args()
 
 
@@ -310,7 +332,7 @@ def main():
     write_rows(rows, output_file)
     print_rows(rows)
     print(f"\nSaved metrics to {output_file}")
-    return 1 if any(row.get("status") == "error" for row in rows) else 0
+    return benchmark_exit_code(rows, allow_empty=args.allow_empty)
 
 
 if __name__ == "__main__":

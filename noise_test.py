@@ -17,7 +17,7 @@ from clean_run_metrics import (
     load_framework_module,
     normalize_result,
     normalize_target,
-    select_best_epde_candidate,
+    select_epde_pareto_oracle,
 )
 from utils.dataloader import load_data
 from utils.protocols import (
@@ -26,7 +26,9 @@ from utils.protocols import (
     PROTOCOLS,
     ProtocolSkippedError,
     ProtocolUnavailableError,
+    benchmark_exit_code,
 )
+from utils.randomness import seed_everything
 
 
 ROOT = Path(__file__).resolve().parent
@@ -49,24 +51,21 @@ def noise_seed(run_index, base_seed=RANDOM_SEED):
 
 
 def set_random_seed(seed):
-    np.random.seed(seed)
-    try:
-        import torch
-    except ImportError:
-        return
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
+    """Backward-compatible alias for the shared algorithm seeding helper."""
+
+    seed_everything(seed)
 
 
-def add_noise(data, noise_level, scale=DEFAULT_NOISE_SCALE):
-    return data + noise_level * scale * np.std(data) * np.random.normal(size=data.shape)
+def add_noise(data, noise_level, scale=DEFAULT_NOISE_SCALE, rng=None):
+    if rng is None:
+        rng = np.random
+    return data + noise_level * scale * np.std(data) * rng.normal(size=data.shape)
 
 
-def add_dataset_noise(data, noise_level):
+def add_dataset_noise(data, noise_level, rng=None):
     if isinstance(data, list):
-        return [add_noise(values, noise_level) for values in data]
-    return add_noise(data, noise_level)
+        return [add_noise(values, noise_level, rng=rng) for values in data]
+    return add_noise(data, noise_level, rng=rng)
 
 
 def active_terms(result, target_index, dataset=None, framework="pysindy", tolerance=COEFFICIENT_TOLERANCE):
@@ -91,6 +90,7 @@ def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=Non
     native_options = {
         "device": getattr(args, "device", "cpu"),
         "allow_external_llm": getattr(args, "allow_external_llm", False),
+        "seed": getattr(args, "algorithm_seed", 0),
     }
     if getattr(args, "native_max_iterations", None) is not None:
         native_options["max_iterations"] = args.native_max_iterations
@@ -103,7 +103,7 @@ def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=Non
     if framework == "epde":
         device = getattr(args, "device", "cpu")
         solution_index = getattr(args, "solution_index", 0)
-        return_all = getattr(args, "epde_best_pareto", False)
+        return_all = getattr(args, "epde_pareto_oracle", False)
         return module.run_epde(
             data,
             x,
@@ -129,22 +129,34 @@ def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=Non
 
 
 def run_dataset_at_noise(dataset, noise_level, seed, framework="pysindy", module=None, args=None):
-    set_random_seed(seed)
     module = module or load_framework_module(framework)
     data, x, y, z, t = load_data(dataset)
-    noised_data = add_dataset_noise(data, noise_level)
+    noise_rng = np.random.RandomState(seed)
+    noised_data = add_dataset_noise(data, noise_level, rng=noise_rng)
+
+    # Isolate optimizer variation from the varying noisy-data realization.
+    set_random_seed(getattr(args, "algorithm_seed", 0))
 
     with contextlib.redirect_stdout(io.StringIO()):
         result = run_framework_on_data(framework, module, noised_data, x, y, z, t, dataset, args=args)
 
-    if framework == "epde" and getattr(args, "epde_best_pareto", False):
-        result = select_best_epde_candidate(dataset, result)
+    if framework == "epde" and getattr(args, "epde_pareto_oracle", False):
+        result = select_epde_pareto_oracle(dataset, result)
 
     return normalize_result(result)
 
 
 def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args):
     rows = []
+    selection_policy = (
+        "ground_truth_pareto_oracle"
+        if framework == "epde" and getattr(args, "epde_pareto_oracle", False)
+        else (
+            f"framework_solution_index:{getattr(args, 'solution_index', 0)}"
+            if framework == "epde"
+            else ""
+        )
+    )
     try:
         clean_result = run_dataset_at_noise(
             dataset, 0, base_seed, framework=framework, module=module, args=args
@@ -155,6 +167,7 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
             "framework": framework,
             "protocol": args.protocol,
             "status": status,
+            "selection_policy": selection_policy,
             "success_reference": args.success_reference,
             "dataset": dataset,
             "noise_level": "",
@@ -173,6 +186,7 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
             "framework": framework,
             "protocol": args.protocol,
             "status": "error",
+            "selection_policy": selection_policy,
             "success_reference": args.success_reference,
             "dataset": dataset,
             "noise_level": "",
@@ -291,6 +305,7 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
                     "framework": framework,
                     "protocol": args.protocol,
                     "status": "ok",
+                    "selection_policy": selection_policy,
                     "success_reference": args.success_reference,
                     "dataset": dataset,
                     "noise_level": noise_level,
@@ -310,6 +325,7 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
                     "framework": framework,
                     "protocol": args.protocol,
                     "status": "ok",
+                    "selection_policy": selection_policy,
                     "success_reference": args.success_reference,
                     "dataset": dataset,
                     "noise_level": noise_level,
@@ -328,6 +344,7 @@ def summarize_dataset(framework, module, dataset, levels, runs, base_seed, args)
                 "framework": framework,
                 "protocol": args.protocol,
                 "status": "error",
+                "selection_policy": selection_policy,
                 "success_reference": args.success_reference,
                 "dataset": dataset,
                 "noise_level": noise_level,
@@ -350,6 +367,7 @@ def write_rows(rows, output_file):
         "framework",
         "protocol",
         "status",
+        "selection_policy",
         "success_reference",
         "dataset",
         "noise_level",
@@ -430,10 +448,25 @@ def parse_args():
     parser.add_argument("--output", default=None)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--solution-index", type=int, default=0)
-    parser.add_argument("--epde-best-pareto", action="store_true")
+    parser.add_argument(
+        "--epde-pareto-oracle",
+        action="store_true",
+        help="Diagnostic upper bound only; selects an EPDE Pareto candidate using ground truth.",
+    )
     parser.add_argument("--native-max-iterations", type=int, default=None)
     parser.add_argument("--native-max-samples", type=int, default=None)
     parser.add_argument("--allow-external-llm", action="store_true")
+    parser.add_argument(
+        "--algorithm-seed",
+        type=int,
+        default=0,
+        help="Framework RNG seed, held fixed while the noise realization seed varies.",
+    )
+    parser.add_argument(
+        "--allow-empty",
+        action="store_true",
+        help="Return success even when every selected run is skipped or unsupported.",
+    )
     return parser.parse_args()
 
 
@@ -465,7 +498,7 @@ def main():
     write_rows(all_rows, output_file)
     print_target_band_levels(all_rows, args.success_min, args.success_max)
     print(f"\nSaved sweep summary to {output_file}")
-    return 1 if any(row.get("status") == "error" for row in all_rows) else 0
+    return benchmark_exit_code(all_rows, allow_empty=args.allow_empty)
 
 
 if __name__ == "__main__":

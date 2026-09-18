@@ -2,7 +2,9 @@
 
 import os
 import random
+import re
 import sys
+import threading
 from contextlib import contextmanager
 from pathlib import Path
 from types import ModuleType
@@ -15,6 +17,8 @@ from utils.protocols import ProtocolSkippedError, ProtocolUnavailableError
 
 
 EDL_SOURCE_ROOT = Path(__file__).resolve().parent / "EDL"
+_EDL_IMPORT_LOCK = threading.RLock()
+_EDL_EVALUATOR_LOCK = threading.RLock()
 
 
 def _ensure_edl_import_paths():
@@ -54,23 +58,24 @@ def _openai_server_func(
 def _load_optimizer_functions():
     """Import EDL's search loop with a remote-only prompt client."""
 
-    _ensure_edl_import_paths()
-    if "optimzier_utils" in sys.modules:
-        module = sys.modules["optimzier_utils"]
-        return module.call_optimizer, module.organize
+    with _EDL_IMPORT_LOCK:
+        _ensure_edl_import_paths()
+        if "optimzier_utils" in sys.modules:
+            module = sys.modules["optimzier_utils"]
+            return module.call_optimizer, module.organize
 
-    original_prompt_utils = sys.modules.get("prompt_utils")
-    prompt_utils = ModuleType("prompt_utils")
-    prompt_utils.call_openai_server_func = _openai_server_func
-    sys.modules["prompt_utils"] = prompt_utils
-    try:
-        from optimzier_utils import call_optimizer, organize
-    finally:
-        if original_prompt_utils is None:
-            sys.modules.pop("prompt_utils", None)
-        else:
-            sys.modules["prompt_utils"] = original_prompt_utils
-    return call_optimizer, organize
+        original_prompt_utils = sys.modules.get("prompt_utils")
+        prompt_utils = ModuleType("prompt_utils")
+        prompt_utils.call_openai_server_func = _openai_server_func
+        sys.modules["prompt_utils"] = prompt_utils
+        try:
+            from optimzier_utils import call_optimizer, organize
+        finally:
+            if original_prompt_utils is None:
+                sys.modules.pop("prompt_utils", None)
+            else:
+                sys.modules["prompt_utils"] = original_prompt_utils
+        return call_optimizer, organize
 
 
 def _canonical_term(term):
@@ -86,12 +91,22 @@ def _canonical_term(term):
 def _ordered_result_terms(equation):
     """Return terms in the coefficient order retained by EDL's evaluator."""
 
+    # EDL's linear evaluator rebuilds exp_str from its fitted func_strs in
+    # coefficient order, joined by " + ". Equation.terms_str cannot be used for
+    # ordering because upstream deliberately shuffles it for prompt diversity.
     expression_terms = [
         _canonical_term(term)
-        for term in str(equation.exp_str).split(" + ")
+        for term in re.split(r"\s+\+\s+", str(equation.exp_str).strip())
         if term.strip()
     ]
-    if len(expression_terms) == len(equation.coef):
+    structured_terms = [
+        _canonical_term(term) for term in getattr(equation, "terms_str", [])
+    ]
+    terms_agree = (
+        not structured_terms
+        or sorted(expression_terms) == sorted(structured_terms)
+    )
+    if len(expression_terms) == len(equation.coef) and terms_agree:
         return expression_terms
     raise ValueError(
         "EDL result cannot be mapped to benchmark coefficients: "
@@ -149,12 +164,15 @@ def _native_problem(data, x, t, filename):
 def _external_evaluator_data(lhs, features):
     import evaluation.scorer as scorer
 
-    original = scorer.data_load
-    scorer.data_load = lambda _name: (lhs, features)
-    try:
-        yield scorer
-    finally:
-        scorer.data_load = original
+    # EDL imports data_load into module scope. Serialize this short-lived global
+    # replacement so concurrent adapters cannot observe each other's datasets.
+    with _EDL_EVALUATOR_LOCK:
+        original = scorer.data_load
+        scorer.data_load = lambda _name: (lhs, features)
+        try:
+            yield scorer
+        finally:
+            scorer.data_load = original
 
 
 def run_native_edl(data, x, y, z, t, filename, options=None):

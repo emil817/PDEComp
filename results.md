@@ -4,7 +4,7 @@ Current PySINDy, DeepMoD, VWSR, DISCOVER, and EDL comparison. For multi-equation
 systems, only the aggregate `system` row is shown.
 
 All numerical tables below use the controlled `fixed` protocol. Results from
-the new near-native protocol are written separately under
+the native protocol are written separately under
 `results/<framework>/native/` and are not mixed with these measurements.
 
 ## Clean Runs

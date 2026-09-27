@@ -17,14 +17,14 @@ DEComp provides two complementary comparison protocols:
   selection and coefficient estimation.
 - **`native`** keeps the datasets and metrics common, but lets each complete
   framework use its own preprocessing, differentiation, library representation,
-  and search procedure. Only broad complexity limits are aligned, without
-  dataset-specific optimizer tuning.
+  and search procedure. Broad complexity limits are aligned; any small
+  dataset-level stability overrides are explicit in `data/config.py`.
 
 The native adapter contract supplies raw observations, coordinates, dependent
 variable names, the requested target derivative, and a broad maximum derivative
 order. It does not supply the fixed feature matrix, fixed derivatives, or
-dataset-specific optimizer settings. Framework limitations are reported as
-`unsupported` instead of being emulated with the fixed pipeline.
+hidden optimizer settings. Framework limitations are reported as `unsupported`
+instead of being emulated with the fixed pipeline.
 
 The protocols answer different questions: `fixed` compares optimizers under
 controlled inputs, while `native` compares practical framework pipelines.
@@ -48,10 +48,14 @@ The benchmark always keeps data loading and metric calculation common. In the
   builds the shared candidate library from `utils/sindy_library.py`, computes
   derivatives with `utils/derivatives.py`, and applies the optimizer configured
   in `data/config.py`. In `native`, derivatives come from PySINDy's
-  `FiniteDifference`, candidate terms come from PySINDy's `PolynomialLibrary`,
-  `FourierLibrary`, and `PDELibrary`, and one framework-level STLSQ
-  configuration is used. Dataset-specific fixed-mode crop, differentiation,
-  library-token, and optimizer settings are not reused.
+  `FiniteDifference`. ODE and system spaces are assembled entirely from
+  PySINDy's `PolynomialLibrary`, `CustomLibrary`, and `GeneralizedLibrary`.
+  Scalar PDEs combine `PDELibrary` with the benchmark-only coordinate and
+  compound terms through `GeneralizedLibrary`; Navier-Stokes keeps its compact
+  specialized terms. Candidate counts match or exceed `fixed` without reusing
+  its precomputed feature matrix. STLSQ is the default sparse optimizer; the few
+  clean-stability overrides that use FROLS or different STLSQ scaling are listed
+  in `NATIVE_PYSINDY_DATASET_OVERRIDES`.
 - **DeepMoD** is run through its sparse estimators on the same precomputed
   NumPy feature matrices and target derivatives. The wrapper uses DeePyMoD's
   optimizer classes, then maps selected terms back to the shared benchmark
@@ -99,7 +103,10 @@ python clean_run_metrics.py deepmod --protocol native --datasets burgers_data.ma
 ```
 
 The output CSV contains runtime, library size, discovered active terms, expected
-terms, and relative coefficient error.
+terms, and coefficient diagnostics. `coefficient_error` is reported only when
+the discovered structure is correct; `relative_error_sum` is the diagnostic
+error for the best structural match and can also be present for an incorrect
+structure.
 
 `noise_test.py` is the runner with noisy data:
 
@@ -238,7 +245,10 @@ Clean runs report:
 
 - `runtime_seconds`: wall-clock time for one clean run;
 - `library_size`: number of candidate terms;
-- `relative_error_sum`: sum of relative coefficient errors for expected terms;
+- `relative_error_sum`: diagnostic sum of relative coefficient errors for the
+  best ground-truth match;
+- `coefficient_error`: the same coefficient metric, reported only for a
+  structurally correct equation;
 - `missing_terms` and `extra_terms`: structural differences against ground truth.
 
 Every CSV also includes `protocol` and `status`. Status is `ok`, `unsupported`,

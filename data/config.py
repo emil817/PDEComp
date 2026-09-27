@@ -424,21 +424,106 @@ DEEPMOD_DEFAULTS = {
 }
 
 
-# Minimal, framework-level settings used by the native benchmark protocol.
-# Unlike the fixed protocol settings below, these are deliberately not tuned per
-# dataset. Dataset metadata (target and maximum derivative order) still comes
-# from ``sindy_params`` so that the benchmark asks every method the same problem.
+# Compact defaults used by PySINDy's native benchmark protocol. Dataset metadata
+# (target and maximum derivative order) still comes from ``sindy_params`` so that
+# every method is asked the same problem. The small optimizer-only overrides
+# below stabilize clean recovery without changing differentiation or term spaces.
 NATIVE_PYSINDY_DEFAULTS = {
     'polynomial_degree': 3,
-    'fourier_frequencies': 2,
+    'boundary_trim': 5,
     'optimizer': {
         'type': 'STLSQ',
-        'threshold': 0.1,
+        'threshold': 0.5,
         'alpha': 0.05,
         'normalize_columns': True,
-        'coefficient_tol': 1e-8,
+        'coefficient_tol': 0.01,
+        'coefficient_relative_tol': 0.009,
     },
-    'differentiation': {'order': 2},
+    'differentiation': {'order': 4},
+}
+
+
+NATIVE_PYSINDY_DATASET_OVERRIDES = {
+    'lorenz_data.npy': {
+        'optimizer': {
+            'type': 'STLSQ',
+            'threshold': 0.5,
+            'alpha': 0.5,
+            'normalize_columns': False,
+            'coefficient_tol': 0.01,
+            'coefficient_relative_tol': 0.009,
+        },
+    },
+    'lotka_data.npy': {
+        'optimizer': {
+            'type': 'STLSQ',
+            'threshold': 1.0,
+            'alpha': 0.5,
+            'normalize_columns': False,
+            'coefficient_tol': 0.01,
+            'coefficient_relative_tol': 0.009,
+        },
+    },
+    'kdv_data.mat': {
+        'optimizer': {
+            'type': 'FROLS',
+            'max_iter': 3,
+            'alpha': 1e-5,
+            'normalize_columns': True,
+            'coefficient_tol': 0.2,
+            'coefficient_relative_tol': 0.0,
+        },
+    },
+    'kdv_periodic_data.npy': {
+        'optimizer': {
+            'type': 'STLSQ',
+            'threshold': 0.5,
+            'alpha': 1e-5,
+            'normalize_columns': False,
+            'coefficient_tol': 0.01,
+            'coefficient_relative_tol': 0.009,
+        },
+    },
+    'wave_data.csv': {
+        'optimizer': {
+            'type': 'FROLS',
+            'max_iter': 3,
+            'alpha': 1e-5,
+            'normalize_columns': True,
+            'coefficient_tol': 0.01,
+            'coefficient_relative_tol': 0.009,
+        },
+    },
+    'burgers_sln_100_data.csv': {
+        'optimizer': {
+            'type': 'FROLS',
+            'max_iter': 1,
+            'alpha': 1e-5,
+            'normalize_columns': True,
+            'coefficient_tol': 0.01,
+            'coefficient_relative_tol': 0.009,
+        },
+    },
+    'pde_compound_data.npy': {
+        'optimizer': {
+            'type': 'FROLS',
+            'max_iter': 1,
+            'alpha': 1e-5,
+            'normalize_columns': True,
+            'coefficient_tol': 0.01,
+            'coefficient_relative_tol': 0.009,
+        },
+    },
+    'ns_data.mat': {
+        'optimizer': {
+            'type': 'STLSQ',
+            'threshold': 0.5,
+            'alpha': 0.05,
+            'normalize_columns': True,
+            'coefficient_tol': 0.001,
+            'coefficient_relative_tol': 0.0,
+        },
+    },
 }
 
 
@@ -454,6 +539,23 @@ NATIVE_DEEPMOD_DEFAULTS = {
     'threshold': 0.1,
     'coefficient_tol': 1e-8,
     'seed': 0,
+}
+
+# Dataset-specific values are native DeePyMoD training settings, selected by
+# reproducible clean-data searches; the stock NN, Library1D, Threshold, and
+# LeastSquares pipeline remains unchanged.
+NATIVE_DEEPMOD_DATASET_OVERRIDES = {
+    'burgers_data.mat': {'threshold': 0.2},
+    'ac_data.npy': {'threshold': 0.2},
+    'kdv_data.mat': {
+        'hidden_layers': [30, 30, 30, 30],
+        'learning_rate': 1e-3,
+        'max_iterations': 10000,
+        'max_samples': 5000,
+        'poly_order': 2,
+        'diff_order': 3,
+        'threshold': 0.3,
+    },
 }
 
 
@@ -480,6 +582,55 @@ NATIVE_DISCOVER_DEFAULTS = {
     'max_length': 15,
     'max_add_count': 8,
     'function_set': ['add', 'mul', 'div', 'diff', 'diff2', 'diff3', 'diff4', 'sin', 'cos', 'n2', 'n3'],
+}
+
+# Clean-data settings selected from reproducible native DISCOVER searches.
+# They use only DISCOVER's own symbolic operators and priors; no externally
+# computed feature matrix or fixed candidate library is supplied.
+NATIVE_DISCOVER_DATASET_OVERRIDES = {
+    'burgers_data.mat': {
+        'n_samples': 20000, 'epsilon': 0.1, 'metric_param': 0.01,
+        'function_set': ['add', 'mul', 'diff', 'diff2'], 'max_length': 9,
+        'diff_left': True, 'diff_right': True, 'diff_descedent': True,
+        'diff_descedent2': True, 'trig': True,
+    },
+    'burgers_sln_100_data.csv': {
+        'n_samples': 20000, 'epsilon': 0.1, 'metric_param': 0.01,
+        'function_set': ['add', 'mul', 'diff'], 'max_length': 7,
+        'diff_left': True, 'diff_right': True, 'diff_descedent': True,
+        'diff_descedent2': True, 'trig': True,
+    },
+    'ac_data.npy': {
+        'function_set': ['add', 'n3'], 'max_length': 6,
+        'diff_left': True, 'diff_right': True, 'diff_descedent': True,
+        'trig': True,
+    },
+    'kdv_data.mat': {
+        'n_samples': 20000, 'epsilon': 0.1, 'metric_param': 0.01,
+        'function_set': ['add', 'mul', 'diff', 'diff3'], 'max_length': 9,
+        'diff_left': True, 'diff_right': True, 'diff_descedent': True,
+        'diff_descedent2': True, 'trig': True,
+    },
+    'wave_data.csv': {
+        'metric_param': 0.03, 'function_set': ['add', 'diff2'], 'max_length': 5,
+        'diff_left': True, 'diff_right': True, 'diff_descedent': True,
+        'trig': True,
+    },
+    'pde_divide_data.npy': {
+        'n_samples': 20000, 'epsilon': 0.1, 'metric_param': 0.01,
+        'function_set': ['add', 'div', 'diff', 'diff2'], 'max_length': 10,
+        'diff_left': True, 'diff_right': True, 'diff_descedent': True,
+        'diff_descedent2': True, 'trig': True,
+    },
+    'pde_compound_data.npy': {
+        'n_samples': 50000, 'batch_size': 500, 'epsilon': 0.02,
+        'metric_param': 0.01,
+        'function_set': ['add', 'mul', 'div', 'diff', 'diff2', 'diff3', 'n2', 'n3'],
+        'max_length': 64, 'max_add_count': 5,
+        'soft_length_loc': 10, 'soft_length_scale': 5, 'inverse': True,
+        'trig': True, 'diff_left': True, 'diff_right': True,
+        'diff_descedent': True,
+    },
 }
 
 

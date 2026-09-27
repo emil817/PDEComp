@@ -458,6 +458,9 @@ def summarize_target(framework, dataset, result, target_index, runtime_seconds):
     active = active_features(fitted_coefficients)
     truth_match = best_true_coefficient_match(dataset, target, fitted_coefficients)
 
+    structure_hamming = ""
+    structure_success = ""
+    coefficient_error = ""
     if truth_match is None:
         expected = set()
         missing = set()
@@ -470,10 +473,11 @@ def summarize_target(framework, dataset, result, target_index, runtime_seconds):
         extra = truth_match["extra"]
         error_sum = truth_match["relative_error_sum"]
         truth_defined = True
+        structure_hamming = truth_match["hamming"]
+        structure_success = structure_hamming == 0
+        if structure_success:
+            coefficient_error = error_sum
 
-    structure_hamming = ""
-    structure_success = ""
-    coefficient_error = ""
     if framework == "epde":
         equation_texts = result.get("equation_texts") or []
         if target_index < len(equation_texts):
@@ -528,9 +532,29 @@ def summarize_system(framework, dataset, target_rows, runtime_seconds, result=No
     truth_defined = len(error_values) == len(target_rows)
     missing_parts = [row["missing_terms"] for row in target_rows if row["missing_terms"]]
     extra_parts = [row["extra_terms"] for row in target_rows if row["extra_terms"]]
-    structure_hamming = ""
-    structure_success = ""
-    coefficient_error = ""
+    hamming_values = [
+        row["structure_hamming"]
+        for row in target_rows
+        if row["structure_hamming"] != ""
+    ]
+    structure_hamming = (
+        sum(hamming_values) if len(hamming_values) == len(target_rows) else ""
+    )
+    structure_success = (
+        all(row["structure_success"] is True for row in target_rows)
+        if structure_hamming != ""
+        else ""
+    )
+    coefficient_values = [
+        row["coefficient_error"]
+        for row in target_rows
+        if row["coefficient_error"] != ""
+    ]
+    coefficient_error = (
+        sum(coefficient_values)
+        if structure_success and len(coefficient_values) == len(target_rows)
+        else ""
+    )
     if framework == "epde" and result is not None:
         equation_texts = normalize_result(result).get("equation_texts") or []
         structure = epde_structural_metrics(

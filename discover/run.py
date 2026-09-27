@@ -19,6 +19,7 @@ sys.path.insert(0, str(DSO_ROOT))
 from data.config import (
     DISCOVER_DATASETS,
     DISCOVER_DEFAULTS,
+    NATIVE_DISCOVER_DATASET_OVERRIDES,
     NATIVE_DISCOVER_DEFAULTS,
     discover_params,
     sindy_params,
@@ -51,6 +52,7 @@ def build_run_params(filename, protocol=FIXED_PROTOCOL, native_options=None):
     params.update(discover_params[filename])
     if protocol == NATIVE_PROTOCOL:
         params.update(NATIVE_DISCOVER_DEFAULTS)
+        params.update(NATIVE_DISCOVER_DATASET_OVERRIDES.get(filename, {}))
         params.update(native_options or {})
         if native_options and native_options.get("max_iterations") is not None:
             params["n_samples"] = int(native_options["max_iterations"])
@@ -195,7 +197,27 @@ def build_external_problem(data, x, y, z, t, filename, params, protocol=FIXED_PR
     }
 
 
-def discover_overrides(filename, params):
+def discover_overrides(filename, params, native_ode=False):
+    prior = {
+        "length": {"min_": 1, "max_": params.get("max_length", 15), "on": True},
+        "repeat": {"tokens": "add", "min_": None, "max_": params.get("max_add_count", 8), "on": True},
+        "inverse": {"on": params.get("inverse", False)},
+        "trig": {"on": params.get("trig", False)},
+        "diff_left": {"on": params.get("diff_left", False)},
+        "diff_right": {"on": params.get("diff_right", False)},
+        "diff_descedent": {"on": params.get("diff_descedent", False)},
+        "diff_descedent2": {"on": params.get("diff_descedent2", False)},
+        "soft_length": {
+            "loc": params.get("soft_length_loc", 5),
+            "scale": params.get("soft_length_scale", 3),
+            "on": True,
+        },
+    }
+    if native_ode:
+        # An ODE with u_tt as the target may use u_t on the right-hand side,
+        # but a nested diff would recreate u_tt and leak the target into theta.
+        prior["repeat"] = {"tokens": "diff", "min_": None, "max_": 1, "on": True}
+
     return {
         "experiment": {
             "logdir": str(RESULTS_DIR),
@@ -224,16 +246,7 @@ def discover_overrides(filename, params):
         "controller": {
             "attention": False,
         },
-        "prior": {
-            "length": {"min_": 1, "max_": params.get("max_length", 15), "on": True},
-            "repeat": {"tokens": "add", "min_": None, "max_": params.get("max_add_count", 8), "on": True},
-            "inverse": {"on": False},
-            "trig": {"on": False},
-            "diff_left": {"on": False},
-            "diff_right": {"on": False},
-            "diff_descedent": {"on": False},
-            "soft_length": {"loc": 5, "scale": 3, "on": True},
-        },
+        "prior": prior,
         "gp_meld": {
             "run_gp_meld": False,
         },
@@ -299,6 +312,15 @@ def term_to_feature(term, feature_names=None, ode=False):
         "mul(u1,diff2(u1,x1))": "u u_xx",
         "mul(diff2(u1,x1),u1)": "u u_xx",
         "mul(diff(u1,x1),diff(u1,x1))": "u_x^2",
+        "diff(mul(u1,u1),x1)": "u u_x",
+        "diff(n2(u1),x1)": "u u_x",
+        "sin(add(x1,x1))": "sin(2 x)",
+        "mul(diff(u1,x1),sin(add(x1,x1)))": "u_x sin(2 x)",
+        "mul(sin(add(x1,x1)),diff(u1,x1))": "u_x sin(2 x)",
+        "diff(mul(u1,diff(u1,x1)),x1)": "d_x(u u_x)",
+        "diff(mul(diff(u1,x1),u1),x1)": "d_x(u u_x)",
+        "diff2(mul(u1,u1),x1)": "d_x(u u_x)",
+        "diff2(n2(u1),x1)": "d_x(u u_x)",
         "div(diff(u1,x1),x1)": "(1/x) u_x",
         "sin(x1)": "sin(x)",
         "cos(x1)": "cos(x)",
@@ -317,10 +339,25 @@ def term_to_feature(term, feature_names=None, ode=False):
             "cos(x)": "cos(t)",
             "sin(x1)": "sin(t)",
             "cos(x1)": "cos(t)",
+            "sin(2 x)": "sin(2 t)",
+            "u_x sin(2 x)": "u_t sin(2 t)",
         }
         feature = ode_replacements.get(feature, feature)
         feature = feature.replace("diff(u1,x1)", "u_t")
     return feature
+
+
+def term_coefficient_scale(term):
+    """Convert algebraically equivalent DISCOVER terms to benchmark units."""
+
+    if repr(term) in {
+        "diff(mul(u1,u1),x1)",
+        "diff(n2(u1),x1)",
+        "diff2(mul(u1,u1),x1)",
+        "diff2(n2(u1),x1)",
+    }:
+        return 2.0
+    return 1.0
 
 
 def extract_result(train_result, filename, target_name, elapsed_time, params, protocol=FIXED_PROTOCOL):
@@ -334,6 +371,10 @@ def extract_result(train_result, filename, target_name, elapsed_time, params, pr
     coefficients = [float(value) for value in np.asarray(program.w, dtype=float).reshape(-1)]
     is_ode = np.asarray(data_load.EXTERNAL_PDE_PROBLEMS[filename]["u"][0]).shape[1] == 1
     selected_features = [term_to_feature(term, feature_names, ode=is_ode) for term in terms]
+    coefficients = [
+        coefficient * term_coefficient_scale(terms[index]) if index < len(terms) else coefficient
+        for index, coefficient in enumerate(coefficients)
+    ]
 
     if feature_names:
         features = list(feature_names)
@@ -406,9 +447,11 @@ def run_discover(
     start = time.perf_counter()
     try:
         with native_library_mode(protocol):
+            is_native_ode = protocol == NATIVE_PROTOCOL and np.asarray(problem["u"][0]).shape[1] == 1
+            limit_ode_derivative = is_native_ode and "diff" in params["function_set"]
             model = DeepSymbolicOptimizer_PDE(
                 str(discover_config_path(params)),
-                pde_config=discover_overrides(filename, params),
+                pde_config=discover_overrides(filename, params, native_ode=limit_ode_derivative),
             )
             raw_result = model.train()
         train_result = raw_result[0] if isinstance(raw_result, list) else raw_result

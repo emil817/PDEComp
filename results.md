@@ -339,3 +339,104 @@ supported by all five tools.
 | ks_data.mat | u_t | 0.007155 | 0.00177 | **0.01027** | 0.0002 | 0.000717 |
 | burgers_sln_100_data.csv | u_t | **0.97** | 0.45 | 0.00365 | 0.06 | 0.3 |
 | ODE_simple_discovery | u_t | 10 | 35 | **110** | 38 | 45 |
+
+## Native PySINDy Clean Runs
+
+These results use PySINDy's own `FiniteDifference` differentiation and native
+feature-library classes. ODE and system spaces use `PolynomialLibrary`,
+`CustomLibrary`, and `GeneralizedLibrary`. Scalar PDEs use `PDELibrary` combined
+with the required benchmark-specific terms through `GeneralizedLibrary`.
+Candidate counts match or exceed the corresponding `fixed` libraries.
+
+| Dataset | Target | Time, s | Library | HD | RE sum |
+|---|---:|---:|---:|---:|---:|
+| ode_data.npy | u_tt | 0.1083 | 15 | 0 | 0.0529096 |
+| vdp_data.npy | u_tt | 0.0610 | 15 | 0 | 0.00449217 |
+| lorenz_data.npy | system | 0.4676 | 60 | 0 | 1.04872e-07 |
+| lotka_data.npy | system | 0.1098 | 20 | 0 | 0.00441917 |
+| burgers_data.mat | u_t | 0.2361 | 33 | 0 | 0.00145947 |
+| ac_data.npy | u_t | 0.0821 | 33 | 0 | 0.000151829 |
+| kdv_data.mat | u_t | 2.2426 | 33 | 0 | 0.272649 |
+| kdv_periodic_data.npy | u_t | 0.0856 | 33 | 0 | 0.000747065 |
+| wave_data.csv | u_tt | 0.0952 | 33 | 0 | 0.0146559 |
+| pde_divide_data.npy | u_t | 0.2042 | 33 | 0 | 0.00100387 |
+| pde_compound_data.npy | u_t | 0.6854 | 33 | 0 | 0.000276258 |
+| ns_data.mat | system | 1.4404 | 26 | 0 | 0.00479388 |
+| ks_data.mat | u_t | 1.1222 | 33 | 0 | 0.000345755 |
+| burgers_sln_100_data.csv | u_t | 0.0953 | 33 | 0 | 1.67583e-08 |
+| ODE_simple_discovery | u_t | 0.0096 | 11 | 0 | 1.05957e-06 |
+
+All 15 configured datasets have the correct clean structure (`HD = 0`), with a
+mean runtime of `0.4697` s per dataset. The largest coefficient error is on
+`kdv_data.mat` (`RE = 0.272649`); its structure is nevertheless recovered
+exactly.
+
+## Native DeepMoD Clean Runs
+
+These results use DeePyMoD's stock neural-network/autograd pipeline and its
+native `Library1D`. A reproducible native grid search selected
+`threshold=0.2` for Burgers and Allen--Cahn, and a standard compact
+`poly_order=2`, `diff_order=3` library with 10,000 training iterations for
+KdV. The remaining scalar PDEs use the default 20-term library.
+Consequently, DeePyMoD supports only scalar 1D PDEs with `u_t` on the left-hand side;
+ODEs, coupled systems, Navier--Stokes, and the wave equation (`u_tt`) are
+reported as unsupported rather than assigned a synthetic score.
+
+| Dataset | Target | Status | Time, s | Library | HD | RE (correct structure only) |
+|---|---:|---|---:|---:|---:|---:|
+| ode_data.npy | - | unsupported | - | - | - | - |
+| vdp_data.npy | - | unsupported | - | - | - | - |
+| lorenz_data.npy | - | unsupported | - | - | - | - |
+| lotka_data.npy | - | unsupported | - | - | - | - |
+| burgers_data.mat | u_t | **correct** | 691.1441 | 20 | **0** | 0.0339529 |
+| ac_data.npy | u_t | **correct** | 505.6355 | 20 | **0** | 0.0429517 |
+| kdv_data.mat | u_t | **correct** | 303.2474 | 12 | **0** | 0.127069 |
+| kdv_periodic_data.npy | u_t | incorrect | 550.1202 | 20 | 6 | - |
+| wave_data.csv | - | unsupported | - | - | - | - |
+| pde_divide_data.npy | u_t | incorrect | 768.8957 | 20 | 4 | - |
+| pde_compound_data.npy | u_t | incorrect | 788.9396 | 20 | 3 | - |
+| ns_data.mat | - | unsupported | - | - | - | - |
+| ks_data.mat | u_t | incorrect | 725.0047 | 20 | 13 | - |
+| burgers_sln_100_data.csv | u_t | incorrect | 722.4165 | 20 | 2 | - |
+| ODE_simple_discovery | - | unsupported | - | - | - | - |
+
+With these native settings, DeepMoD recovers 3 of 8 executable scalar PDEs.
+Three of the remaining five require terms absent from `Library1D`
+(`sin(x)cos(t)`, `(1/x)u_x`, or `u_x^2`), so parameter tuning alone cannot
+recover them. Kuramoto--Sivashinsky and `burgers_sln_100_data.csv` remain
+expressible but structurally unstable. For these two, the grid search covered
+thresholds, compact libraries, seed sweeps, longer training, SIREN,
+`TrainTestPeriodic`, and DeePyMoD's PDEFIND; the best observed values were
+`HD=2` and `HD=1`, respectively, not exact recovery. The mean runtime over the
+eight executable PDEs is `631.93` s on CPU, substantially longer than native
+PySINDy.
+
+## Native DISCOVER Clean Runs
+
+These results use DISCOVER Mode 1 directly: its finite-difference derivatives
+and symbolic grammar. The selected settings only configure DISCOVER's own
+operators and standard grammar priors; no fixed external feature library is
+supplied. The wrapper also prevents an ODE target derivative from being
+recreated by nested differentiation on the right-hand side. DISCOVER supports
+scalar ODEs and scalar 1D PDEs; systems are outside this native interface. A
+finite library size is not defined for its grammar.
+
+| Dataset | Target | Status | Time, s | HD | RE (correct structure only) |
+|---|---:|---|---:|---:|---:|
+| ode_data.npy | u_tt | incorrect | 12.3054 | 3 | - |
+| vdp_data.npy | u_tt | incorrect | 7.1456 | 2 | - |
+| ODE_simple_discovery | u_t | incorrect | 8.9123 | 2 | - |
+| burgers_data.mat | u_t | **correct** | 26.8320 | **0** | 0.0031902 |
+| burgers_sln_100_data.csv | u_t | **correct** | 16.7887 | **0** | 0.0000569 |
+| ac_data.npy | u_t | **correct** | 8.2554 | **0** | 0.0133828 |
+| kdv_data.mat | u_t | **correct** | 33.4110 | **0** | 0.0061692 |
+| kdv_periodic_data.npy | u_t | incorrect | 9.5192 | 4 | - |
+| wave_data.csv | u_tt | **correct** | 6.1373 | **0** | 0.2133631 |
+| pde_divide_data.npy | u_t | **correct** | 23.5118 | **0** | 0.0028979 |
+| pde_compound_data.npy | u_t | incorrect | 169.8716 | 1 | - |
+| ks_data.mat | u_t | incorrect | 123.3500 | 3 | - |
+
+Six of 12 supported runs reach `HD = 0` (`37.17` s mean runtime). The periodic
+KdV forcing is not expressible by the current one-coordinate native grammar:
+it needs both `x` and `t`. The remaining ODE, PDE-compound, and KS cases remain
+structurally unstable under the tested Mode 1 configurations.

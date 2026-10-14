@@ -1,0 +1,5597 @@
+{
+  "schema_version": 1,
+  "description": "Complete resource-calibrated grid; every grammar must cover all selected laws; no skipped pairs.",
+  "bounds": {
+    "field_degree": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "space_order": [
+      4,
+      5
+    ],
+    "time_order": [
+      1,
+      2
+    ],
+    "trig_frequency": [
+      2,
+      3
+    ],
+    "coordinate_power": [
+      1,
+      2
+    ],
+    "max_factors": [
+      2
+    ],
+    "derivative_interactions": [
+      "squares",
+      "all"
+    ],
+    "time_scope": [
+      "target_field",
+      "all_fields"
+    ]
+  },
+  "calibration": {
+    "budgets": {
+      "max_features": 6000,
+      "max_matrix_mb": 256.0,
+      "max_working_mb": 2048.0
+    },
+    "budget_margin": 0.05,
+    "winner": {
+      "degree": 6,
+      "space": 5,
+      "time": 2,
+      "trig": 3,
+      "coordinate": 2,
+      "numeric_grid_volume": 64,
+      "features": 3186,
+      "matrix_mb": 243.072509765625,
+      "working_mb": 884.1033325195312
+    },
+    "selection_rule": "Maximum complete grid volume; ties: space order, time order, field degree, lower memory"
+  },
+  "libraries": [
+    {
+      "id": "baseline",
+      "aliases": [
+        "field_degree_3",
+        "space_order_4",
+        "time_order_1",
+        "trig_frequency_2",
+        "coordinate_power_1",
+        "max_factors_2",
+        "derivative_interactions_squares",
+        "time_scope_target_field",
+        "grid_d3_x4_t1_f2_w2_q1_squares_target_field",
+        "growth_0"
+      ],
+      "groups": [
+        {
+          "family": "reference",
+          "value": "complete_baseline"
+        },
+        {
+          "family": "field_degree",
+          "value": 3
+        },
+        {
+          "family": "space_order",
+          "value": 4
+        },
+        {
+          "family": "time_order",
+          "value": 1
+        },
+        {
+          "family": "trig_frequency",
+          "value": 2
+        },
+        {
+          "family": "coordinate_power",
+          "value": 1
+        },
+        {
+          "family": "max_factors",
+          "value": 2
+        },
+        {
+          "family": "derivative_interactions",
+          "value": "squares"
+        },
+        {
+          "family": "time_scope",
+          "value": "target_field"
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q1_squares_target_field"
+        },
+        {
+          "family": "nested_growth",
+          "value": 0
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "paper_reference",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "reference",
+          "value": "paper"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": null,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "field_degree_4",
+      "aliases": [
+        "grid_d4_x4_t1_f2_w2_q1_squares_target_field"
+      ],
+      "groups": [
+        {
+          "family": "field_degree",
+          "value": 4
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "field_degree_5",
+      "aliases": [
+        "grid_d5_x4_t1_f2_w2_q1_squares_target_field"
+      ],
+      "groups": [
+        {
+          "family": "field_degree",
+          "value": 5
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "field_degree_6",
+      "aliases": [
+        "grid_d6_x4_t1_f2_w2_q1_squares_target_field",
+        "growth_1"
+      ],
+      "groups": [
+        {
+          "family": "field_degree",
+          "value": 6
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q1_squares_target_field"
+        },
+        {
+          "family": "nested_growth",
+          "value": 1
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "space_order_5",
+      "aliases": [
+        "grid_d3_x5_t1_f2_w2_q1_squares_target_field"
+      ],
+      "groups": [
+        {
+          "family": "space_order",
+          "value": 5
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "time_order_2",
+      "aliases": [
+        "grid_d3_x4_t2_f2_w2_q1_squares_target_field"
+      ],
+      "groups": [
+        {
+          "family": "time_order",
+          "value": 2
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "trig_frequency_3",
+      "aliases": [
+        "grid_d3_x4_t1_f2_w3_q1_squares_target_field"
+      ],
+      "groups": [
+        {
+          "family": "trig_frequency",
+          "value": 3
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "coordinate_power_2",
+      "aliases": [
+        "grid_d3_x4_t1_f2_w2_q2_squares_target_field"
+      ],
+      "groups": [
+        {
+          "family": "coordinate_power",
+          "value": 2
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "derivative_interactions_all",
+      "aliases": [
+        "grid_d3_x4_t1_f2_w2_q1_all_target_field"
+      ],
+      "groups": [
+        {
+          "family": "derivative_interactions",
+          "value": "all"
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "time_scope_all_fields",
+      "aliases": [
+        "grid_d3_x4_t1_f2_w2_q1_squares_all_fields"
+      ],
+      "groups": [
+        {
+          "family": "time_scope",
+          "value": "all_fields"
+        },
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x4_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x4_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d3_x5_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d3_x5_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 3,
+        "total_field_degree": 3,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x4_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x4_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d4_x5_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d4_x5_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 4,
+        "total_field_degree": 4,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x4_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x4_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d5_x5_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d5_x5_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 5,
+        "total_field_degree": 5,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x4_t2_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x4_t2_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 4,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q1_squares_target_field",
+      "aliases": [
+        "growth_2"
+      ],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q1_squares_target_field"
+        },
+        {
+          "family": "nested_growth",
+          "value": 2
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t1_f2_w3_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t1_f2_w3_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 1,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q1_squares_all_fields",
+      "aliases": [
+        "growth_3"
+      ],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q1_squares_all_fields"
+        },
+        {
+          "family": "nested_growth",
+          "value": 3
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q2_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q2_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w2_q2_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w2_q2_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 2,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q1_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q1_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q1_squares_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q1_squares_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q1_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q1_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q1_all_all_fields",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q1_all_all_fields"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 1,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q2_squares_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q2_squares_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q2_squares_all_fields",
+      "aliases": [
+        "growth_4"
+      ],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q2_squares_all_fields"
+        },
+        {
+          "family": "nested_growth",
+          "value": 4
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "squares",
+        "time_scope": "all_fields"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q2_all_target_field",
+      "aliases": [],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q2_all_target_field"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "target_field"
+      }
+    },
+    {
+      "id": "grid_d6_x5_t2_f2_w3_q2_all_all_fields",
+      "aliases": [
+        "growth_5",
+        "maximal_library"
+      ],
+      "groups": [
+        {
+          "family": "factorial",
+          "value": "grid_d6_x5_t2_f2_w3_q2_all_all_fields"
+        },
+        {
+          "family": "nested_growth",
+          "value": 5
+        },
+        {
+          "family": "reference",
+          "value": "maximal"
+        }
+      ],
+      "spec": {
+        "field_power": 6,
+        "total_field_degree": 6,
+        "space_order": 5,
+        "time_order": 2,
+        "max_factors": 2,
+        "trig_frequency": 3,
+        "coordinate_power": 2,
+        "derivative_interactions": "all",
+        "time_scope": "all_fields"
+      }
+    }
+  ]
+}

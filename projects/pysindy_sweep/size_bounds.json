@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "bounds": {
+    "field_degree": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "space_order": [
+      4,
+      5
+    ],
+    "time_order": [
+      1,
+      2
+    ],
+    "trig_frequency": [
+      2,
+      3
+    ],
+    "coordinate_power": [
+      1,
+      2
+    ],
+    "max_factors": [
+      2
+    ],
+    "derivative_interactions": [
+      "squares",
+      "all"
+    ],
+    "time_scope": [
+      "target_field",
+      "all_fields"
+    ]
+  },
+  "budgets": {
+    "max_features": 6000,
+    "max_matrix_mb": 256.0,
+    "max_working_mb": 2048.0
+  },
+  "budget_margin": 0.05,
+  "worst_case_dataset": "ns_data.mat",
+  "winner": {
+    "degree": 6,
+    "space": 5,
+    "time": 2,
+    "trig": 3,
+    "coordinate": 2,
+    "numeric_grid_volume": 64,
+    "features": 3186,
+    "matrix_mb": 243.072509765625,
+    "working_mb": 884.1033325195312
+  },
+  "feasible_envelopes": 5,
+  "selection_rule": "Maximum complete grid volume; ties: space order, time order, field degree, lower memory",
+  "checked_envelope": [
+    {
+      "dataset": "ode_data.npy",
+      "target": "u_tt",
+      "features": 129,
+      "matrix_mb": 0.3050994873046875,
+      "working_mb": 1.169219970703125
+    },
+    {
+      "dataset": "vdp_data.npy",
+      "target": "u_tt",
+      "features": 129,
+      "matrix_mb": 0.3050994873046875,
+      "working_mb": 1.169219970703125
+    },
+    {
+      "dataset": "lotka_data.npy",
+      "target": "x0_t",
+      "features": 259,
+      "matrix_mb": 0.276641845703125,
+      "working_mb": 1.8535003662109375
+    },
+    {
+      "dataset": "lotka_data.npy",
+      "target": "x1_t",
+      "features": 259,
+      "matrix_mb": 0.276641845703125,
+      "working_mb": 1.8535003662109375
+    },
+    {
+      "dataset": "lorenz_data.npy",
+      "target": "x0_t",
+      "features": 432,
+      "matrix_mb": 3.262939453125,
+      "working_mb": 12.636474609375
+    },
+    {
+      "dataset": "lorenz_data.npy",
+      "target": "x1_t",
+      "features": 432,
+      "matrix_mb": 3.262939453125,
+      "working_mb": 12.636474609375
+    },
+    {
+      "dataset": "lorenz_data.npy",
+      "target": "x2_t",
+      "features": 432,
+      "matrix_mb": 3.262939453125,
+      "working_mb": 12.636474609375
+    },
+    {
+      "dataset": "burgers_data.mat",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 35.7818603515625,
+      "working_mb": 110.70191955566406
+    },
+    {
+      "dataset": "burgers_sln_100_data.csv",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 29.630958557128906,
+      "working_mb": 92.24921417236328
+    },
+    {
+      "dataset": "ac_data.npy",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 17.16455841064453,
+      "working_mb": 54.850013732910156
+    },
+    {
+      "dataset": "kdv_data.mat",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 35.7818603515625,
+      "working_mb": 110.70191955566406
+    },
+    {
+      "dataset": "kdv_periodic_data.npy",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 18.037635803222656,
+      "working_mb": 57.46924591064453
+    },
+    {
+      "dataset": "wave_data.csv",
+      "target": "u_tt",
+      "features": 469,
+      "matrix_mb": 18.037635803222656,
+      "working_mb": 57.46924591064453
+    },
+    {
+      "dataset": "pde_compound_data.npy",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 35.7818603515625,
+      "working_mb": 110.70191955566406
+    },
+    {
+      "dataset": "pde_divide_data.npy",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 35.7818603515625,
+      "working_mb": 110.70191955566406
+    },
+    {
+      "dataset": "ks_data.mat",
+      "target": "u_t",
+      "features": 469,
+      "matrix_mb": 35.7818603515625,
+      "working_mb": 110.70191955566406
+    },
+    {
+      "dataset": "ns_data.mat",
+      "target": "u_t",
+      "features": 3186,
+      "matrix_mb": 243.072509765625,
+      "working_mb": 884.1033325195312
+    },
+    {
+      "dataset": "ns_data.mat",
+      "target": "v_t",
+      "features": 3186,
+      "matrix_mb": 243.072509765625,
+      "working_mb": 884.1033325195312
+    },
+    {
+      "dataset": "ns_data.mat",
+      "target": "u_x",
+      "features": 3186,
+      "matrix_mb": 243.072509765625,
+      "working_mb": 884.1033325195312
+    },
+    {
+      "dataset": "ODE_simple_discovery",
+      "target": "u_t",
+      "features": 129,
+      "matrix_mb": 0.1869964599609375,
+      "working_mb": 0.814910888671875
+    }
+  ],
+  "top_envelopes": [
+    {
+      "degree": 6,
+      "space": 5,
+      "time": 2,
+      "trig": 3,
+      "coordinate": 2,
+      "numeric_grid_volume": 64,
+      "features": 3186,
+      "matrix_mb": 243.072509765625,
+      "working_mb": 884.1033325195312
+    },
+    {
+      "degree": 4,
+      "space": 5,
+      "time": 3,
+      "trig": 3,
+      "coordinate": 2,
+      "numeric_grid_volume": 48,
+      "features": 3012,
+      "matrix_mb": 229.79736328125,
+      "working_mb": 827.822021484375
+    },
+    {
+      "degree": 5,
+      "space": 5,
+      "time": 2,
+      "trig": 3,
+      "coordinate": 2,
+      "numeric_grid_volume": 48,
+      "features": 2982,
+      "matrix_mb": 227.508544921875,
+      "working_mb": 818.2117309570312
+    },
+    {
+      "degree": 4,
+      "space": 5,
+      "time": 2,
+      "trig": 3,
+      "coordinate": 3,
+      "numeric_grid_volume": 48,
+      "features": 3003,
+      "matrix_mb": 229.1107177734375,
+      "working_mb": 824.9360504150391
+    },
+    {
+      "degree": 4,
+      "space": 5,
+      "time": 2,
+      "trig": 3,
+      "coordinate": 2,
+      "numeric_grid_volume": 32,
+      "features": 2781,
+      "matrix_mb": 212.1734619140625,
+      "working_mb": 754.5312652587891
+    }
+  ],
+  "reason_for_two_factors": "Three factors already exceed the budget for the complete baseline on Navier-Stokes"
+}

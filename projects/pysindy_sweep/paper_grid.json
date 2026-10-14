@@ -1,0 +1,10 @@
+{
+  "optimizers": ["STLSQ", "FROLS"],
+  "thresholds": [0, 1e-8, 1e-6, 1e-5, 1e-4, 1e-3, 0.003, 0.01, 0.03, 0.1, 0.3, 0.5, 1, 2, 3],
+  "frols_iterations": [1, 2, 3, 4, 5, 6, 8, 10, 12, 15],
+  "alphas": [1e-10, 1e-5, 1e-3, 0.05],
+  "normalize_columns": [false, true],
+  "coefficient_tolerances": [0, 1e-9, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 0.01, 0.05, 0.1, 0.2],
+  "stlsq_max_iter": 100,
+  "unbias": true
+}

@@ -1,0 +1,38 @@
+framework,protocol,status,dataset,target,raw_target,runtime_seconds,library_size,truth_defined,true_terms_count,active_terms_count,relative_error_sum,missing_terms,extra_terms,expected_terms,active_terms,structure_hamming,structure_success,coefficient_error,candidate_count,selected_candidate_index,selection_policy,model,error
+wsindy,native,ok,ode_data.npy,u_tt,u_tt,0.1410787999999883,13,True,3,3,0.0053830187910013,,,t; u; u_t sin(2 t),t; u; u_t sin(2 t),0,True,0.0053830187910013,,,upstream_MSTLS_loss,u_tt = -3.99639808348 u + 1.49941838706 t + -1.0040947977 u_t sin(2 t),
+wsindy,native,ok,vdp_data.npy,u_tt,u_tt,0.08023149999999646,13,True,3,1,2.000754851939359,u^2 u_t; u_t,,u; u^2 u_t; u_t,u,2,False,,,,upstream_MSTLS_loss,u_tt = -1.00075485194 u,
+wsindy,native,ok,lotka_data.npy,x0_t,x0_t,0.14653579999999522,9,True,2,2,0.0011494168769573322,,,x0; x0 x1,x0; x0 x1,0,True,0.0011494168769573322,,,upstream_MSTLS_loss,"x0_t = 20.0142502983 x0 + -19.9912619608 x0 x1
+x1_t = -20.0577585935 x1 + 20.0056318022 x1 x0",
+wsindy,native,ok,lotka_data.npy,x1_t,x1_t,0.14653579999999522,9,True,2,2,1.002887929676772,x0 x1,x1 x0,x0 x1; x1,x1; x1 x0,2,False,,,,upstream_MSTLS_loss,"x0_t = 20.0142502983 x0 + -19.9912619608 x0 x1
+x1_t = -20.0577585935 x1 + 20.0056318022 x1 x0",
+wsindy,native,ok,lotka_data.npy,__system__,__system__,0.14653579999999522,18,True,4,4,1.0040373465537293,x0 x1,x1 x0,,,2,False,,,,upstream_MSTLS_loss,,
+wsindy,native,ok,lorenz_data.npy,x0_t,x0_t,0.32445729999999173,19,True,2,2,1.1435218993938178e-09,,,x0; x1,x0; x1,0,True,1.1435218993938178e-09,,,upstream_MSTLS_loss,"x0_t = 9.99999999436 x1 + -9.9999999942 x0
+x1_t = 25.4248737971 x0 + -0.949720633549 x0 x2
+x2_t = 0.999999999305 x0 x1 + -2.66666666584 x2",
+wsindy,native,ok,lorenz_data.npy,x1_t,x1_t,0.32445729999999173,19,True,3,2,1.1422481594107072,x1,,x0; x0 x2; x1,x0; x0 x2,1,False,,,,upstream_MSTLS_loss,"x0_t = 9.99999999436 x1 + -9.9999999942 x0
+x1_t = 25.4248737971 x0 + -0.949720633549 x0 x2
+x2_t = 0.999999999305 x0 x1 + -2.66666666584 x2",
+wsindy,native,ok,lorenz_data.npy,x2_t,x2_t,0.32445729999999173,19,True,2,2,1.0043120224345614e-09,,,x0 x1; x2,x0 x1; x2,0,True,1.0043120224345614e-09,,,upstream_MSTLS_loss,"x0_t = 9.99999999436 x1 + -9.9999999942 x0
+x1_t = 25.4248737971 x0 + -0.949720633549 x0 x2
+x2_t = 0.999999999305 x0 x1 + -2.66666666584 x2",
+wsindy,native,ok,lorenz_data.npy,__system__,__system__,0.32445729999999173,57,True,7,6,1.1422481615585411,x1,,,,1,False,,,,upstream_MSTLS_loss,,
+wsindy,native,ok,burgers_data.mat,u_t,u_t,0.20819000000000187,28,True,2,2,1.6291015964869926e-05,,,u u_x; u_xx,u u_x; u_xx,0,True,1.6291015964869926e-05,,,upstream_MSTLS_loss,u_t = -0.99998899043 u u_x + 0.0999994718554 u_xx,
+wsindy,native,ok,burgers_sln_100_data.csv,u_t,u_t,0.1671067999999991,28,True,1,1,3.284950422788313e-08,,,u u_x,u u_x,0,True,3.284950422788313e-08,,,upstream_MSTLS_loss,u_t = -0.99999996715 u u_x,
+wsindy,native,ok,ac_data.npy,u_t,u_t,0.18488120000000663,28,True,2,2,0.003651901626883891,,,u; u^3,u; u^3,0,True,0.003651901626883891,,,upstream_MSTLS_loss,u_t = 4.989943219 u + -4.99179727287 u^3,
+wsindy,native,ok,kdv_data.mat,u_t,u_t,0.4164970000000068,28,True,2,2,0.00014954565140068432,,,u u_x; u_xxx,u u_x; u_xxx,0,True,0.00014954565140068432,,,upstream_MSTLS_loss,u_t = -5.99966691611 u u_x + -0.99990596833 u_xxx,
+wsindy,native,ok,kdv_periodic_data.npy,u_t,u_t,0.22380459999999402,28,True,3,15,4.951018602667766,u_xxx,cos(t); d_x(u u_x); d_xx(u^3); d_xxx(u^3); sin(2 t); sin(x); u; u^2; u^3; u_tt; u_x; u_xx; x,sin(x) cos(t); u u_x; u_xxx,cos(t); d_x(u u_x); d_xx(u^3); d_xxx(u^3); sin(2 t); sin(x); sin(x) cos(t); u; u u_x; u^2; u^3; u_tt; u_x; u_xx; x,14,False,,,,upstream_MSTLS_loss,u_t = 1.21313456826 u + -35.6119775325 u^2 + -95.294204284 u^3 + 3.28366100923 u_x + -29.5511864356 u u_x + 0.541159061785 u_xx + -4.30535335611 d_x(u u_x) + 0.933315690349 d_xx(u^3) + -0.10693701119 d_xxx(u^3) + -0.0977035717254 u_tt + -0.634439211522 cos(t) + 0.0741811343133 sin(2 t) + -1.28288679402 x + 1.22436451346 sin(x) + 0.974179136606 sin(x) cos(t),
+wsindy,native,ok,wave_data.csv,u_tt,u_tt,0.21619130000000553,29,True,1,3,0.0048799638998517705,,sin(x); x,u_xx,sin(x); u_xx; x,2,False,,,,upstream_MSTLS_loss,u_tt = 0.039804801444 u_xx + -3.202955859 x + 3.70947545972 sin(x),
+wsindy,native,ok,pde_compound_data.npy,u_t,u_t,0.2940161999999873,30,True,1,1,0.005216803487947175,,,d_x(u u_x),d_x(u u_x),0,True,0.005216803487947175,,,upstream_MSTLS_loss,u_t = 1.00521680349 d_x(u u_x),
+wsindy,native,ok,pde_divide_data.npy,u_t,u_t,0.21161200000000235,30,True,2,2,0.007057414947652552,,,(1/x) u_x; u_xx,(1/x) u_x; u_xx,0,True,0.007057414947652552,,,upstream_MSTLS_loss,u_t = 0.251049042502 u_xx + -1.00286124494 (1/x) u_x,
+wsindy,native,ok,ks_data.mat,u_t,u_t,1.0225845000000078,30,True,3,3,7.779437063426542e-06,,,u u_x; u_xx; u_xxxx,u u_x; u_xx; u_xxxx,0,True,7.779437063426542e-06,,,upstream_MSTLS_loss,u_t = -0.999999429986 u u_x + -1.00000330393 u_xx + -1.0000039055 u_xxxx,
+wsindy,native,ok,ns_data.mat,u_t,u_t,1.6463767999999988,11,True,4,3,1.0241267055465249,(u_xx + u_yy),,(u_xx + u_yy); p_x; u u_x; v u_y,p_x; u u_x; v u_y,1,False,,,,upstream_MSTLS_loss,"u_t = -1.01638198284 p_x + -0.997051464937 u u_x + -0.995203812353 v u_y
+v_t = -0.947256240583 p_y + -1.00229165384 u v_x + -0.901958884429 v v_y
+u_x = -1.0000064187 v_y",
+wsindy,native,ok,ns_data.mat,v_t,v_t,1.6463767999999988,11,True,4,3,1.1530765288285887,(v_xx + v_yy),,(v_xx + v_yy); p_y; u v_x; v v_y,p_y; u v_x; v v_y,1,False,,,,upstream_MSTLS_loss,"u_t = -1.01638198284 p_x + -0.997051464937 u u_x + -0.995203812353 v u_y
+v_t = -0.947256240583 p_y + -1.00229165384 u v_x + -0.901958884429 v v_y
+u_x = -1.0000064187 v_y",
+wsindy,native,ok,ns_data.mat,u_x,u_x,1.6463767999999988,1,True,1,1,6.418704494359773e-06,,,v_y,v_y,0,True,6.418704494359773e-06,,,upstream_MSTLS_loss,"u_t = -1.01638198284 p_x + -0.997051464937 u u_x + -0.995203812353 v u_y
+v_t = -0.947256240583 p_y + -1.00229165384 u v_x + -0.901958884429 v v_y
+u_x = -1.0000064187 v_y",
+wsindy,native,ok,ns_data.mat,__system__,__system__,1.6463767999999988,23,True,9,7,2.1772096530796077,(u_xx + u_yy) | (v_xx + v_yy),,,,2,False,,,,upstream_MSTLS_loss,,
+wsindy,native,ok,ODE_simple_discovery,u_t,u_t,0.07138849999999763,12,True,2,2,7.7450884150565e-06,,,cos(t); sin(t),cos(t); sin(t),0,True,7.7450884150565e-06,,,upstream_MSTLS_loss,u_t = -1.29999496569 sin(t) + 0.999996127456 cos(t),

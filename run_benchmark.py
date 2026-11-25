@@ -7,7 +7,7 @@ import sys
 from utils.protocols import FIXED_PROTOCOL, PROTOCOLS
 
 
-FRAMEWORKS = ("pysindy", "deepmod", "epde", "discover", "edl", "vwsr")
+FRAMEWORKS = ("pysindy", "deepmod", "epde", "discover", "edl", "vwsr", "wsindy", "wendy")
 
 
 def parse_args():

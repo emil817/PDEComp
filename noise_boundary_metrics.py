@@ -281,7 +281,7 @@ def default_output(framework, protocol=FIXED_PROTOCOL):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"])
+    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr", "wsindy", "wendy"])
     parser.add_argument("--protocol", choices=PROTOCOLS, default=FIXED_PROTOCOL)
     parser.add_argument("--runs", type=int, default=noise_test.DEFAULT_RUNS)
     parser.add_argument("--boundaries-csv", default="")

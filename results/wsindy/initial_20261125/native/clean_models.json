@@ -1,0 +1,1202 @@
+[
+  {
+    "dataset": "ode_data.npy",
+    "runtime_seconds": 0.11513639999999725,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_tt"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_t",
+          "u u_t",
+          "u^2 u_t"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          1.6961914321315692,
+          -0.38237441294519275,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_tt": 7
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.05963621661067009,
+          "support_radii": [
+            16
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 288
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_tt = 1.69619143213 u + -0.382374412945 u^2",
+      "equation_texts": [
+        "u_tt = 1.69619143213 u + -0.382374412945 u^2"
+      ]
+    }
+  },
+  {
+    "dataset": "vdp_data.npy",
+    "runtime_seconds": 0.0771067999999957,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_tt"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_t",
+          "u u_t",
+          "u^2 u_t"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          -1.0007548519393592,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_tt": 7
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.02811768837273121,
+          "support_radii": [
+            16
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 288
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_tt = -1.00075485194 u",
+      "equation_texts": [
+        "u_tt = -1.00075485194 u"
+      ]
+    }
+  },
+  {
+    "dataset": "lotka_data.npy",
+    "runtime_seconds": 0.16374740000000543,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "x0_t",
+        "x1_t"
+      ],
+      "features": [
+        [
+          "1",
+          "x1",
+          "x1^2",
+          "x0",
+          "x0 x1",
+          "x0 x1^2",
+          "x0^2",
+          "x0^2 x1",
+          "x0^2 x1^2"
+        ],
+        [
+          "1",
+          "x0",
+          "x0^2",
+          "x1",
+          "x1 x0",
+          "x1 x0^2",
+          "x1^2",
+          "x1^2 x0",
+          "x1^2 x0^2"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          20.014250298335313,
+          -19.991261960796166,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          -20.057758593535443,
+          20.005631802209056,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "x0_t": 9,
+        "x1_t": 9
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.002947051776573062,
+          "support_radii": [
+            8
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 134
+        },
+        {
+          "threshold": 0.004291933495551348,
+          "support_radii": [
+            8
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 134
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "x0_t = 20.0142502983 x0 + -19.9912619608 x0 x1\nx1_t = -20.0577585935 x1 + 20.0056318022 x1 x0",
+      "equation_texts": [
+        "x0_t = 20.0142502983 x0 + -19.9912619608 x0 x1",
+        "x1_t = -20.0577585935 x1 + 20.0056318022 x1 x0"
+      ]
+    }
+  },
+  {
+    "dataset": "lorenz_data.npy",
+    "runtime_seconds": 0.5029551999999882,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "x0_t",
+        "x1_t",
+        "x2_t"
+      ],
+      "features": [
+        [
+          "1",
+          "x2",
+          "x2^2",
+          "x1",
+          "x1 x2",
+          "x1 x2^2",
+          "x1^2",
+          "x1^2 x2",
+          "x1^2 x2^2",
+          "x0",
+          "x0 x2",
+          "x0 x2^2",
+          "x0 x1",
+          "x0 x1^2",
+          "x0^2",
+          "x0^2 x2",
+          "x0^2 x2^2",
+          "x0^2 x1",
+          "x0^2 x1^2"
+        ],
+        [
+          "1",
+          "x2",
+          "x2^2",
+          "x0",
+          "x0 x2",
+          "x0 x2^2",
+          "x0^2",
+          "x0^2 x2",
+          "x0^2 x2^2",
+          "x1",
+          "x1 x2",
+          "x1 x2^2",
+          "x1 x0",
+          "x1 x0^2",
+          "x1^2",
+          "x1^2 x2",
+          "x1^2 x2^2",
+          "x1^2 x0",
+          "x1^2 x0^2"
+        ],
+        [
+          "1",
+          "x1",
+          "x1^2",
+          "x0",
+          "x0 x1",
+          "x0 x1^2",
+          "x0^2",
+          "x0^2 x1",
+          "x0^2 x1^2",
+          "x2",
+          "x2 x1",
+          "x2 x1^2",
+          "x2 x0",
+          "x2 x0^2",
+          "x2^2",
+          "x2^2 x1",
+          "x2^2 x1^2",
+          "x2^2 x0",
+          "x2^2 x0^2"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          9.999999994362646,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -9.999999994202135,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          25.424873797125777,
+          -0.9497206335490865,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9999999993045501,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -2.6666666658430342,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "x0_t": 19,
+        "x1_t": 19,
+        "x2_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            50
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 900
+        },
+        {
+          "threshold": 0.05963621661067009,
+          "support_radii": [
+            50
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 900
+        },
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            50
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 900
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "x0_t = 9.99999999436 x1 + -9.9999999942 x0\nx1_t = 25.4248737971 x0 + -0.949720633549 x0 x2\nx2_t = 0.999999999305 x0 x1 + -2.66666666584 x2",
+      "equation_texts": [
+        "x0_t = 9.99999999436 x1 + -9.9999999942 x0",
+        "x1_t = 25.4248737971 x0 + -0.949720633549 x0 x2",
+        "x2_t = 0.999999999305 x0 x1 + -2.66666666584 x2"
+      ]
+    }
+  },
+  {
+    "dataset": "burgers_data.mat",
+    "runtime_seconds": 0.4241641000000129,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.999988990429809,
+          0.0,
+          0.09999947185542261,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            12,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            5,
+            2
+          ],
+          "query_count": 2021
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.99998899043 u u_x + 0.0999994718554 u_xx",
+      "equation_texts": [
+        "u_t = -0.99998899043 u u_x + 0.0999994718554 u_xx"
+      ]
+    }
+  },
+  {
+    "dataset": "burgers_sln_100_data.csv",
+    "runtime_seconds": 0.37997000000000014,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9999999671504958,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            2
+          ],
+          "query_count": 1849
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.99999996715 u u_x",
+      "equation_texts": [
+        "u_t = -0.99999996715 u u_x"
+      ]
+    }
+  },
+  {
+    "dataset": "ac_data.npy",
+    "runtime_seconds": 0.362778899999995,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          4.989943218997034,
+          0.0,
+          -4.9917972728685465,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.006250553298741579,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            3,
+            1
+          ],
+          "query_count": 1330
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = 4.989943219 u + -4.99179727287 u^3",
+      "equation_texts": [
+        "u_t = 4.989943219 u + -4.99179727287 u^3"
+      ]
+    }
+  },
+  {
+    "dataset": "kdv_data.mat",
+    "runtime_seconds": 0.6455425999999989,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -5.999666916111383,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9999059683300355,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.0002559548302087933,
+          "support_radii": [
+            25,
+            10
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            10,
+            4
+          ],
+          "query_count": 2162
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -5.99966691611 u u_x + -0.99990596833 u_xxx",
+      "equation_texts": [
+        "u_t = -5.99966691611 u u_x + -0.99990596833 u_xxx"
+      ]
+    }
+  },
+  {
+    "dataset": "kdv_periodic_data.npy",
+    "runtime_seconds": 0.2001221999999956,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          -58.69415185996103,
+          -1141.2785606421828,
+          -0.5511790351696568,
+          -11.026230829008478,
+          -182.9691495479832,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.023774348703547575,
+          -1.1644120716405708,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.049417123198509216,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            2
+          ],
+          "query_count": 1089
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -58.69415186 u^2 + -1141.27856064 u^3 + -0.55117903517 u_x + -11.026230829 u u_x + -182.969149548 u^2 u_x + -0.0237743487035 u_tt + -1.16441207164 d_tt(u^2)",
+      "equation_texts": [
+        "u_t = -58.69415186 u^2 + -1141.27856064 u^3 + -0.55117903517 u_x + -11.026230829 u u_x + -182.969149548 u^2 u_x + -0.0237743487035 u_tt + -1.16441207164 d_tt(u^2)"
+      ]
+    }
+  },
+  {
+    "dataset": "wave_data.csv",
+    "runtime_seconds": 0.1763435999999956,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_tt"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_t",
+          "u u_t",
+          "u^2 u_t"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.03819576367897572,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_tt": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.007543120998889208,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            2
+          ],
+          "query_count": 1089
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_tt = 0.038195763679 u_xx",
+      "equation_texts": [
+        "u_tt = 0.038195763679 u_xx"
+      ]
+    }
+  },
+  {
+    "dataset": "pde_compound_data.npy",
+    "runtime_seconds": 0.6467937000000035,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0052168034879472,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.005179476458579302,
+          "support_radii": [
+            8,
+            12
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            5
+          ],
+          "query_count": 1932
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = 1.00521680349 d_x(u u_x)",
+      "equation_texts": [
+        "u_t = 1.00521680349 d_x(u u_x)"
+      ]
+    }
+  },
+  {
+    "dataset": "pde_divide_data.npy",
+    "runtime_seconds": 0.5136178000000058,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          -2.260982952301493,
+          0.0,
+          0.0,
+          -0.1315570286265056,
+          -0.21360572461729838,
+          -0.5884164475063631,
+          0.05124016905690447,
+          0.0,
+          0.0,
+          0.0,
+          -0.002244085458440338,
+          -0.0017152303519761612,
+          0.0,
+          0.0,
+          -3.5017578736402606e-05,
+          -0.023907659505172357,
+          0.0,
+          -0.007752618336818388
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.01930697076022625,
+          "support_radii": [
+            8,
+            12
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            5
+          ],
+          "query_count": 1932
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -2.2609829523 u + -0.131557028627 u_x + -0.213605724617 u u_x + -0.588416447506 u^2 u_x + 0.0512401690569 u_xx + -0.00224408545844 d_xxx(u^2) + -0.00171523035198 d_xxx(u^3) + -3.50175787364e-05 d_xxxx(u^3) + -0.0239076595052 u_tt + -0.00775261833682 d_tt(u^3)",
+      "equation_texts": [
+        "u_t = -2.2609829523 u + -0.131557028627 u_x + -0.213605724617 u u_x + -0.588416447506 u^2 u_x + 0.0512401690569 u_xx + -0.00224408545844 d_xxx(u^2) + -0.00171523035198 d_xxx(u^3) + -3.50175787364e-05 d_xxxx(u^3) + -0.0239076595052 u_tt + -0.00775261833682 d_tt(u^3)"
+      ]
+    }
+  },
+  {
+    "dataset": "ks_data.mat",
+    "runtime_seconds": 1.742882899999998,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9999994299855568,
+          0.0,
+          -1.0000033039254819,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0000039054971384,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            51,
+            12
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            19,
+            5
+          ],
+          "query_count": 2254
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.999999429986 u u_x + -1.00000330393 u_xx + -1.0000039055 u_xxxx",
+      "equation_texts": [
+        "u_t = -0.999999429986 u u_x + -1.00000330393 u_xx + -1.0000039055 u_xxxx"
+      ]
+    }
+  },
+  {
+    "dataset": "ns_data.mat",
+    "status": "unsupported",
+    "reason": "The stock conservative WSINDy adapter does not map coupled PDE/advection terms and the Navier-Stokes divergence constraint to benchmark features."
+  },
+  {
+    "dataset": "ODE_simple_discovery",
+    "runtime_seconds": 0.05908610000000181,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)"
+        ]
+      ],
+      "coefficients": [
+        [
+          -0.11228470515937539,
+          -0.2781658186970358,
+          0.0,
+          0.08932114580787351,
+          0.0,
+          0.0,
+          -0.0027033862801087187
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 7
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.0011513952631503344,
+          "support_radii": [
+            10
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 180
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.112284705159 1 + -0.278165818697 u + 0.0893211458079 u^3 + -0.00270338628011 d_tt(u^3)",
+      "equation_texts": [
+        "u_t = -0.112284705159 1 + -0.278165818697 u + 0.0893211458079 u^3 + -0.00270338628011 d_tt(u^3)"
+      ]
+    }
+  }
+]

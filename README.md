@@ -2,7 +2,7 @@
 
 DEComp is a benchmark for comparing equation discovery frameworks on the
 same synthetic ODE/PDE datasets. The current working comparison focuses on
-EPDE, VWSR, PySINDy, DeepMoD, DISCOVER and EDL.
+EPDE, VWSR, PySINDy, DeepMoD, DISCOVER, EDL, WSINDy and WENDy.
 
 ## What Is Compared
 
@@ -37,6 +37,8 @@ controlled inputs, while `native` compares practical framework pipelines.
 | DISCOVER | scalar ODE and scalar 1D PDE |
 | EDL | scalar ODE and scalar 1D PDE; external LLM opt-in |
 | VWSR | not applicable: sparse estimator only |
+| WSINDy | all 15 datasets; conservative weak library plus coordinate/NS custom columns |
+| WENDy | all 5 ODE datasets, including lifted second-order ODEs; PDEs unsupported |
 
 ## Framework Integration
 
@@ -94,6 +96,89 @@ The benchmark always keeps data loading and metric calculation common. In the
 
 ## Main Scripts
 
+### WSINDy and WENDy
+
+The new adapters execute pinned upstream Python implementations:
+[PyWSINDy-for-PDEs](https://github.com/SethMinor/PyWSINDy-for-PDEs/tree/4c5765bc7948ae3409bea6c40f320d95ac1de74d)
+(the `dev` implementation with ODE support) and
+[pyWENDy](https://github.com/MathBioCU/pyWENDy/tree/e071fc88f161f3f4256aeb949be30deba55e80b4).
+Their sources are fetched into ignored `_upstream/` directories by:
+
+```powershell
+python -m pip install -r wsindy/requirements.txt -r wendy/requirements.txt
+python -m utils.weak_sources wsindy wendy
+python clean_run_metrics.py wsindy
+python clean_run_metrics.py wsindy --protocol native
+python clean_run_metrics.py wendy --protocol native
+```
+
+Use a separate virtual environment. The published run used Python 3.9.25 on
+Windows and the pinned package versions above. Docker images use Python 3.11;
+their runtime measurements should be collected separately.
+
+In `fixed`, WSINDy uses the upstream MSTLS optimizer and its stock scan of 50
+thresholds on the shared derivatives and feature matrix. In `native`, upstream
+WSINDy builds separable polynomial test functions, convolves raw observations,
+rescales the weak equations, and runs MSTLS. The scalar library contains powers
+0–3 and conservative derivatives up to order 4 in space and 2 in time; ODE
+systems use powers 0–2 per variable with at most two variable factors. Pure
+derivatives of the target are excluded from the RHS. Exact identities such as
+`d_x(u^2) = 2 u u_x` are converted with their coefficient scale for scoring.
+The adapter adds time/space forcing through upstream custom weak columns.
+The terms `(1/x) u_x` and `u_t sin(2 t)` use integration by parts, including
+derivatives of the known coefficient, and are scaled to the upstream LHS units.
+Reciprocal-coordinate terms are included only when the spatial domain avoids
+zero. NS uses the velocity/pressure library specified by the benchmark metadata:
+linear derivatives and the divergence constraint are weak convolutions;
+nonconservative advection products use SciPy cubic-spline spatial derivatives
+followed by upstream weak integration. This preprocessing is an explicit adapter
+extension. It does not use the shared fixed derivative bundle or true coefficients.
+
+WENDy uses upstream IRLS, including its symbolic feature Jacobian and
+errors-in-variables covariance. It fits polynomial and time-dependent candidates and keeps
+every returned coefficient. It has no sparse structure selection, so a dense
+fit can have a small diagnostic coefficient error while failing the common
+structure metric. The adapter never supplies ground-truth support.
+Upstream stopping diagnostics and any fallback iterate are recorded in the
+model JSON and CSV selection policy.
+All five ODE datasets are attempted. For scalar second-order equations, the
+adapter estimates velocity with `scipy.interpolate.CubicSpline` (not-a-knot)
+and fits the first-order state `(u, u_t)`. Only the requested acceleration
+equation is scored; the fitted kinematic equation is recorded as a diagnostic.
+Every ODE also receives an exact clock state, with an auxiliary `clock'=1`
+equation, allowing `t`, sine and cosine forcing in upstream's state-only API.
+Derived velocity errors are correlated with position; upstream's diagonal
+observation-noise approximation does not account for this correlation.
+The ten PDE datasets and the fixed sparse-optimizer protocol remain unsupported
+by this upstream ODE implementation. WENDy is not extended into a PDE solver.
+
+The support radius on each axis is `min(max(8, N//20), (N-2)//2)` for both
+adapters, with test-function degree 6 (or derivative order + 2 if larger).
+WSINDy uses at most approximately 2,500 query points on a tensor grid; WENDy
+uses at most 100 temporal test functions per state to bound dense covariance
+memory. These are common adapter defaults, with no dataset-specific tuning.
+
+To reproduce all clean measurements, including models, logs and manifests:
+
+```powershell
+$env:OMP_NUM_THREADS='1'
+$env:MKL_NUM_THREADS='1'
+$env:OPENBLAS_NUM_THREADS='1'
+$env:MPLBACKEND='Agg'
+python measure_weak_clean.py
+python -m unittest discover -s tests -p test_weak_frameworks.py -v
+```
+
+CSV metrics, full coefficient arrays, source revisions, input/code hashes,
+package versions and timing definitions are saved in `results/wsindy/` and
+`results/wendy/`, with native runs in their `native/` subdirectories.
+`measure_weak_clean.py` uses the common benchmark evaluator and returns failure
+on actual errors; explicit capability statuses are retained in the CSV.
+The earlier limited adapters and measurements are preserved under
+`results/<framework>/initial_20261125/`. Current results use the expanded adapters.
+
+### Common runners
+
 `clean_run_metrics.py` measures clean-data runs for one framework:
 
 ```powershell
@@ -150,6 +235,8 @@ python run_benchmark.py noise --protocol native --frameworks pysindy deepmod epd
 The unrestricted all-framework native command returns non-zero for EDL without
 API opt-in and for VWSR, which has no complete native pipeline. Pass
 `--allow-empty` only when those capability statuses are expected.
+The all-framework fixed command also returns non-zero for WENDy, which requires
+raw ODE observations and has no fixed sparse-optimizer mode.
 
 EDL's external LLM is not contacted unless `--allow-external-llm` is present.
 The EDL container then reads `EDL_API_KEY` or `OPENAI_API_KEY` from the
@@ -200,6 +287,8 @@ epde      -> EPDE dependencies
 vwsr      -> EPDE's standalone VWSR sparse optimizer
 discover  -> DISCOVER with TensorFlow 1.x
 edl       -> EDL sparse-regression backend
+wsindy    -> pinned PyWSINDy weak pipeline and MSTLS
+wendy     -> pinned pyWENDy ODE parameter estimation
 ```
 
 Build all images:
@@ -217,6 +306,8 @@ docker compose run --rm epde
 docker compose run --rm vwsr
 docker compose run --rm discover
 docker compose run --rm edl
+docker compose run --rm wsindy
+docker compose run --rm wendy
 ```
 
 Any benchmark script can be run in the matching framework container:

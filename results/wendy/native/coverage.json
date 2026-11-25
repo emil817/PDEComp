@@ -1,0 +1,86 @@
+{
+  "framework": "wendy",
+  "protocol": "native",
+  "attempted": 15,
+  "measured": 5,
+  "correct_structures": 1,
+  "unsupported": 10,
+  "errors": 0,
+  "datasets": [
+    {
+      "dataset": "ode_data.npy",
+      "status": "ok",
+      "reason": ""
+    },
+    {
+      "dataset": "vdp_data.npy",
+      "status": "ok",
+      "reason": ""
+    },
+    {
+      "dataset": "lotka_data.npy",
+      "status": "ok",
+      "reason": ""
+    },
+    {
+      "dataset": "lorenz_data.npy",
+      "status": "ok",
+      "reason": ""
+    },
+    {
+      "dataset": "burgers_data.mat",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "burgers_sln_100_data.csv",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "ac_data.npy",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "kdv_data.mat",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "kdv_periodic_data.npy",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "wave_data.csv",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "pde_compound_data.npy",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "pde_divide_data.npy",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "ks_data.mat",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "ns_data.mat",
+      "status": "unsupported",
+      "reason": "Upstream pyWENDy supports ODE parameter estimation, not PDE discovery"
+    },
+    {
+      "dataset": "ODE_simple_discovery",
+      "status": "ok",
+      "reason": ""
+    }
+  ]
+}

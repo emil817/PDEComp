@@ -125,6 +125,8 @@ def run_framework_on_data(framework, module, data, x, y, z, t, dataset, args=Non
         return module.run_edl(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     if framework == "vwsr":
         return module.run_vwsr(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
+    if framework in {"wsindy", "wendy"}:
+        return getattr(module, f"run_{framework}")(data, x, y, z, t, dataset, protocol=protocol, native_options=native_options)
     raise ValueError(f"Unknown framework: {framework}")
 
 
@@ -437,7 +439,7 @@ def default_output(framework, protocol=FIXED_PROTOCOL):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Universal noisy-run benchmark for PDE discovery frameworks.")
-    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr"])
+    parser.add_argument("framework", choices=["pysindy", "deepmod", "epde", "discover", "edl", "vwsr", "wsindy", "wendy"])
     parser.add_argument("--protocol", choices=PROTOCOLS, default=FIXED_PROTOCOL)
     parser.add_argument("--success-reference", choices=["truth", "clean"], default="truth")
     parser.add_argument("--datasets", nargs="*", default=None)

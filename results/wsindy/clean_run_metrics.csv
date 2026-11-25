@@ -1,0 +1,38 @@
+framework,protocol,status,dataset,target,raw_target,runtime_seconds,library_size,truth_defined,true_terms_count,active_terms_count,relative_error_sum,missing_terms,extra_terms,expected_terms,active_terms,structure_hamming,structure_success,coefficient_error,candidate_count,selected_candidate_index,selection_policy,model,error
+wsindy,fixed,ok,ode_data.npy,u_tt,u_tt,0.0816402000000025,12,True,3,3,0.016619911344339676,,,t; u; u_t sin(2 t),t; u; u_t sin(2 t),0,True,0.016619911344339676,,,upstream_MSTLS_loss,u_tt = -3.98173393922 u + 1.49552821677 t + -0.990927792673 u_t sin(2 t),
+wsindy,fixed,ok,vdp_data.npy,u_tt,u_tt,0.35145660000000234,12,True,3,1,2.006687291672408,u^2 u_t; u_t,,u; u^2 u_t; u_t,u,2,False,,,,upstream_MSTLS_loss,u_tt = -1.00668729167 u,
+wsindy,fixed,ok,lotka_data.npy,x0_t,x0_t,0.17722649999999973,10,True,2,2,0.009946561163826573,,,x0; x0 x1,x0; x0 x1,0,True,0.009946561163826573,,,upstream_MSTLS_loss,"x0_t = 19.8594244634 x0 + -19.9416443133 x0 x1
+x1_t = -19.9212205437 x1 + 18.5463982207 x0 x1 + 0.328590375853 x0 x1^2 + 0.398256852572 x0^2 x1 + -0.0984880453316 x0^2 x1^2",
+wsindy,fixed,ok,lotka_data.npy,x1_t,x1_t,0.17722649999999973,10,True,2,5,0.07661906178350933,,x0 x1^2; x0^2 x1; x0^2 x1^2,x0 x1; x1,x0 x1; x0 x1^2; x0^2 x1; x0^2 x1^2; x1,3,False,,,,upstream_MSTLS_loss,"x0_t = 19.8594244634 x0 + -19.9416443133 x0 x1
+x1_t = -19.9212205437 x1 + 18.5463982207 x0 x1 + 0.328590375853 x0 x1^2 + 0.398256852572 x0^2 x1 + -0.0984880453316 x0^2 x1^2",
+wsindy,fixed,ok,lotka_data.npy,__system__,__system__,0.17722649999999973,20,True,4,7,0.0865656229473359,,x0 x1^2; x0^2 x1; x0^2 x1^2,,,3,False,,,,upstream_MSTLS_loss,,
+wsindy,fixed,ok,lorenz_data.npy,x0_t,x0_t,0.5860376000000009,20,True,2,2,4.8746432504920276e-05,,,x0; x1,x0; x1,0,True,4.8746432504920276e-05,,,upstream_MSTLS_loss,"x0_t = -9.99975725161 x0 + 9.99975528406 x1
+x1_t = 27.9975318384 x0 + -0.9994993685 x1 + -0.999933769337 x0 x2
+x2_t = -2.66658688155 x2 + 0.999967545255 x0 x1",
+wsindy,fixed,ok,lorenz_data.npy,x1_t,x1_t,0.5860376000000009,20,True,3,3,0.0006550107933118721,,,x0; x0 x2; x1,x0; x0 x2; x1,0,True,0.0006550107933118721,,,upstream_MSTLS_loss,"x0_t = -9.99975725161 x0 + 9.99975528406 x1
+x1_t = 27.9975318384 x0 + -0.9994993685 x1 + -0.999933769337 x0 x2
+x2_t = -2.66658688155 x2 + 0.999967545255 x0 x1",
+wsindy,fixed,ok,lorenz_data.npy,x2_t,x2_t,0.5860376000000009,20,True,2,2,6.237416395893369e-05,,,x0 x1; x2,x0 x1; x2,0,True,6.237416395893369e-05,,,upstream_MSTLS_loss,"x0_t = -9.99975725161 x0 + 9.99975528406 x1
+x1_t = 27.9975318384 x0 + -0.9994993685 x1 + -0.999933769337 x0 x2
+x2_t = -2.66658688155 x2 + 0.999967545255 x0 x1",
+wsindy,fixed,ok,lorenz_data.npy,__system__,__system__,0.5860376000000009,60,True,7,7,0.000766131389775726,,,,,0,True,0.000766131389775726,,,upstream_MSTLS_loss,,
+wsindy,fixed,ok,burgers_data.mat,u_t,u_t,1.6775076999999996,33,True,2,2,0.018541601455339507,,,u u_x; u_xx,u u_x; u_xx,0,True,0.018541601455339507,,,upstream_MSTLS_loss,u_t = 0.101524742093 u_xx + -0.996705819476 u u_x,
+wsindy,fixed,ok,burgers_sln_100_data.csv,u_t,u_t,0.24072450000000245,33,True,1,1,0.0002592347190056854,,,u u_x,u u_x,0,True,0.0002592347190056854,,,upstream_MSTLS_loss,u_t = -0.999740765281 u u_x,
+wsindy,fixed,ok,ac_data.npy,u_t,u_t,0.49185819999999936,33,True,2,2,0.013315481366287152,,,u; u^3,u; u^3,0,True,0.013315481366287152,,,upstream_MSTLS_loss,u_t = 4.96666876329 u + -4.96675382988 u^3,
+wsindy,fixed,ok,kdv_data.mat,u_t,u_t,9.214447700000001,33,True,2,2,0.030389060281853286,,,u u_x; u_xxx,u u_x; u_xxx,0,True,0.030389060281853286,,,upstream_MSTLS_loss,u_t = -1.02335435824 u_xxx + -6.04220821225 u u_x,
+wsindy,fixed,ok,kdv_periodic_data.npy,u_t,u_t,0.3581998000000013,33,True,3,3,0.006400458723614092,,,sin(x) cos(t); u u_x; u_xxx,sin(x) cos(t); u u_x; u_xxx,0,True,0.006400458723614092,,,upstream_MSTLS_loss,u_t = -1.00150467252 u_xxx + -6.01828947471 u u_x + 1.00184754042 sin(x) cos(t),
+wsindy,fixed,ok,wave_data.csv,u_tt,u_tt,0.4952315999999968,33,True,1,3,0.006484155848771912,,sin(x); x,u_xx,sin(x); u_xx; x,2,False,,,,upstream_MSTLS_loss,u_tt = 0.040259366234 u_xx + -0.249971667159 x + 0.289936133333 sin(x),
+wsindy,fixed,ok,pde_compound_data.npy,u_t,u_t,1.1142658000000054,33,True,1,1,0.00029991199838297344,,,d_x(u u_x),d_x(u u_x),0,True,0.00029991199838297344,,,upstream_MSTLS_loss,u_t = 0.999700088002 d_x(u u_x),
+wsindy,fixed,ok,pde_divide_data.npy,u_t,u_t,0.9682044999999988,33,True,2,2,0.0003660787604238269,,,(1/x) u_x; u_xx,(1/x) u_x; u_xx,0,True,0.0003660787604238269,,,upstream_MSTLS_loss,u_t = 0.250058312695 u_xx + -1.00013282798 (1/x) u_x,
+wsindy,fixed,ok,ks_data.mat,u_t,u_t,11.0403667,33,True,3,3,0.036014016869028054,,,u u_x; u_xx; u_xxxx,u u_x; u_xx; u_xxxx,0,True,0.036014016869028054,,,upstream_MSTLS_loss,u_t = -1.0115821099 u_xx + -1.01583081173 u_xxxx + -0.991398904757 u u_x,
+wsindy,fixed,ok,ns_data.mat,u_t,u_t,9.951942899999999,11,True,4,4,0.2217387258193247,,,(u_xx + u_yy); p_x; u u_x; v u_y,(u_xx + u_yy); p_x; u u_x; v u_y,0,True,0.2217387258193247,,,upstream_MSTLS_loss,"u_t = -1.03736899244 p_x + -1.02820395726 u u_x + -1.04308593791 v u_y + 0.0111307983821 (u_xx + u_yy)
+v_t = -0.982827686588 p_y + -1.02936525639 u v_x + -0.930407136125 v v_y
+u_x = -1.00264624964 v_y",
+wsindy,fixed,ok,ns_data.mat,v_t,v_t,9.951942899999999,11,True,4,3,1.1161304336782454,(v_xx + v_yy),,(v_xx + v_yy); p_y; u v_x; v v_y,p_y; u v_x; v v_y,1,False,,,,upstream_MSTLS_loss,"u_t = -1.03736899244 p_x + -1.02820395726 u u_x + -1.04308593791 v u_y + 0.0111307983821 (u_xx + u_yy)
+v_t = -0.982827686588 p_y + -1.02936525639 u v_x + -0.930407136125 v v_y
+u_x = -1.00264624964 v_y",
+wsindy,fixed,ok,ns_data.mat,u_x,u_x,9.951942899999999,1,True,1,1,0.002646249638524889,,,v_y,v_y,0,True,0.002646249638524889,,,upstream_MSTLS_loss,"u_t = -1.03736899244 p_x + -1.02820395726 u u_x + -1.04308593791 v u_y + 0.0111307983821 (u_xx + u_yy)
+v_t = -0.982827686588 p_y + -1.02936525639 u v_x + -0.930407136125 v v_y
+u_x = -1.00264624964 v_y",
+wsindy,fixed,ok,ns_data.mat,__system__,__system__,9.951942899999999,23,True,9,8,1.340515409136095,(v_xx + v_yy),,,,1,False,,,,upstream_MSTLS_loss,,
+wsindy,fixed,ok,ODE_simple_discovery,u_t,u_t,0.09164810000000045,11,True,2,2,0.0013289410910060592,,,sin(t); u,sin(t); u,0,True,0.0013289410910060592,,,upstream_MSTLS_loss,u_t = 0.768719638042 u + -2.06785582633 sin(t),

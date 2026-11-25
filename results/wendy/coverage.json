@@ -1,0 +1,86 @@
+{
+  "framework": "wendy",
+  "protocol": "fixed",
+  "attempted": 15,
+  "measured": 0,
+  "correct_structures": 0,
+  "unsupported": 15,
+  "errors": 0,
+  "datasets": [
+    {
+      "dataset": "ode_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "vdp_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "lotka_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "lorenz_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "burgers_data.mat",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "burgers_sln_100_data.csv",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "ac_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "kdv_data.mat",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "kdv_periodic_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "wave_data.csv",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "pde_compound_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "pde_divide_data.npy",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "ks_data.mat",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "ns_data.mat",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    },
+    {
+      "dataset": "ODE_simple_discovery",
+      "status": "unsupported",
+      "reason": "WENDy fits weak-form ODE models from raw observations; it is not a sparse optimizer for precomputed fixed derivatives. Use --protocol native."
+    }
+  ]
+}

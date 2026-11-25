@@ -1,0 +1,91 @@
+{
+  "framework": "wsindy",
+  "protocol": "fixed",
+  "noise_level": 0,
+  "algorithm_seed": 0,
+  "started_utc": "2026-11-25T16:43:27.098209+00:00",
+  "completed_utc": "2026-11-25T16:44:26.061915+00:00",
+  "datasets": [
+    "ode_data.npy",
+    "vdp_data.npy",
+    "lotka_data.npy",
+    "lorenz_data.npy",
+    "burgers_data.mat",
+    "burgers_sln_100_data.csv",
+    "ac_data.npy",
+    "kdv_data.mat",
+    "kdv_periodic_data.npy",
+    "wave_data.csv",
+    "pde_compound_data.npy",
+    "pde_divide_data.npy",
+    "ks_data.mat",
+    "ns_data.mat",
+    "ODE_simple_discovery"
+  ],
+  "source": {
+    "repository": "SethMinor/PyWSINDy-for-PDEs",
+    "revision": "4c5765bc7948ae3409bea6c40f320d95ac1de74d",
+    "files": {
+      "dev/wsindy_dev.py": "wsindy_dev.py",
+      "dev/helper_fcns_dev.py": "helper_fcns_dev.py"
+    },
+    "sha256": {
+      "wsindy_dev.py": "7786803ad447bf519b1b1254c42b63e3f827492f03330171316d3bd66af55547",
+      "helper_fcns_dev.py": "6000cf76fe692f799fd8f75fa41c790bbb06347d3b518b6d25ec5bb070391185"
+    }
+  },
+  "environment": {
+    "python": "3.9.25 (main, Nov  3 2025, 22:44:01) [MSC v.1929 64 bit (AMD64)]",
+    "executable": "C:\\Users\\eldam\\Documents\\GitHub\\PDEComp\\.venv-weak\\Scripts\\python.exe",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "logical_cpu_count": 16,
+    "packages": {
+      "numpy": "2.0.2",
+      "scipy": "1.13.1",
+      "torch": "2.8.0",
+      "sympy": "1.14.0",
+      "symengine": "0.14.1",
+      "matplotlib": "3.9.4",
+      "ipython": "8.18.1",
+      "tqdm": "4.67.1"
+    },
+    "threads": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "git_head": "6319029e22656c59825b7c6ddf8c4b3f3971a203",
+  "working_tree": "Includes uncommitted changes; exact evaluated file hashes are recorded below.",
+  "files_sha256": {
+    "clean_run_metrics.py": "ced7051054de70a0a11bc60e8734df39e06a36a6d0cb31280647b3099e10d9a3",
+    "measure_weak_clean.py": "aa90906cf7278b995e6c7f00c3837b34bbcb2a00d3bd3e1ca9f28012ee54e09a",
+    "wsindy/run.py": "65483b9af72ac8c0078d17d15b6f37fe08dbb52ab1aa5d77cfe1b3045cdad562",
+    "data/config.py": "6276e0fbbfeb169d4b8b6f1a0de4d4e11eeec5655e00cf7c932bcb1bece1a37a",
+    "utils/__init__.py": "890d322f67389fea07c3c29f13e228473df3cca49f7d7eba6f2667e94691a458",
+    "utils/dataloader.py": "a330b5ccda9c81971479b2c02c339010a402e4572f1c4147cd1b01551f9bea7a",
+    "utils/derivatives.py": "5e6520b458498ff9491b5a009074f1c52ec851b171887f424740315c285115b2",
+    "utils/protocols.py": "720d8e80e5fbf4a933bb452c8ee78bed4e6905cbdc191bcc964320cfe6ec7e4e",
+    "utils/randomness.py": "8e318030ba10e647e95afaf65ea229aa0c1b1fdaae234c7fd3e173fae10430a9",
+    "utils/sindy_library.py": "2ded5ce3e92ea95ad4e049b2651f30ab6b2cc48f8fe2504add9144aa08899e55",
+    "utils/weak_sources.py": "6d518a2d190c19afd7cc90e3dc0912f7be5f4dcfa9282426509dee2f062544f8",
+    "data/ode_data.npy": "67e0da80671b6562c18a8d704d0c2898f695e2389501f2147a62c7baa72122c9",
+    "data/vdp_data.npy": "084ad79041583b346fa2f66a35801f2c85062b16f7216aed13a73b8c2b8d4cc3",
+    "data/lotka_data.npy": "dba4670ba15fffc132db5bf5e46aec6af431082e8bcd7e3297ed0afd39ed9802",
+    "data/lorenz_data.npy": "59b70bb1141a86d92cc830627c3d21b195de62e83b0f09f21c6677e971951574",
+    "data/burgers_data.mat": "a3e94965062ff4fc4b473c0909e0b1fb891dbc740dd7359743f38b351a281b8e",
+    "data/burgers_sln_100_data.csv": "834e5096b4922cd68e11ea635785a3c03873bdb2f721ded3a1322c99fb8a304b",
+    "data/ac_data.npy": "6798d34ca6e78915a6e37927e57cfc62663a2b825ccffbc627918ecbaeda47d0",
+    "data/kdv_data.mat": "e858b69d5c6dbf867dadb889cdd22fb598b3e48625042594378817750a153d4f",
+    "data/kdv_periodic_data.npy": "3dc2a785e974390ee8011868b9d179d432aa5f1adde2f2d0f46da2d0e1c10557",
+    "data/wave_data.csv": "74201a2cabfc965a70b1266288f9044c291ce2496483594fc7633fcd06117fe1",
+    "data/pde_compound_data.npy": "ce6fdb28f17314c0657bde854fc9020f986f8c2496c651a10c985681812aeb02",
+    "data/pde_divide_data.npy": "2749dc1b882fa5d0e257e0bc379d1aef956efda65cef59178c90f16332dfc348",
+    "data/ks_data.mat": "0e3607e2fe46297e7651d883cecfd3dec587f6555aaaa11e496b320e17ca4528",
+    "data/ns_data.mat": "99d9e1f9da7d2dff113ff2723373237b455e2de6c6747ac681846fe86fbba3d0",
+    "data/lorenz_time.npy": "6ebe21d4c433a185805e8a9768bc28b8afe1f89b36ea2535c20ebb9b937b8fba",
+    "data/lotka_time.npy": "faee53f015a3a6997227bcc2144dd25c046c3c62fce4183bdaa1631eead4d5e3"
+  },
+  "timing": "One clean run per dataset; wall-clock data loading, library and fit; imports and metric calculation excluded. No hyperparameter or ground-truth search."
+}

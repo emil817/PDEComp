@@ -1,0 +1,1677 @@
+[
+  {
+    "dataset": "ode_data.npy",
+    "runtime_seconds": 0.1410787999999883,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_tt"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_t",
+          "u u_t",
+          "u^2 u_t",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "u_t sin(2 t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          -3.996398083479353,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.4994183870591449,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0040947977002694
+        ]
+      ],
+      "library_sizes": {
+        "u_tt": 13
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.007543120998889208,
+          "support_radii": [
+            16
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 288,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "u_t sin(2 t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_tt = -3.99639808348 u + 1.49941838706 t + -1.0040947977 u_t sin(2 t)",
+      "equation_texts": [
+        "u_tt = -3.99639808348 u + 1.49941838706 t + -1.0040947977 u_t sin(2 t)"
+      ]
+    }
+  },
+  {
+    "dataset": "vdp_data.npy",
+    "runtime_seconds": 0.08023149999999646,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_tt"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_t",
+          "u u_t",
+          "u^2 u_t",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "u_t sin(2 t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          -1.0007548519393592,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_tt": 13
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.02811768837273121,
+          "support_radii": [
+            16
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 288,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "u_t sin(2 t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_tt = -1.00075485194 u",
+      "equation_texts": [
+        "u_tt = -1.00075485194 u"
+      ]
+    }
+  },
+  {
+    "dataset": "lotka_data.npy",
+    "runtime_seconds": 0.14653579999999522,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "x0_t",
+        "x1_t"
+      ],
+      "features": [
+        [
+          "1",
+          "x1",
+          "x1^2",
+          "x0",
+          "x0 x1",
+          "x0 x1^2",
+          "x0^2",
+          "x0^2 x1",
+          "x0^2 x1^2"
+        ],
+        [
+          "1",
+          "x0",
+          "x0^2",
+          "x1",
+          "x1 x0",
+          "x1 x0^2",
+          "x1^2",
+          "x1^2 x0",
+          "x1^2 x0^2"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          20.014250298335313,
+          -19.991261960796166,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          -20.057758593535443,
+          20.005631802209056,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "x0_t": 9,
+        "x1_t": 9
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.002947051776573062,
+          "support_radii": [
+            8
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 134,
+          "coordinate_columns": []
+        },
+        {
+          "threshold": 0.004291933495551348,
+          "support_radii": [
+            8
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 134,
+          "coordinate_columns": []
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "x0_t = 20.0142502983 x0 + -19.9912619608 x0 x1\nx1_t = -20.0577585935 x1 + 20.0056318022 x1 x0",
+      "equation_texts": [
+        "x0_t = 20.0142502983 x0 + -19.9912619608 x0 x1",
+        "x1_t = -20.0577585935 x1 + 20.0056318022 x1 x0"
+      ]
+    }
+  },
+  {
+    "dataset": "lorenz_data.npy",
+    "runtime_seconds": 0.32445729999999173,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "x0_t",
+        "x1_t",
+        "x2_t"
+      ],
+      "features": [
+        [
+          "1",
+          "x2",
+          "x2^2",
+          "x1",
+          "x1 x2",
+          "x1 x2^2",
+          "x1^2",
+          "x1^2 x2",
+          "x1^2 x2^2",
+          "x0",
+          "x0 x2",
+          "x0 x2^2",
+          "x0 x1",
+          "x0 x1^2",
+          "x0^2",
+          "x0^2 x2",
+          "x0^2 x2^2",
+          "x0^2 x1",
+          "x0^2 x1^2"
+        ],
+        [
+          "1",
+          "x2",
+          "x2^2",
+          "x0",
+          "x0 x2",
+          "x0 x2^2",
+          "x0^2",
+          "x0^2 x2",
+          "x0^2 x2^2",
+          "x1",
+          "x1 x2",
+          "x1 x2^2",
+          "x1 x0",
+          "x1 x0^2",
+          "x1^2",
+          "x1^2 x2",
+          "x1^2 x2^2",
+          "x1^2 x0",
+          "x1^2 x0^2"
+        ],
+        [
+          "1",
+          "x1",
+          "x1^2",
+          "x0",
+          "x0 x1",
+          "x0 x1^2",
+          "x0^2",
+          "x0^2 x1",
+          "x0^2 x1^2",
+          "x2",
+          "x2 x1",
+          "x2 x1^2",
+          "x2 x0",
+          "x2 x0^2",
+          "x2^2",
+          "x2^2 x1",
+          "x2^2 x1^2",
+          "x2^2 x0",
+          "x2^2 x0^2"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          9.999999994362646,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -9.999999994202135,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          25.424873797125777,
+          -0.9497206335490865,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.9999999993045501,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -2.6666666658430342,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "x0_t": 19,
+        "x1_t": 19,
+        "x2_t": 19
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            50
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 900,
+          "coordinate_columns": []
+        },
+        {
+          "threshold": 0.05963621661067009,
+          "support_radii": [
+            50
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 900,
+          "coordinate_columns": []
+        },
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            50
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 900,
+          "coordinate_columns": []
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "x0_t = 9.99999999436 x1 + -9.9999999942 x0\nx1_t = 25.4248737971 x0 + -0.949720633549 x0 x2\nx2_t = 0.999999999305 x0 x1 + -2.66666666584 x2",
+      "equation_texts": [
+        "x0_t = 9.99999999436 x1 + -9.9999999942 x0",
+        "x1_t = 25.4248737971 x0 + -0.949720633549 x0 x2",
+        "x2_t = 0.999999999305 x0 x1 + -2.66666666584 x2"
+      ]
+    }
+  },
+  {
+    "dataset": "burgers_data.mat",
+    "runtime_seconds": 0.20819000000000187,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.999988990429809,
+          0.0,
+          0.09999947185542261,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 28
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            12,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            5,
+            2
+          ],
+          "query_count": 2021,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.99998899043 u u_x + 0.0999994718554 u_xx",
+      "equation_texts": [
+        "u_t = -0.99998899043 u u_x + 0.0999994718554 u_xx"
+      ]
+    }
+  },
+  {
+    "dataset": "burgers_sln_100_data.csv",
+    "runtime_seconds": 0.1671067999999991,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9999999671504958,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 28
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            2
+          ],
+          "query_count": 1849,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.99999996715 u u_x",
+      "equation_texts": [
+        "u_t = -0.99999996715 u u_x"
+      ]
+    }
+  },
+  {
+    "dataset": "ac_data.npy",
+    "runtime_seconds": 0.18488120000000663,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          4.989943218997034,
+          0.0,
+          -4.9917972728685465,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 28
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.009102982468903065,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            3,
+            1
+          ],
+          "query_count": 1330,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = 4.989943219 u + -4.99179727287 u^3",
+      "equation_texts": [
+        "u_t = 4.989943219 u + -4.99179727287 u^3"
+      ]
+    }
+  },
+  {
+    "dataset": "kdv_data.mat",
+    "runtime_seconds": 0.4164970000000068,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -5.999666916111383,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9999059683300355,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 28
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.0002559548302087933,
+          "support_radii": [
+            25,
+            10
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            10,
+            4
+          ],
+          "query_count": 2162,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -5.99966691611 u u_x + -0.99990596833 u_xxx",
+      "equation_texts": [
+        "u_t = -5.99966691611 u u_x + -0.99990596833 u_xxx"
+      ]
+    }
+  },
+  {
+    "dataset": "kdv_periodic_data.npy",
+    "runtime_seconds": 0.22380459999999402,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          1.2131345682586732,
+          -35.611977532476516,
+          -95.29420428403526,
+          3.283661009234757,
+          -29.5511864356396,
+          0.0,
+          0.5411590617848565,
+          -4.305353356112514,
+          0.9333156903485423,
+          0.0,
+          0.0,
+          -0.1069370111902763,
+          0.0,
+          0.0,
+          0.0,
+          -0.09770357172543141,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.6344392115215066,
+          0.07418113431328423,
+          0.0,
+          -1.2828867940219848,
+          1.2243645134557508,
+          0.9741791366055018,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 28
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.013257111422717571,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            2
+          ],
+          "query_count": 1089,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = 1.21313456826 u + -35.6119775325 u^2 + -95.294204284 u^3 + 3.28366100923 u_x + -29.5511864356 u u_x + 0.541159061785 u_xx + -4.30535335611 d_x(u u_x) + 0.933315690349 d_xx(u^3) + -0.10693701119 d_xxx(u^3) + -0.0977035717254 u_tt + -0.634439211522 cos(t) + 0.0741811343133 sin(2 t) + -1.28288679402 x + 1.22436451346 sin(x) + 0.974179136606 sin(x) cos(t)",
+      "equation_texts": [
+        "u_t = 1.21313456826 u + -35.6119775325 u^2 + -95.294204284 u^3 + 3.28366100923 u_x + -29.5511864356 u u_x + 0.541159061785 u_xx + -4.30535335611 d_x(u u_x) + 0.933315690349 d_xx(u^3) + -0.10693701119 d_xxx(u^3) + -0.0977035717254 u_tt + -0.634439211522 cos(t) + 0.0741811343133 sin(2 t) + -1.28288679402 x + 1.22436451346 sin(x) + 0.974179136606 sin(x) cos(t)"
+      ]
+    }
+  },
+  {
+    "dataset": "wave_data.csv",
+    "runtime_seconds": 0.21619130000000553,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_tt"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_t",
+          "u u_t",
+          "u^2 u_t",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)",
+          "u_t sin(2 t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.03980480144400593,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -3.202955858998611,
+          3.709475459721138,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_tt": 29
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.033932216465473175,
+          "support_radii": [
+            8,
+            8
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            2
+          ],
+          "query_count": 1089,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)",
+            "u_t sin(2 t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_tt = 0.039804801444 u_xx + -3.202955859 x + 3.70947545972 sin(x)",
+      "equation_texts": [
+        "u_tt = 0.039804801444 u_xx + -3.202955859 x + 3.70947545972 sin(x)"
+      ]
+    }
+  },
+  {
+    "dataset": "pde_compound_data.npy",
+    "runtime_seconds": 0.2940161999999873,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)",
+          "(1/x) u",
+          "(1/x) u_x"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0052168034879472,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 30
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.02329952083528042,
+          "support_radii": [
+            8,
+            12
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            5
+          ],
+          "query_count": 1932,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)",
+            "(1/x) u",
+            "(1/x) u_x"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = 1.00521680349 d_x(u u_x)",
+      "equation_texts": [
+        "u_t = 1.00521680349 d_x(u u_x)"
+      ]
+    }
+  },
+  {
+    "dataset": "pde_divide_data.npy",
+    "runtime_seconds": 0.21161200000000235,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)",
+          "(1/x) u",
+          "(1/x) u_x"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.2510490425022549,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.002861244938633
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 30
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.0016768325585871935,
+          "support_radii": [
+            8,
+            12
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            2,
+            5
+          ],
+          "query_count": 1932,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)",
+            "(1/x) u",
+            "(1/x) u_x"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = 0.251049042502 u_xx + -1.00286124494 (1/x) u_x",
+      "equation_texts": [
+        "u_t = 0.251049042502 u_xx + -1.00286124494 (1/x) u_x"
+      ]
+    }
+  },
+  {
+    "dataset": "ks_data.mat",
+    "runtime_seconds": 1.0225845000000078,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_x",
+          "u u_x",
+          "u^2 u_x",
+          "u_xx",
+          "d_x(u u_x)",
+          "d_xx(u^3)",
+          "u_xxx",
+          "d_xxx(u^2)",
+          "d_xxx(u^3)",
+          "u_xxxx",
+          "d_xxxx(u^2)",
+          "d_xxxx(u^3)",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)",
+          "x",
+          "sin(x)",
+          "sin(x) cos(t)",
+          "cos(x) sin(t)",
+          "(1/x) u",
+          "(1/x) u_x"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9999994299855568,
+          0.0,
+          -1.0000033039254819,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0000039054971384,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 30
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            51,
+            12
+          ],
+          "test_function_degrees": [
+            6,
+            6
+          ],
+          "query_stride": [
+            19,
+            5
+          ],
+          "query_count": 2254,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)",
+            "x",
+            "sin(x)",
+            "sin(x) cos(t)",
+            "cos(x) sin(t)",
+            "(1/x) u",
+            "(1/x) u_x"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -0.999999429986 u u_x + -1.00000330393 u_xx + -1.0000039055 u_xxxx",
+      "equation_texts": [
+        "u_t = -0.999999429986 u u_x + -1.00000330393 u_xx + -1.0000039055 u_xxxx"
+      ]
+    }
+  },
+  {
+    "dataset": "ns_data.mat",
+    "runtime_seconds": 1.6463767999999988,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t",
+        "v_t",
+        "u_x"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "v",
+          "p_x",
+          "p_xx",
+          "p_y",
+          "p_yy",
+          "u u_x",
+          "v u_y",
+          "(u_xx + u_yy)",
+          "(v_xx + v_yy)"
+        ],
+        [
+          "1",
+          "u",
+          "v",
+          "p_x",
+          "p_xx",
+          "p_y",
+          "p_yy",
+          "u v_x",
+          "v v_y",
+          "(u_xx + u_yy)",
+          "(v_xx + v_yy)"
+        ],
+        [
+          "v_y"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          -1.016381982836306,
+          0.0,
+          0.0,
+          0.0,
+          -0.9970514649367704,
+          -0.9952038123530108,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.9472562405833593,
+          0.0,
+          -1.0022916538405708,
+          -0.9019588844286228,
+          0.0,
+          0.0
+        ],
+        [
+          -1.0000064187044944
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 11,
+        "v_t": 11,
+        "u_x": 1
+      },
+      "diagnostics": [
+        {
+          "threshold": 0.010985410772264004,
+          "support_radii": [
+            8,
+            8,
+            8
+          ],
+          "query_stride": [
+            3,
+            7,
+            3
+          ],
+          "query_count": 1728,
+          "advection_preprocessing": "scipy.CubicSpline spatial derivative, not-a-knot; upstream weak integration",
+          "library": "coupled velocity/pressure custom columns; no fixed derivative bundle"
+        },
+        {
+          "threshold": 0.010985410772264004,
+          "support_radii": [
+            8,
+            8,
+            8
+          ],
+          "query_stride": [
+            3,
+            7,
+            3
+          ],
+          "query_count": 1728,
+          "advection_preprocessing": "scipy.CubicSpline spatial derivative, not-a-knot; upstream weak integration",
+          "library": "coupled velocity/pressure custom columns; no fixed derivative bundle"
+        },
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            8,
+            8,
+            8
+          ],
+          "query_stride": [
+            3,
+            7,
+            3
+          ],
+          "query_count": 1728,
+          "advection_preprocessing": "scipy.CubicSpline spatial derivative, not-a-knot; upstream weak integration",
+          "library": "coupled velocity/pressure custom columns; no fixed derivative bundle"
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -1.01638198284 p_x + -0.997051464937 u u_x + -0.995203812353 v u_y\nv_t = -0.947256240583 p_y + -1.00229165384 u v_x + -0.901958884429 v v_y\nu_x = -1.0000064187 v_y",
+      "equation_texts": [
+        "u_t = -1.01638198284 p_x + -0.997051464937 u u_x + -0.995203812353 v u_y",
+        "v_t = -0.947256240583 p_y + -1.00229165384 u v_x + -0.901958884429 v v_y",
+        "u_x = -1.0000064187 v_y"
+      ]
+    }
+  },
+  {
+    "dataset": "ODE_simple_discovery",
+    "runtime_seconds": 0.07138849999999763,
+    "result": {
+      "protocol": "native",
+      "targets": [
+        "u_t"
+      ],
+      "features": [
+        [
+          "1",
+          "u",
+          "u^2",
+          "u^3",
+          "u_tt",
+          "d_tt(u^2)",
+          "d_tt(u^3)",
+          "t",
+          "sin(t)",
+          "cos(t)",
+          "sin(2 t)",
+          "cos(2 t)"
+        ]
+      ],
+      "coefficients": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.2999949656925303,
+          0.9999961274557925,
+          0.0,
+          0.0
+        ]
+      ],
+      "library_sizes": {
+        "u_t": 12
+      },
+      "diagnostics": [
+        {
+          "threshold": 9.999999747378752e-05,
+          "support_radii": [
+            10
+          ],
+          "test_function_degrees": [
+            6
+          ],
+          "query_stride": [
+            1
+          ],
+          "query_count": 180,
+          "coordinate_columns": [
+            "t",
+            "sin(t)",
+            "cos(t)",
+            "sin(2 t)",
+            "cos(2 t)"
+          ]
+        }
+      ],
+      "selection_policy": "upstream_MSTLS_loss",
+      "model": "u_t = -1.29999496569 sin(t) + 0.999996127456 cos(t)",
+      "equation_texts": [
+        "u_t = -1.29999496569 sin(t) + 0.999996127456 cos(t)"
+      ]
+    }
+  }
+]

@@ -1,4 +1,7 @@
 .git
+.venv-weak
+wsindy/_upstream
+wendy/_upstream
 **/.git
 .idea
 .vscode

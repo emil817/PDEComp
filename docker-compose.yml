@@ -1,4 +1,32 @@
 services:
+  wsindy:
+    build:
+      context: .
+      dockerfile: wsindy/Dockerfile
+    environment:
+      - PYTHONPATH=/app
+      - OMP_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - OPENBLAS_NUM_THREADS=1
+    volumes:
+      - ./data:/app/data:ro
+      - ./results:/app/results
+    command: ["python", "clean_run_metrics.py", "wsindy"]
+
+  wendy:
+    build:
+      context: .
+      dockerfile: wendy/Dockerfile
+    environment:
+      - PYTHONPATH=/app
+      - OMP_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - OPENBLAS_NUM_THREADS=1
+    volumes:
+      - ./data:/app/data:ro
+      - ./results:/app/results
+    command: ["python", "clean_run_metrics.py", "wendy", "--protocol", "native"]
+
   pysindy:
     build:
       context: .

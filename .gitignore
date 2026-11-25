@@ -6,3 +6,11 @@ __pycache__/
 **/__pycache__/
 *.py[cod]
 results
+!/results/
+/results/*
+!/results/wsindy/
+!/results/wendy/
+
+.venv-weak/
+wsindy/_upstream/
+wendy/_upstream/
